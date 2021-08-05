@@ -1,0 +1,4 @@
+#!/bin/bash
+npm run build
+cd build && jq 'del(.scripts,.private)' ../package.json > package.json && cp ../.npmrc .
+npm publish

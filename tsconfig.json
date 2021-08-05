@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./build",
+    "strict": true,
+    "lib": ["ESNext", "DOM"],
+    "downlevelIteration": true,
+    "allowJs": true,
+    "esModuleInterop": true
+  },
+  "include": ["src", "__tests__"],
+  "exclude": ["node_modules"]
+}
