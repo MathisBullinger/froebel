@@ -5,11 +5,10 @@
     "declaration": true,
     "outDir": "./build",
     "strict": true,
-    "lib": ["ESNext", "DOM"],
-    "downlevelIteration": true,
-    "allowJs": true,
-    "esModuleInterop": true
+    "lib": ["ESNext"],
+    "downlevelIteration": true
   },
-  "include": ["src", "__tests__"],
-  "exclude": ["node_modules"]
+  "files": ["src/types.d.ts"],
+  "include": ["src"],
+  "exclude": ["src/**/*.spec.ts"]
 }

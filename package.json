@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "private": "true",
   "scripts": {
-    "build": "rm -rf lib && tsc -p tsconfig.json && cp package.json lib",
+    "build": "rm -rf build && tsc -p tsconfig.json && cp package.json src/*.d.ts build",
     "test": "jest --config jest.config.js",
     "prepare": "npm run build",
     "postversion": "git push --follow-tags"
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/MathisBullinger/snatchblock#readme",
   "devDependencies": {
+    "@types/jest": "^26.0.24",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
