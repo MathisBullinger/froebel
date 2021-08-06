@@ -89,6 +89,22 @@ const div  = (a: number, b: number) => a / b
 // prints: [8, 2]
 console.log( callAll([mult, div], 4, 2) )
 ```
+
+---
+
+### `debounce` 
+  
+```hs
+(fun: T, ms: number) => λ<Parameters<T>, void> & {[cancel]: () => void}
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/debounce.ts#L14)_</sup></sup>
+
+`fun` is invoked with the last arguments passed to the debounced function.
+
+Calling `[debounce.cancel]()` on the debounced function with cancel the next
+scheduled invocation of `fun`.
+
 ## Promise
 
 ### `isPromise` 
