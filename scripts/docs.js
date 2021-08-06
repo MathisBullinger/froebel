@@ -13,26 +13,50 @@ const cats = exps.reduce(
   {}
 )
 
-for (const [file, names] of Object.entries(cats)) {
+for (const [file, ids] of Object.entries(cats)) {
   let [catName] = file.match(/\w+?(?=\.ts$)/)
   catName = catName[0].toUpperCase() + catName.slice(1)
 
-  readme += `\n## ${catName}\n\n${names.map(docItem).join('\n\n')}`
+  readme += `\n## ${catName}\n\n${ids.sort().map(docItem).join('\n\n')}`
 }
 
 function docItem(id) {
   const [name, info] = getItem(id)
-  console.log(info)
-
-  const params = info.signatures[0].parameters
-  const args = params
-    .map(v => `${v.flags?.isRest ? '...' : ''}${v.name}: ${v.type.name}`)
-    .join(', ')
-
   const descr = info.signatures[0].comment?.shortText
 
+  const formatArgs = args =>
+    args
+      .map(
+        v =>
+          `${v.flags?.isRest ? '...' : ''}${v.name}: ${
+            v.type.name ?? v.type.trueType?.name
+          }`
+      )
+      .join(', ')
+
+  function formatReturn(ret) {
+    if (ret.type === 'reference') {
+      const name = ret.name
+      if (!ret.typeArguments?.length) return name
+      return `${name}<${ret.typeArguments.map(({ name }) => name).join(', ')}>`
+    }
+    return signature(ret.declaration)
+  }
+
+  function signature(sig) {
+    return `(${formatArgs(sig.signatures[0].parameters)}) => ${formatReturn(
+      sig.signatures[0].type
+    )}`
+  }
+
   const [{ fileName, line }] = info.sources
-  return `### \`${name} (${args})\` <sup><sup>_[source](${repo}/blob/main/src/${fileName}#L${line})_</sup></sup>
+  return `### \`${name}\` 
+  
+\`\`\`hs
+${signature(info)}
+\`\`\`
+
+<sup><sup>_[source](${repo}/blob/main/src/${fileName}#L${line})_</sup></sup>
 
 ${descr ?? ''}`
 }
