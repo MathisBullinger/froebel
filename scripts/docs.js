@@ -40,13 +40,27 @@ function docItem(id) {
       if (!ret.typeArguments?.length) return name
       return `${name}<${ret.typeArguments.map(({ name }) => name).join(', ')}>`
     }
+    if (ret.type === 'predicate')
+      return `${ret.name} is ${formatReturn(ret.targetType)}`
     return signature(ret.declaration)
   }
 
   function signature(sig) {
+    if (!sig) return '???'
     return `(${formatArgs(sig.signatures[0].parameters)}) => ${formatReturn(
       sig.signatures[0].type
     )}`
+  }
+
+  function examples(sig) {
+    const examples = sig.comment?.tags?.filter(({ tag }) => tag === 'example')
+    if (!examples?.length) return ''
+    return `\n\n#### Example${examples.length > 1 ? 's' : ''}\n${examples
+      .map(
+        ({ text }) =>
+          `\`\`\`ts\n${text.replace(/(^[`\n]+)|([`\n]+$)/g, '')}\n\`\`\``
+      )
+      .join('\n\n')}`
   }
 
   const [{ fileName, line }] = info.sources
@@ -58,7 +72,7 @@ ${signature(info)}
 
 <sup><sup>_[source](${repo}/blob/main/src/${fileName}#L${line})_</sup></sup>
 
-${descr ?? ''}`
+${descr ?? ''}${examples(info.signatures[0])}`
 }
 
 require('fs').writeFileSync(
