@@ -15,10 +15,13 @@ import type { λ, PartialList } from './types'
  * ```
  */
 const partial =
-  <T extends λ, PL extends PartialList<Parameters<T>>>(fun: T, ...argsL: PL) =>
+  <T extends λ, PL extends PartialList<Parameters<T>>>(
+    fun: T,
+    ...argsLeft: PL
+  ) =>
   (
-    ...argsR: Parameters<T> extends [...PL, ...infer PR] ? PR : never
+    ...argsRight: Parameters<T> extends [...PL, ...infer PR] ? PR : never
   ): ReturnType<T> =>
-    fun(...argsL, ...argsR)
+    fun(...argsLeft, ...argsRight)
 
 export default partial

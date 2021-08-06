@@ -1,7 +1,7 @@
 import type { λ } from './types'
 
 /**
- * Take a list of functions that take the same parameters and call them all
+ * Take a list of functions that accept the same parameters and call them all
  * with the provided arguments.
  *
  * @example

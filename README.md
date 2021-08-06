@@ -10,19 +10,19 @@
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/ident.ts#L2)_</sup></sup>
 
-Identity function.
+> Identity function.
 
 ---
 
 ### `partial` 
   
 ```hs
-(fun: T, ...argsL: PL) => (...argsR: PR) => ReturnType<T>
+(fun: T, ...argsLeft: PL) => (...argsRight: PR) => ReturnType<T>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/partial.ts#L17)_</sup></sup>
 
-Partially apply a function.
+> Partially apply a function.
 
 #### Example
 ```ts
@@ -40,13 +40,13 @@ console.log(oneOver(4))
 ### `forward` 
   
 ```hs
-(fun: T, ...argsR: PR) => (...argsL: PL) => ReturnType<T>
+(fun: T, ...argsRight: PR) => (...argsLeft: PL) => ReturnType<T>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/forward.ts#L28)_</sup></sup>
 
-Given a functions and its nth..last arguments, return a function accepting
-arguments 0..n-1.
+> Given a function and its nth..last arguments, return a function accepting
+> arguments 0..n-1.
 
 #### Examples
 ```ts
@@ -78,8 +78,8 @@ const viaHTTPS = await fetchRepo('https')
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/callAll.ts#L16)_</sup></sup>
 
-Take a list of functions that take the same parameters and call them all
-with the provided arguments.
+> Take a list of functions that accept the same parameters and call them all
+> with the provided arguments.
 
 #### Example
 ```ts
@@ -100,11 +100,32 @@ console.log( callAll([mult, div], 4, 2) )
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/debounce.ts#L14)_</sup></sup>
 
-`fun` is invoked with the last arguments passed to the debounced function.
+> Creates a debounced function that delays invoking `fun` until `ms` milliseconds
+> have passed since the last invocation of the debounced function.
+> 
+> `fun` is invoked with the last arguments passed to the debounced function.
+> 
+> Calling `[debounce.cancel]()` on the debounced function will cancel the currently
+> scheduled invocation of `fun`.
+> 
 
-Calling `[debounce.cancel]()` on the debounced function with cancel the next
-scheduled invocation of `fun`.
+---
 
+### `throttle` 
+  
+```hs
+(fun: T, ms: number, opts: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/throttle.ts#L14)_</sup></sup>
+
+> Created a throttled function that invokes `fun` at most every `ms` milliseconds.
+> 
+> `fun` is invoked with the last arguments passed to the throttled function.
+> 
+> Calling `[throttle.cancel]()` on the throttled function will cancel the currently
+> scheduled invocation of `fun`.
+> 
 ## Promise
 
 ### `isPromise` 
@@ -115,4 +136,4 @@ scheduled invocation of `fun`.
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L2)_</sup></sup>
 
-Checks if its first argument look like a promise.
+> Checks if its first argument look like a promise.

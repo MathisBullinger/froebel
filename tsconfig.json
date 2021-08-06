@@ -5,7 +5,7 @@
     "declaration": true,
     "outDir": "./build",
     "strict": true,
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "downlevelIteration": true
   },
   "include": ["src"],

@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "private": "true",
   "scripts": {
-    "build": "rm -rf build && tsc -p tsconfig.json && cp package.json src/*.d.ts build",
+    "build": "rm -rf build && tsc -p tsconfig.json && cp package.json build",
     "test": "jest --config jest.config.js",
     "prepare": "npm run build",
     "postversion": "git push --follow-tags",

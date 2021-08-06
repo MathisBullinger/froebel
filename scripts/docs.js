@@ -23,7 +23,9 @@ for (const [file, ids] of Object.entries(cats)) {
 function docItem(id) {
   const [name, info] = getItem(id)
   const node = info.signatures?.[0] ?? info
-  const descr = node.comment?.text ?? node.comment?.shortText
+  let descr = node.comment?.shortText ?? ''
+  if (descr && node.comment?.text) descr += `\n\n${node.comment.text}`
+  descr = descr.replace(/(?<=^|\n)(.?)/g, '> $1')
 
   function formatNode(node) {
     if (node.target) node = getItem(node.target)

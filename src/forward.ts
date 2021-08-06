@@ -1,7 +1,7 @@
 import type { λ } from './types'
 
 /**
- * Given a functions and its nth..last arguments, return a function accepting
+ * Given a function and its nth..last arguments, return a function accepting
  * arguments 0..n-1.
  *
  * @example
@@ -26,10 +26,10 @@ import type { λ } from './types'
  * ```
  */
 const forward =
-  <T extends λ, PR extends any[]>(fun: T, ...argsR: PR) =>
+  <T extends λ, PR extends any[]>(fun: T, ...argsRight: PR) =>
   (
-    ...argsL: Parameters<T> extends [...infer PL, ...PR] ? PL : never
+    ...argsLeft: Parameters<T> extends [...infer PL, ...PR] ? PL : never
   ): ReturnType<T> =>
-    fun(...argsL, ...argsR)
+    fun(...argsLeft, ...argsRight)
 
 export default forward
