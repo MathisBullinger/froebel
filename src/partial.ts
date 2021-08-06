@@ -1,3 +1,5 @@
+import type { λ, PartialList } from './types'
+
 /**
  * Partially apply a function.
  *

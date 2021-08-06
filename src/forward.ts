@@ -1,3 +1,5 @@
+import type { λ } from './types'
+
 /**
  * Given a functions and its nth..last arguments, return a function accepting
  * arguments 0..n-1.

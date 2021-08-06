@@ -8,7 +8,6 @@
     "lib": ["ESNext"],
     "downlevelIteration": true
   },
-  "files": ["src/types.d.ts"],
   "include": ["src"],
   "exclude": ["src/**/*.spec.ts"]
 }
