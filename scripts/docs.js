@@ -17,7 +17,7 @@ for (const [file, ids] of Object.entries(cats)) {
   let [catName] = file.match(/\w+?(?=\.ts$)/)
   catName = catName[0].toUpperCase() + catName.slice(1)
 
-  readme += `\n## ${catName}\n\n${ids.sort().map(docItem).join('\n\n')}`
+  readme += `\n## ${catName}\n\n${ids.sort().map(docItem).join('\n\n---\n\n')}`
 }
 
 function docItem(id) {
@@ -27,27 +27,41 @@ function docItem(id) {
   const formatArgs = args =>
     args
       .map(
-        v =>
-          `${v.flags?.isRest ? '...' : ''}${v.name}: ${
-            v.type.name ?? v.type.trueType?.name
-          }`
+        v => `${v.flags?.isRest ? '...' : ''}${v.name}: ${formatNode(v.type)}`
       )
       .join(', ')
 
-  function formatReturn(ret) {
+  function formatNode(ret) {
     if (ret.type === 'reference') {
       const name = ret.name
       if (!ret.typeArguments?.length) return name
-      return `${name}<${ret.typeArguments.map(({ name }) => name).join(', ')}>`
+      return `${name}<${ret.typeArguments.map(formatNode).join(', ')}>`
     }
+    if (ret.type === 'intrinsic') return ret.name
+    if (ret.type === 'literal') return JSON.stringify(ret.value)
     if (ret.type === 'predicate')
-      return `${ret.name} is ${formatReturn(ret.targetType)}`
-    return signature(ret.declaration)
+      return `${ret.name} is ${formatNode(ret.targetType)}`
+    if (ret.type === 'indexedAccess')
+      return `${formatNode(ret.objectType)}[${formatNode(ret.indexType)}]`
+    if (ret.type === 'array') return `${formatNode(ret.elementType)}[]`
+    if (ret.type === 'reflection') return signature(ret.declaration)
+    if (ret.type === 'tuple')
+      return `[${ret.elements.map(formatNode).join(', ')}]`
+    if (ret.type === 'rest') return `...${formatNode(ret.elementType)}`
+    if (ret.type === 'conditional') {
+      if ((ret.trueType.name === 'never') !== (ret.falseType.name === 'never'))
+        return formatNode(
+          ret.falseType.name === 'never' ? ret.trueType : ret.falseType
+        )
+      return `${formatNode(ret.checkType)}${
+        ret.extendsType ? ` extends ${formatNode(ret.extendsType)}` : ''
+      } ? ${formatNode(ret.trueType)} : ${formatNode(ret.falseType)}`
+    }
+    return '???'
   }
 
   function signature(sig) {
-    if (!sig) return '???'
-    return `(${formatArgs(sig.signatures[0].parameters)}) => ${formatReturn(
+    return `(${formatArgs(sig.signatures[0].parameters)}) => ${formatNode(
       sig.signatures[0].type
     )}`
   }
