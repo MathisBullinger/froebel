@@ -22,48 +22,71 @@ for (const [file, ids] of Object.entries(cats)) {
 
 function docItem(id) {
   const [name, info] = getItem(id)
-  const descr = info.signatures[0].comment?.shortText
+  const node = info.signatures?.[0] ?? info
+  const descr = node.comment?.text ?? node.comment?.shortText
 
-  const formatArgs = args =>
-    args
-      .map(
-        v => `${v.flags?.isRest ? '...' : ''}${v.name}: ${formatNode(v.type)}`
+  function formatNode(node) {
+    if (node.target) node = getItem(node.target)
+
+    if (node.kindString === 'Call signature')
+      return `(${
+        node.parameters
+          ?.map(
+            v => `${v.flags?.isRest ? '...' : ''}${v.name}: ${formatNode(v)}`
+          )
+          .join(', ') ?? ''
+      }) => ${formatNode(node.type)}`
+
+    if (!node.type) {
+      if (node.signatures?.length) return formatNode(node.signatures[0])
+      if (node.children)
+        return `{${node.children
+          .map(v => `${v.name}: ${formatNode(v.type ?? v.signatures[0])}`)
+          .join(', ')}}`
+      throw node
+    }
+
+    if (typeof node.type === 'object') return formatNode(node.type)
+    if (node.type === 'reference') {
+      const name = node.name
+      if (!node.typeArguments?.length) return name
+      return `${name}<${node.typeArguments.map(formatNode).join(', ')}>`
+    }
+    if (node.type === 'intrinsic') return node.name
+    if (node.type === 'literal') return JSON.stringify(node.value)
+    if (node.type === 'predicate')
+      return `${node.name} is ${formatNode(node.targetType)}`
+    if (node.type === 'indexedAccess')
+      return `${formatNode(node.objectType)}[${formatNode(node.indexType)}]`
+    if (node.type === 'array') return `${formatNode(node.elementType)}[]`
+    if (node.type === 'reflection') return formatNode(node.declaration)
+    if (node.type === 'tuple')
+      return `[${node.elements.map(formatNode).join(', ')}]`
+    if (node.type === 'rest') return `...${formatNode(node.elementType)}`
+    if (node.type === 'conditional') {
+      if (
+        (node.trueType.name === 'never') !==
+        (node.falseType.name === 'never')
       )
-      .join(', ')
-
-  function formatNode(ret) {
-    if (ret.type === 'reference') {
-      const name = ret.name
-      if (!ret.typeArguments?.length) return name
-      return `${name}<${ret.typeArguments.map(formatNode).join(', ')}>`
-    }
-    if (ret.type === 'intrinsic') return ret.name
-    if (ret.type === 'literal') return JSON.stringify(ret.value)
-    if (ret.type === 'predicate')
-      return `${ret.name} is ${formatNode(ret.targetType)}`
-    if (ret.type === 'indexedAccess')
-      return `${formatNode(ret.objectType)}[${formatNode(ret.indexType)}]`
-    if (ret.type === 'array') return `${formatNode(ret.elementType)}[]`
-    if (ret.type === 'reflection') return signature(ret.declaration)
-    if (ret.type === 'tuple')
-      return `[${ret.elements.map(formatNode).join(', ')}]`
-    if (ret.type === 'rest') return `...${formatNode(ret.elementType)}`
-    if (ret.type === 'conditional') {
-      if ((ret.trueType.name === 'never') !== (ret.falseType.name === 'never'))
         return formatNode(
-          ret.falseType.name === 'never' ? ret.trueType : ret.falseType
+          node.falseType.name === 'never' ? node.trueType : node.falseType
         )
-      return `${formatNode(ret.checkType)}${
-        ret.extendsType ? ` extends ${formatNode(ret.extendsType)}` : ''
-      } ? ${formatNode(ret.trueType)} : ${formatNode(ret.falseType)}`
+      return `${formatNode(node.checkType)}${
+        node.extendsType ? ` extends ${formatNode(node.extendsType)}` : ''
+      } ? ${formatNode(node.trueType)} : ${formatNode(node.falseType)}`
     }
-    return '???'
-  }
+    if (node.type === 'intersection') {
+      if (node.types.every(({ type }) => type === 'reflection'))
+        return formatNode(node.types[0])
+      return node.types
+        .map(formatNode)
+        .map(v => (v.includes('=>') && !/^[{(\[]/.test(v) ? `(${v})` : v))
+        .join(' & ')
+    }
+    if (node.type === 'query') return `<${node.queryType.name}>`
 
-  function signature(sig) {
-    return `(${formatArgs(sig.signatures[0].parameters)}) => ${formatNode(
-      sig.signatures[0].type
-    )}`
+    console.warn(`unknown node type ${node.type}:`, node)
+    return '???'
   }
 
   function examples(sig) {
@@ -81,12 +104,12 @@ function docItem(id) {
   return `### \`${name}\` 
   
 \`\`\`hs
-${signature(info)}
+${formatNode(info)}
 \`\`\`
 
 <sup><sup>_[source](${repo}/blob/main/src/${fileName}#L${line})_</sup></sup>
 
-${descr ?? ''}${examples(info.signatures[0])}`
+${descr ?? ''}${examples(node)}`
 }
 
 require('fs').writeFileSync(
