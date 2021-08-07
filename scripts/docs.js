@@ -1,7 +1,7 @@
 const docs = require('../docs.json')
 
 const repo = 'https://github.com/MathisBullinger/snatchblock'
-let readme = `# A strictly typed TypeScript utility library.
+let readme = `# SnatchBlock - a strictly typed TypeScript utility library.
 
 This is my (WIP) personal collection of TypeScript helper functions and utilities that
 I use across different projects.
@@ -50,7 +50,10 @@ function docItem(id) {
   const parenthHeur = expr =>
     expr.includes('=>') && !/^[{(\[]/.test(expr) ? `(${expr})` : expr
 
-  const postProcess = str => str.replace(/λ<([^>]+),\s*any>/g, 'λ<$1>')
+  const postProcess = str =>
+    str
+      .replace(/λ<([^>]+),\s*any>/g, 'λ<$1>')
+      .replace(/\[\.{3}([A-Z])\[\]\]/g, '$1[]')
   const formatNode = node => postProcess(_formatNode(node))
   function _formatNode(node) {
     if (node.target) node = getItem(node.target)
@@ -138,7 +141,7 @@ function docItem(id) {
   }
 
   const [{ fileName, line }] = info.sources
-  return `### \`${name}\` 
+  return `#### \`${name}\` 
   
 \`\`\`hs
 ${formatNode(info)}

@@ -6,7 +6,8 @@
     "outDir": "./build",
     "strict": true,
     "lib": ["ESNext", "DOM"],
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "strictNullChecks": true
   },
   "include": ["src"],
   "exclude": ["src/**/*.spec.ts"]

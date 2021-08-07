@@ -1,4 +1,4 @@
-# A strictly typed TypeScript utility library.
+# SnatchBlock - a strictly typed TypeScript utility library.
 
 This is my (WIP) personal collection of TypeScript helper functions and utilities that
 I use across different projects.
@@ -22,7 +22,7 @@ Think an opionated version of lodash, but with first-class types.
 
 ## Function
 
-### `ident` 
+#### `ident` 
   
 ```hs
 (value: T) => T
@@ -34,7 +34,7 @@ Think an opionated version of lodash, but with first-class types.
 
 ---
 
-### `partial` 
+#### `partial` 
   
 ```hs
 (fun: T, ...argsLeft: PL) => (...argsRight: PR) => ReturnType<T>
@@ -57,7 +57,7 @@ console.log(oneOver(4))
 
 ---
 
-### `forward` 
+#### `forward` 
   
 ```hs
 (fun: T, ...argsRight: PR) => (...argsLeft: PL) => ReturnType<T>
@@ -90,10 +90,10 @@ const viaHTTPS = await fetchRepo('https')
 
 ---
 
-### `callAll` 
+#### `callAll` 
   
 ```hs
-(funs: F, ...args: Parameters<F[0]>) => ReturnType<F[number]>[]
+(funs: T[], ...args: P) => ReturnTypes<T>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/callAll.ts#L16)_</sup></sup>
@@ -112,7 +112,7 @@ console.log( callAll([mult, div], 4, 2) )
 
 ---
 
-### `bundle` 
+#### `bundle` 
   
 ```hs
 (...funs: λ<T>[]) => (...args: T) => Promise<void>
@@ -130,7 +130,7 @@ console.log( callAll([mult, div], 4, 2) )
 
 ---
 
-### `bundleSync` 
+#### `bundleSync` 
   
 ```hs
 (...funs: λ<T>[]) => (...args: T) => void
@@ -146,7 +146,7 @@ console.log( callAll([mult, div], 4, 2) )
 
 ---
 
-### `throttle` 
+#### `throttle` 
   
 ```hs
 (fun: T, ms: number, opts: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
@@ -159,12 +159,12 @@ console.log( callAll([mult, div], 4, 2) )
 > `fun` is invoked with the last arguments passed to the throttled function.
 > 
 > Calling `[throttle.cancel]()` on the throttled function will cancel the currently
-> scheduled invocation of `fun`.
+> scheduled invocation.
 > 
 
 ---
 
-### `debounce` 
+#### `debounce` 
   
 ```hs
 (fun: T, ms: number) => λ<Parameters<T>, void> & {[cancel]: () => void}
@@ -178,11 +178,11 @@ console.log( callAll([mult, div], 4, 2) )
 > `fun` is invoked with the last arguments passed to the debounced function.
 > 
 > Calling `[debounce.cancel]()` on the debounced function will cancel the currently
-> scheduled invocation of `fun`.
+> scheduled invocation.
 > 
 ## Promise
 
-### `isPromise` 
+#### `isPromise` 
   
 ```hs
 (value: unknown) => value is Promise<T>

@@ -13,9 +13,13 @@ import type { λ } from './types'
  * console.log( callAll([mult, div], 4, 2) )
  * ```
  */
-const callAll = <F extends λ<T>[], T extends any[]>(
-  funs: F,
-  ...args: Parameters<F[0]>
-): ReturnType<F[number]>[] => funs.map(cb => cb(...args)) ?? []
+const callAll = <P extends any[], T extends λ<P>[]>(
+  funs: [...T],
+  ...args: P
+): ReturnTypes<T> => (funs.map(cb => cb(...args)) ?? []) as any
+
+type ReturnTypes<T extends λ[]> = {
+  [K in keyof T]: T[K] extends λ<any, infer I> ? I : never
+}
 
 export default callAll

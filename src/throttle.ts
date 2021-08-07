@@ -9,7 +9,7 @@ export const cancel = Symbol('throttle.cancel')
  * `fun` is invoked with the last arguments passed to the throttled function.
  *
  * Calling `[throttle.cancel]()` on the throttled function will cancel the currently
- * scheduled invocation of `fun`.
+ * scheduled invocation.
  */
 const throttle = Object.assign(
   (fun: λ, ms: number, { leading = true, trailing = true } = {}) => {

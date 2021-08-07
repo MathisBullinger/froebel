@@ -9,7 +9,7 @@ export const cancel = Symbol('debounce.cancel')
  * `fun` is invoked with the last arguments passed to the debounced function.
  *
  * Calling `[debounce.cancel]()` on the debounced function will cancel the currently
- * scheduled invocation of `fun`.
+ * scheduled invocation.
  */
 const debounce = Object.assign(
   (fun: λ, ms: number) => {
