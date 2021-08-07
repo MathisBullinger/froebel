@@ -35,11 +35,11 @@ export const nullishChain =
  *
  * @example
  * ```
- * const readFromCache = (id: string) => { if (id in cache) return cache[id] }
- * const readFromFile = (id: string) => { if (fileExists(id)) return readFile(id) }
- * const fetchFromNet = async (id: string) => await fetch(`someURL/${id}`)
+ * const readFromCache = (id: string): Resource => { if (id in cache) return cache[id] }
+ * const readFromFile  = (id: string): Resource => { if (fileExists(id)) return readFile(id) }
+ * const fetchFromNet  = async (id: string): Promise<Resource> => await fetch(`someURL/${id}`)
  *
- * // async (id: string) => Promise<string>
+ * // async (id: string) => Promise<Resource>
  * const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
  * ```
  */

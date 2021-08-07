@@ -17,6 +17,10 @@ Think an opionated version of lodash, but with first-class types.
     - [asyncNullishChain](#asyncNullishChain)
     - [throttle](#throttle)
     - [debounce](#debounce)
+- __`string`__
+    - [capitalize](#capitalize)
+    - [upper](#upper)
+    - [lower](#lower)
 - __`promise`__
     - [isPromise](#isPromise)
 
@@ -193,11 +197,11 @@ ageGroup(50) // prints: 'adult'
 
 #### Example
 ```ts
-const readFromCache = (id: string) => { if (id in cache) return cache[id] }
-const readFromFile = (id: string) => { if (fileExists(id)) return readFile(id) }
-const fetchFromNet = async (id: string) => await fetch(`someURL/${id}`)
+const readFromCache = (id: string): Resource => { if (id in cache) return cache[id] }
+const readFromFile  = (id: string): Resource => { if (fileExists(id)) return readFile(id) }
+const fetchFromNet  = async (id: string): Promise<Resource> => await fetch(`someURL/${id}`)
 
-// async (id: string) => Promise<string>
+// async (id: string) => Promise<Resource>
 const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 ```
 
@@ -237,6 +241,41 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 > Calling `[debounce.cancel]()` on the debounced function will cancel the currently
 > scheduled invocation.
 > 
+## String
+
+#### `capitalize` 
+  
+```hs
+(str: T) => Capitalize
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L4)_</sup></sup>
+
+> Upper-case first letter of string.
+
+---
+
+#### `upper` 
+  
+```hs
+(str: T) => Uppercase
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L8)_</sup></sup>
+
+> Strictly typed `String.toUpperCase()`.
+
+---
+
+#### `lower` 
+  
+```hs
+(str: T) => Lowercase
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L12)_</sup></sup>
+
+> Strictly typed `String.toLowerCase()`.
 ## Promise
 
 #### `isPromise` 
