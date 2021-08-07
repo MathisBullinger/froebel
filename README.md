@@ -18,6 +18,8 @@ Think an opionated version of lodash, but with first-class types.
     - [throttle](#throttle)
     - [debounce](#debounce)
     - [memoize](#memoize)
+- __`list`__
+    - [atWrap](#atWrap)
 - __`string`__
     - [capitalize](#capitalize)
     - [upper](#upper)
@@ -263,6 +265,18 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 > 
 > The function's cache is available at `memoized.cache`.
 > 
+## List
+
+#### `atWrap` 
+  
+```hs
+(arr: T[], i: number) => T
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/atWrap.ts#L3)_</sup></sup>
+
+> Access list at `i % length`. Negative indexes start indexing the last
+> element as `[-1]` and wrap around to the back.
 ## String
 
 #### `capitalize` 
