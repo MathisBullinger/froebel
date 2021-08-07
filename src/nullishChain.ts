@@ -1,4 +1,4 @@
-import type { λ } from './types'
+import type { λ, PromType } from './types'
 
 /**
  * Given a list of functions that accept the same parameters, returns a function
@@ -29,3 +29,28 @@ export const nullishChain =
   ) =>
   (...args: Parameters<FF>): ReturnType<FF | FR[number]> | undefined =>
     !fun ? undefined : fun(...args) ?? nullishChain(...(rest as any))(...args)
+
+/**
+ * Same as {@link nullishChain} but accept asynchronous functions too.
+ *
+ * @example
+ * ```
+ * const readFromCache = (id: string) => { if (id in cache) return cache[id] }
+ * const readFromFile = (id: string) => { if (fileExists(id)) return readFile(id) }
+ * const fetchFromNet = async (id: string) => await fetch(`someURL/${id}`)
+ *
+ * // async (id: string) => Promise<string>
+ * const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
+ * ```
+ */
+export const asyncNullishChain =
+  <FF extends λ, FR extends λ<Parameters<FF>>[]>(
+    ...[fun, ...rest]: [FF, ...FR] | []
+  ) =>
+  async (
+    ...args: Parameters<FF>
+  ): Promise<PromType<ReturnType<FF | FR[number]>> | undefined> =>
+    !fun
+      ? undefined
+      : (await fun(...args)) ??
+        (await asyncNullishChain(...(rest as any))(...args))

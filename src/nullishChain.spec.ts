@@ -1,4 +1,4 @@
-import { nullishChain } from './nullishChain'
+import { nullishChain, asyncNullishChain } from './nullishChain'
 
 test('nullish chain', () => {
   const numChain = nullishChain(
@@ -20,4 +20,24 @@ test('nullish chain', () => {
   const str: string = nullishChain(() => 2)()
 
   const empty = nullishChain()
+})
+
+test('async nullish chain', async () => {
+  const chain = asyncNullishChain(
+    (n: number) => {
+      if (n === 1) return 'foo'
+    },
+    async n => {
+      if (n === 2) return 'bar'
+    },
+    n =>
+      new Promise<string | null>(res =>
+        setTimeout(() => res(n === 3 ? 'baz' : null), 100)
+      )
+  )
+
+  await expect(chain(1)).resolves.toBe('foo')
+  await expect(chain(2)).resolves.toBe('bar')
+  await expect(chain(3)).resolves.toBe('baz')
+  await expect(chain(4)).resolves.toBe(undefined)
 })

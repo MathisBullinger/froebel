@@ -14,6 +14,7 @@ Think an opionated version of lodash, but with first-class types.
     - [bundle](#bundle)
     - [bundleSync](#bundleSync)
     - [nullishChain](#nullishChain)
+    - [asyncNullishChain](#asyncNullishChain)
     - [throttle](#throttle)
     - [debounce](#debounce)
 - __`promise`__
@@ -176,6 +177,28 @@ const ageGroup = age => isAdult(age) ?? isToddler(age) ?? 'child'
 ageGroup(1)  // prints: 'toddler'
 ageGroup(10) // prints: 'child'
 ageGroup(50) // prints: 'adult'
+```
+
+---
+
+#### `asyncNullishChain` 
+  
+```hs
+(...funs: [] | [FF, ...FR[]]) => (...args: Parameters<FF>) => Promise<PromType<ReturnType<FF>> | PromType<ReturnType<FR[number]>>>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullishChain.ts#L46)_</sup></sup>
+
+> Same as [nullishChain](#nullishChain) but accept asynchronous functions too.
+
+#### Example
+```ts
+const readFromCache = (id: string) => { if (id in cache) return cache[id] }
+const readFromFile = (id: string) => { if (fileExists(id)) return readFile(id) }
+const fetchFromNet = async (id: string) => await fetch(`someURL/${id}`)
+
+// async (id: string) => Promise<string>
+const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 ```
 
 ---
