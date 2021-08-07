@@ -26,6 +26,8 @@ Think an opionated version of lodash, but with first-class types.
     - [lower](#lower)
     - [prefix](#prefix)
     - [suffix](#suffix)
+- __`math`__
+    - [clamp](#clamp)
 - __`equality`__
     - [oneOf](#oneOf)
     - [equal](#equal)
@@ -343,6 +345,17 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 
 > Returns `str` suffixed with `suffix`. Same case and type behavior as
 > [prefix](#prefix).
+## Math
+
+#### `clamp` 
+  
+```hs
+(min: number, number: number, max: number) => number
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/clamp.ts#L2)_</sup></sup>
+
+> Clamp `number` between `min` and `max` inclusively.
 ## Equality
 
 #### `oneOf` 
