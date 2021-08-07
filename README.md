@@ -17,6 +17,7 @@ Think an opionated version of lodash, but with first-class types.
     - [asyncNullishChain](#asyncNullishChain)
     - [throttle](#throttle)
     - [debounce](#debounce)
+    - [memoize](#memoize)
 - __`string`__
     - [capitalize](#capitalize)
     - [upper](#upper)
@@ -245,6 +246,22 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 > 
 > Calling `[debounce.cancel]()` on the debounced function will cancel the currently
 > scheduled invocation.
+> 
+
+---
+
+#### `memoize` 
+  
+```hs
+(fun: T, cacheKey: (...args: Parameters<T>) => K) => T & {cache: Map<K, ReturnType<T>>}
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/memoize.ts#L13)_</sup></sup>
+
+> Returns a copy of `fun` that remembers its result for any given arguments and
+> only invokes `fun` for unknown arguments.
+> 
+> The function's cache is available at `memoized.cache`.
 > 
 ## String
 
