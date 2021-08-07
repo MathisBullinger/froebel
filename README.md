@@ -73,7 +73,7 @@ const viaHTTPS = await fetchRepo('https')
 ### `callAll` 
   
 ```hs
-(list: F, ...args: Parameters<F[0]>) => ReturnType<F[number]>[]
+(funs: F, ...args: Parameters<F[0]>) => ReturnType<F[number]>[]
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/callAll.ts#L16)_</sup></sup>
@@ -125,6 +125,40 @@ console.log( callAll([mult, div], 4, 2) )
 > 
 > Calling `[throttle.cancel]()` on the throttled function will cancel the currently
 > scheduled invocation of `fun`.
+> 
+
+---
+
+### `bundle` 
+  
+```hs
+(...funs: λ<T>[]) => (...args: T) => Promise<void>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bundle.ts#L12)_</sup></sup>
+
+> Given a list of functions that accept the same parameters, returns a function
+> that takes these parameters and invokes all of the given functions.
+> 
+> The returned function returns a promise that resolves once all functions
+> returned/resolved and rejects if any of the functions throws/rejects - but
+> only after all returned promises have been settled.
+> 
+
+---
+
+### `bundleSync` 
+  
+```hs
+(...funs: λ<T>[]) => (...args: T) => void
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bundle.ts#L29)_</sup></sup>
+
+> Same as `bundle`, but return synchronously.
+> 
+> If any of the functions throws an error synchronously, none of the functions
+> after it will be invoked and the error will propagate.
 > 
 ## Promise
 

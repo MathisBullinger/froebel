@@ -14,8 +14,8 @@ import type { λ } from './types'
  * ```
  */
 const callAll = <F extends λ<T>[], T extends any[]>(
-  list: F,
+  funs: F,
   ...args: Parameters<F[0]>
-): ReturnType<F[number]>[] => list.map(cb => cb?.(...args)) ?? []
+): ReturnType<F[number]>[] => funs.map(cb => cb(...args)) ?? []
 
 export default callAll

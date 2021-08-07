@@ -27,17 +27,25 @@ function docItem(id) {
   if (descr && node.comment?.text) descr += `\n\n${node.comment.text}`
   descr = descr.replace(/(?<=^|\n)(.?)/g, '> $1')
 
-  function formatNode(node) {
+  const parenthHeur = expr =>
+    expr.includes('=>') && !/^[{(\[]/.test(expr) ? `(${expr})` : expr
+
+  const postProcess = str => str.replace(/λ<([^>]+),\s*any>/g, 'λ<$1>')
+  const formatNode = node => postProcess(_formatNode(node))
+  function _formatNode(node) {
     if (node.target) node = getItem(node.target)
 
-    if (node.kindString === 'Call signature')
+    if (node.kindString === 'Call signature') {
+      let ret = formatNode(node.type)
+      if (ret === 'undefined') ret = 'void'
       return `(${
         node.parameters
           ?.map(
             v => `${v.flags?.isRest ? '...' : ''}${v.name}: ${formatNode(v)}`
           )
           .join(', ') ?? ''
-      }) => ${formatNode(node.type)}`
+      }) => ${ret}`
+    }
 
     if (!node.type) {
       if (node.signatures?.length) return formatNode(node.signatures[0])
@@ -80,11 +88,15 @@ function docItem(id) {
     if (node.type === 'intersection') {
       if (node.types.every(({ type }) => type === 'reflection'))
         return formatNode(node.types[0])
+      return node.types.map(formatNode).map(parenthHeur).join(' & ')
+    }
+    if (node.type === 'union')
       return node.types
         .map(formatNode)
-        .map(v => (v.includes('=>') && !/^[{(\[]/.test(v) ? `(${v})` : v))
-        .join(' & ')
-    }
+        .filter(v => v !== 'undefined')
+        .map(parenthHeur)
+        .join(' | ')
+
     if (node.type === 'query') return `<${node.queryType.name}>`
 
     console.warn(`unknown node type ${node.type}:`, node)
