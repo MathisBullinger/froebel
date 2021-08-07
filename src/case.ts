@@ -1,5 +1,3 @@
-export type StringCase = 'camel' | 'snake'
-
 /** Upper-case first letter of string. */
 export const capitalize = <T extends string>(str: T) =>
   (str[0].toUpperCase() + str.slice(1)) as Capitalize<T>

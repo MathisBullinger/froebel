@@ -21,6 +21,8 @@ Think an opionated version of lodash, but with first-class types.
     - [capitalize](#capitalize)
     - [upper](#upper)
     - [lower](#lower)
+    - [prefix](#prefix)
+    - [suffix](#suffix)
 - __`promise`__
     - [isPromise](#isPromise)
 
@@ -249,7 +251,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (str: T) => Capitalize
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L4)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L2)_</sup></sup>
 
 > Upper-case first letter of string.
 
@@ -261,7 +263,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (str: T) => Uppercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L8)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L6)_</sup></sup>
 
 > Strictly typed `String.toUpperCase()`.
 
@@ -273,9 +275,40 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (str: T) => Lowercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L10)_</sup></sup>
 
 > Strictly typed `String.toLowerCase()`.
+
+---
+
+#### `prefix` 
+  
+```hs
+(prefix: T0, str: T1, caseMod: C) => `${string}`
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/prefix.ts#L12)_</sup></sup>
+
+> Returns `str` prefixed with `prefix`. Optionally, allows prefxing in camel
+> case, i.e. `prefix('foo', 'bar', 'camel') => 'fooBar'`, or snake case, i.e.
+> `prefix('foo', 'bar', 'snake') => 'foo_bar'`.
+> 
+> The result is strictly typed, so `prefix('foo', 'bar')` will return the type
+> `'foobar'`, not just a generic `string`.
+> 
+
+---
+
+#### `suffix` 
+  
+```hs
+(str: T1, suffix: T0, caseMod: C) => `${string}`
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/suffix.ts#L8)_</sup></sup>
+
+> Returns `str` suffixed with `suffix`. Same case and type behavior as
+> [prefix](#prefix).
 ## Promise
 
 #### `isPromise` 

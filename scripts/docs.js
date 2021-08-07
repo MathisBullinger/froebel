@@ -99,6 +99,7 @@ function docItem(id) {
     if (node.type === 'tuple')
       return `[${node.elements?.map(formatNode).join(', ') ?? ''}]`
     if (node.type === 'rest') return `...${formatNode(node.elementType)}`
+    if (node.type === 'template-literal') return `\`\${string}\``
     if (node.type === 'conditional') {
       if (
         (node.trueType.name === 'never') !==
