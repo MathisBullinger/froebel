@@ -28,7 +28,7 @@ const clearInterval = (id: number) => {
 
 const expectTimes = (times: number[], ...expected: number[]) => {
   expect(times.length).toBe(expected.length)
-  const margin = 5
+  const margin = 7
   for (let i = 0; i < times.length; i++) {
     expect(times[i]).toBeGreaterThan(expected[i] - margin)
     expect(times[i]).toBeLessThan(expected[i] + margin)

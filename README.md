@@ -23,10 +23,11 @@ Think an opionated version of lodash, but with first-class types.
     - [lower](#lower)
     - [prefix](#prefix)
     - [suffix](#suffix)
-- __`promise`__
-    - [isPromise](#isPromise)
 - __`equality`__
     - [oneOf](#oneOf)
+    - [equal](#equal)
+- __`promise`__
+    - [isPromise](#isPromise)
 
 
 
@@ -311,17 +312,6 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 
 > Returns `str` suffixed with `suffix`. Same case and type behavior as
 > [prefix](#prefix).
-## Promise
-
-#### `isPromise` 
-  
-```hs
-(value: unknown) => value is Promise<T>
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L2)_</sup></sup>
-
-> Checks if its first argument look like a promise.
 ## Equality
 
 #### `oneOf` 
@@ -333,3 +323,32 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/oneOf.ts#L2)_</sup></sup>
 
 > Checks if `v` is one of `cmps`.
+
+---
+
+#### `equal` 
+  
+```hs
+(a: unknown, b: unknown) => boolean
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/equal.ts#L9)_</sup></sup>
+
+> Checks if `a` and `b` are structurally equal using the following algorithm:
+> 
+> - primitives are compared by value
+> - functions are compared by reference
+> - objects (including arrays) are checked to have the same properties and
+>   their values are compared recursively using the same algorithm
+> 
+## Promise
+
+#### `isPromise` 
+  
+```hs
+(value: unknown) => value is Promise<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L2)_</sup></sup>
+
+> Checks if its first argument look like a promise.
