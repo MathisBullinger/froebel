@@ -1,33 +1,51 @@
 const docs = require('../docs.json')
 
 const repo = 'https://github.com/MathisBullinger/snatchblock'
-let readme = `# A strictly typed TypeScript utility library.\n`
+let readme = `# A strictly typed TypeScript utility library.
+
+This is my (WIP) personal collection of TypeScript helper functions and utilities that
+I use across different projects.
+
+Think an opionated version of lodash, but with first-class types.
+`
+const paramReplace = { __namedParameters: 'funs' }
 
 const exps = docs.children
   .find(({ name }) => name === 'index')
   .children.filter(v => v.kindString === 'Reference')
   .map(v => [v.id, v.sources[0].fileName])
 
-const cats = exps.reduce(
+let cats = exps.reduce(
   (a, [id, file]) => ({ ...a, [file]: [...(a[file] ?? []), id] }),
   {}
 )
+cats = Object.entries(cats).map(([file, ids]) => {
+  const [name] = file.match(/\w+?(?=\.ts$)/)
+  return [name[0].toUpperCase() + name.slice(1), ids.sort()]
+})
 
-for (const [file, ids] of Object.entries(cats)) {
-  let [catName] = file.match(/\w+?(?=\.ts$)/)
-  catName = catName[0].toUpperCase() + catName.slice(1)
-
-  readme += `\n## ${catName}\n\n${ids.sort().map(docItem).join('\n\n---\n\n')}`
+readme += '\n\n'
+for (const [name, ids] of cats) {
+  readme += `- __\`${name.toLowerCase()}\`__\n`
+  ids.forEach(id => {
+    const name = getItem(id)[0]
+    readme += `    - [${name}](#${name})\n`
+  })
 }
+readme += '\n\n'
+
+for (const [name, ids] of cats)
+  readme += `\n## ${name}\n\n${ids.map(docItem).join('\n\n---\n\n')}`
 
 function docItem(id) {
   const [name, info] = getItem(id)
   const node = info.signatures?.[0] ?? info
   let descr = node.comment?.shortText ?? ''
   if (descr && node.comment?.text) descr += `\n\n${node.comment.text}`
-  descr = descr
-    .replace(/(?<=^|\n)(.?)/g, '> $1')
-    .replace(/\{@link\s(\w+)\}/g, '[$1](#$1)')
+  if (descr)
+    descr = descr
+      .replace(/(?<=^|\n)(.?)/g, '> $1')
+      .replace(/\{@link\s(\w+)\}/g, '[$1](#$1)')
 
   const parenthHeur = expr =>
     expr.includes('=>') && !/^[{(\[]/.test(expr) ? `(${expr})` : expr
@@ -43,7 +61,10 @@ function docItem(id) {
       return `(${
         node.parameters
           ?.map(
-            v => `${v.flags?.isRest ? '...' : ''}${v.name}: ${formatNode(v)}`
+            v =>
+              `${v.flags?.isRest ? '...' : ''}${
+                paramReplace[v.name] ?? v.name
+              }: ${formatNode(v)}`
           )
           .join(', ') ?? ''
       }) => ${ret}`

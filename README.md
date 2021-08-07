@@ -1,5 +1,25 @@
 # A strictly typed TypeScript utility library.
 
+This is my (WIP) personal collection of TypeScript helper functions and utilities that
+I use across different projects.
+
+Think an opionated version of lodash, but with first-class types.
+
+
+- __`function`__
+    - [ident](#ident)
+    - [partial](#partial)
+    - [forward](#forward)
+    - [callAll](#callAll)
+    - [bundle](#bundle)
+    - [bundleSync](#bundleSync)
+    - [throttle](#throttle)
+    - [debounce](#debounce)
+- __`promise`__
+    - [isPromise](#isPromise)
+
+
+
 ## Function
 
 ### `ident` 
@@ -92,43 +112,6 @@ console.log( callAll([mult, div], 4, 2) )
 
 ---
 
-### `debounce` 
-  
-```hs
-(fun: T, ms: number) => λ<Parameters<T>, void> & {[cancel]: () => void}
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/debounce.ts#L14)_</sup></sup>
-
-> Creates a debounced function that delays invoking `fun` until `ms` milliseconds
-> have passed since the last invocation of the debounced function.
-> 
-> `fun` is invoked with the last arguments passed to the debounced function.
-> 
-> Calling `[debounce.cancel]()` on the debounced function will cancel the currently
-> scheduled invocation of `fun`.
-> 
-
----
-
-### `throttle` 
-  
-```hs
-(fun: T, ms: number, opts: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/throttle.ts#L14)_</sup></sup>
-
-> Created a throttled function that invokes `fun` at most every `ms` milliseconds.
-> 
-> `fun` is invoked with the last arguments passed to the throttled function.
-> 
-> Calling `[throttle.cancel]()` on the throttled function will cancel the currently
-> scheduled invocation of `fun`.
-> 
-
----
-
 ### `bundle` 
   
 ```hs
@@ -159,6 +142,43 @@ console.log( callAll([mult, div], 4, 2) )
 > 
 > If any of the functions throws an error synchronously, none of the functions
 > after it will be invoked and the error will propagate.
+> 
+
+---
+
+### `throttle` 
+  
+```hs
+(fun: T, ms: number, opts: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/throttle.ts#L14)_</sup></sup>
+
+> Created a throttled function that invokes `fun` at most every `ms` milliseconds.
+> 
+> `fun` is invoked with the last arguments passed to the throttled function.
+> 
+> Calling `[throttle.cancel]()` on the throttled function will cancel the currently
+> scheduled invocation of `fun`.
+> 
+
+---
+
+### `debounce` 
+  
+```hs
+(fun: T, ms: number) => λ<Parameters<T>, void> & {[cancel]: () => void}
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/debounce.ts#L14)_</sup></sup>
+
+> Creates a debounced function that delays invoking `fun` until `ms` milliseconds
+> have passed since the last invocation of the debounced function.
+> 
+> `fun` is invoked with the last arguments passed to the debounced function.
+> 
+> Calling `[debounce.cancel]()` on the debounced function will cancel the currently
+> scheduled invocation of `fun`.
 > 
 ## Promise
 
