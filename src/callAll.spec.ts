@@ -12,6 +12,9 @@ test('call all', () => {
   callAll([(n: number) => 0])
 
   // @ts-expect-error
+  callAll([(n: number) => 0], '')
+
+  // @ts-expect-error
   callAll([square, (n: string) => 0], 2)
 
   // @ts-expect-error

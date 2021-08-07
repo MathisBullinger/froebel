@@ -97,7 +97,7 @@ function docItem(id) {
     if (node.type === 'array') return `${formatNode(node.elementType)}[]`
     if (node.type === 'reflection') return formatNode(node.declaration)
     if (node.type === 'tuple')
-      return `[${node.elements.map(formatNode).join(', ')}]`
+      return `[${node.elements?.map(formatNode).join(', ') ?? ''}]`
     if (node.type === 'rest') return `...${formatNode(node.elementType)}`
     if (node.type === 'conditional') {
       if (

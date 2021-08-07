@@ -13,6 +13,7 @@ Think an opionated version of lodash, but with first-class types.
     - [callAll](#callAll)
     - [bundle](#bundle)
     - [bundleSync](#bundleSync)
+    - [nullishChain](#nullishChain)
     - [throttle](#throttle)
     - [debounce](#debounce)
 - __`promise`__
@@ -93,7 +94,7 @@ const viaHTTPS = await fetchRepo('https')
 #### `callAll` 
   
 ```hs
-(funs: T[], ...args: P) => ReturnTypes<T>
+(funs: F[], ...args: P) => ReturnTypes<F>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/callAll.ts#L16)_</sup></sup>
@@ -143,6 +144,39 @@ console.log( callAll([mult, div], 4, 2) )
 > If any of the functions throws an error synchronously, none of the functions
 > after it will be invoked and the error will propagate.
 > 
+
+---
+
+#### `nullishChain` 
+  
+```hs
+(...funs: [FF, ...FR[]] | []) => (...args: Parameters<FF>) => ReturnType<FF> | ReturnType<FR[number]>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullishChain.ts#L26)_</sup></sup>
+
+> Given a list of functions that accept the same parameters, returns a function
+> that given these arguments returns the result of the first function whose
+> result is not nullish.
+> 
+> This is equivalent to chaining together invocations of the passed in
+> functions with the given arguments with nullish coalescing _(`??`)_ operators.
+> 
+
+#### Example
+```ts
+const isAdult   = (age: number) => { if (n >= 18) return 'adult' }
+const isToddler = (age: number) => { if (n <= 3) return 'toddler' }
+
+const ageGroup = nullishChain(isAdult, isToddler, () => 'child')
+
+// this is functionally equivalent to:
+const ageGroup = age => isAdult(age) ?? isToddler(age) ?? 'child'
+
+ageGroup(1)  // prints: 'toddler'
+ageGroup(10) // prints: 'child'
+ageGroup(50) // prints: 'adult'
+```
 
 ---
 
