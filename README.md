@@ -20,6 +20,8 @@ Think an opionated version of lodash, but with first-class types.
     - [memoize](#memoize)
 - __`list`__
     - [atWrap](#atWrap)
+    - [zip](#zip)
+    - [zipWith](#zipWith)
 - __`string`__
     - [capitalize](#capitalize)
     - [upper](#upper)
@@ -279,6 +281,30 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 
 > Access list at `i % length`. Negative indexes start indexing the last
 > element as `[-1]` and wrap around to the back.
+
+---
+
+#### `zip` 
+  
+```hs
+(...lists: T) => Zip<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L5)_</sup></sup>
+
+
+
+---
+
+#### `zipWith` 
+  
+```hs
+(zipper: (...args: ???) => U, ...lists: T) => U[]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L12)_</sup></sup>
+
+
 ## String
 
 #### `capitalize` 
