@@ -25,7 +25,9 @@ function docItem(id) {
   const node = info.signatures?.[0] ?? info
   let descr = node.comment?.shortText ?? ''
   if (descr && node.comment?.text) descr += `\n\n${node.comment.text}`
-  descr = descr.replace(/(?<=^|\n)(.?)/g, '> $1')
+  descr = descr
+    .replace(/(?<=^|\n)(.?)/g, '> $1')
+    .replace(/\{@link\s(\w+)\}/g, '[$1](#$1)')
 
   const parenthHeur = expr =>
     expr.includes('=>') && !/^[{(\[]/.test(expr) ? `(${expr})` : expr

@@ -155,7 +155,7 @@ console.log( callAll([mult, div], 4, 2) )
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bundle.ts#L29)_</sup></sup>
 
-> Same as `bundle`, but return synchronously.
+> Same as [bundle](#bundle), but return synchronously.
 > 
 > If any of the functions throws an error synchronously, none of the functions
 > after it will be invoked and the error will propagate.

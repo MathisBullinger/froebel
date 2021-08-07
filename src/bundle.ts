@@ -21,7 +21,7 @@ const bundle =
   }
 
 /**
- * Same as `bundle`, but return synchronously.
+ * Same as {@link bundle}, but return synchronously.
  *
  * If any of the functions throws an error synchronously, none of the functions
  * after it will be invoked and the error will propagate.
