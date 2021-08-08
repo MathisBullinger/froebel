@@ -1,6 +1,6 @@
 {
   "name": "snatchblock",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "TypeScript utility library",
   "main": "index.js",
   "types": "index.d.ts",
