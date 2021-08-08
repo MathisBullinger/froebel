@@ -100,6 +100,10 @@ function docItem(id) {
       return `[${node.elements?.map(formatNode).join(', ') ?? ''}]`
     if (node.type === 'rest') return `...${formatNode(node.elementType)}`
     if (node.type === 'template-literal') return `\`\${string}\``
+    if (node.type === 'mapped')
+      return `{[${node.parameter} in ${formatNode(
+        node.parameterType
+      )}]: ${formatNode(node.templateType)}}`
     if (node.type === 'conditional') {
       if (
         (node.trueType.name === 'never') !==

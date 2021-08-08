@@ -22,6 +22,8 @@ Think an opionated version of lodash, but with first-class types.
     - [atWrap](#atWrap)
     - [zip](#zip)
     - [zipWith](#zipWith)
+    - [unzip](#unzip)
+    - [unzipWith](#unzipWith)
 - __`string`__
     - [capitalize](#capitalize)
     - [upper](#upper)
@@ -299,10 +301,34 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 #### `zipWith` 
   
 ```hs
-(zipper: (...args: ???) => U, ...lists: T) => U[]
+(zipper: (...args: {[I in string | number | symbol]: U}) => U, ...lists: T) => U[]
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L12)_</sup></sup>
+
+
+
+---
+
+#### `unzip` 
+  
+```hs
+(...zipped: T[][]) => Unzip<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L5)_</sup></sup>
+
+
+
+---
+
+#### `unzipWith` 
+  
+```hs
+(zipped: T[][], ...unzippers: U) => {[I in string | number | symbol]: ReturnType<U[I]>}
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L10)_</sup></sup>
 
 
 ## String
