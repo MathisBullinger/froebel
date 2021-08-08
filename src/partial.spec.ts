@@ -12,4 +12,7 @@ test('partial application', () => {
   expect(funBC(1, true)).toBe(JSON.stringify(['a', 1, true]))
   expect(funC(false)).toBe(JSON.stringify(['b', 2, false]))
   expect(fun_()).toBe(JSON.stringify(['c', 3, true]))
+
+  // @ts-expect-error
+  partial((str: 'A' | 'B', v: boolean) => {}, 'A')()
 })
