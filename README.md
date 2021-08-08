@@ -292,9 +292,17 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (...lists: T) => Zip<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L5)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L16)_</sup></sup>
 
+> Takes multiple lists and returns a list of tuples containing the value in
+> each list at the current index. If the lists are of different lengths, the
+> returned list of tuples has the length of the shortest passed in list.
 
+#### Example
+```ts
+const pairs = zip([1,2,3], ['a','b','c'])
+console.log(pairs) // prints: [[1,'a'], [2,'b'], [3,'c']]
+```
 
 ---
 
@@ -304,9 +312,18 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (zipper: (...args: {[I in string | number | symbol]: U}) => U, ...lists: T) => U[]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L35)_</sup></sup>
 
+> Same as [zip](#zip) but also takes a `zipper` function, that is called for
+> each index with the element at current index in each list as arguments. The
+> result of `zipper` is the element at current index in the list returned from
+> `zipWith`.
 
+#### Example
+```ts
+const sums = zipWith((a,b) => a+b, [1,2,3], [4,5,6])
+console.log(sums) // prints: [5,7,9]
+```
 
 ---
 
@@ -316,9 +333,18 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (...zipped: T[][]) => Unzip<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L5)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L15)_</sup></sup>
 
+> Reverse of [zip](#zip). Takes a list of tuples and deconstructs them into
+> an array (of length of the tuples length) of lists each containing all the
+> elements in all tuples at the lists index.
 
+#### Example
+```ts
+const [nums, chars] = unzip([1,'a'], [2,'b'], [3,'c'])
+console.log(nums)  // prints: [1, 2, 3]
+console.log(chars) // prints: ['a','b','c']
+```
 
 ---
 
@@ -328,9 +354,28 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (zipped: T[][], ...unzippers: U) => {[I in string | number | symbol]: ReturnType<U[I]>}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L10)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L39)_</sup></sup>
 
+> Same as [unzip](#unzip) but accepts an `unzipper` function for each tuple
+> index. The `unzipper`'s return value is used as the value in the list at
+> that index returned from `unzipWith`.
+> 
+> The `unzipper` takes the current element as its first argument, an
+> accumulator as second argument (initially `undefined`) and its return value
+> is the accumulator passed into the next invocation.
+> 
 
+#### Example
+```ts
+const [nums, str] = unzip(
+  [ [1,'a'], [2,'b'], [3,'c'] ],
+  (n, acc: number[] = []) => [...acc, n],
+  (c, str = '') => str + c
+)
+
+console.log(nums) // prints: [1, 2, 3]
+console.log(str)  // prints: 'abc'
+```
 ## String
 
 #### `capitalize` 
