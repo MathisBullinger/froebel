@@ -1,4 +1,4 @@
 #!/bin/bash
 npm run build
-cd build && jq 'del(.scripts,.private)' ../package.json > package.json
+cd build && jq 'del(.scripts,.private)' ../package.json > package.json && cp ../README.md .
 npm publish
