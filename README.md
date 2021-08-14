@@ -458,7 +458,7 @@ console.log(str)  // prints: 'abc'
 #### `oneOf` 
   
 ```hs
-(v: unknown, ...cmps: T) => v is T[number]
+(value: T, ...cmps: TT) => value is TT[number]
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/oneOf.ts#L2)_</sup></sup>

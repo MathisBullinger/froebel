@@ -1,5 +1,6 @@
 import type { λ } from './types'
-const { performance } = globalThis.window ?? require('perf_hooks')
+const { performance } =
+  'performance' in globalThis ? globalThis : require('perf_hooks')
 
 export const cancel = Symbol('throttle.cancel')
 
