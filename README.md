@@ -35,6 +35,7 @@ Think an opionated version of lodash, but with first-class types.
 - __`equality`__
     - [oneOf](#oneOf)
     - [equal](#equal)
+    - [clone](#clone)
 - __`promise`__
     - [isPromise](#isPromise)
 
@@ -227,7 +228,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, ms: number, opts: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/throttle.ts#L14)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/throttle.ts#L15)_</sup></sup>
 
 > Created a throttled function that invokes `fun` at most every `ms` milliseconds.
 > 
@@ -481,6 +482,28 @@ console.log(str)  // prints: 'abc'
 > - functions are compared by reference
 > - objects (including arrays) are checked to have the same properties and
 >   their values are compared recursively using the same algorithm
+> 
+
+---
+
+#### `clone` 
+  
+```hs
+(value: T) => T
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/clone.ts#L15)_</sup></sup>
+
+> Returns a copied version of `value`.
+> 
+> If `value` is primitive, returns `value`.
+> Otherwise, properties of `value` are copied recursively. Only `value`'s own
+> enumerable properties are cloned. Arrays are cloned by mapping over their
+> values.
+> 
+> If a path in `value` references itself or a parent path, then in the
+> resulting object that path will also reference the path it referenced in the
+> original object (but now in the resuling object instead of the original).
 > 
 ## Promise
 
