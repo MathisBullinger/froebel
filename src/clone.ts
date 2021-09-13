@@ -6,7 +6,7 @@ import type { λ } from './types'
  * If `value` is primitive, returns `value`.
  * Otherwise, properties of `value` are copied recursively. Only `value`'s own
  * enumerable properties are cloned. Arrays are cloned by mapping over their
- * values.
+ * elements.
  *
  * If a path in `value` references itself or a parent path, then in the
  * resulting object that path will also reference the path it referenced in the

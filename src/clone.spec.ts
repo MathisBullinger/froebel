@@ -6,8 +6,7 @@ test('clone', () => {
   expect(clone('foo')).toBe('foo')
 
   {
-    const f = () => [1, 'a', { foo: ['bar', { baz: [[2, 3]] }, 'a'] }]
-    const v = f()
+    const v = [1, 'a', { foo: ['bar', { baz: [[2, 3]] }, 'a'] }]
     expect(clone(v)).toEqual(v)
     expect(clone(v)).not.toBe(v)
   }

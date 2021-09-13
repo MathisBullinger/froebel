@@ -19,10 +19,13 @@ let cats = exps.reduce(
   (a, [id, file]) => ({ ...a, [file]: [...(a[file] ?? []), id] }),
   {}
 )
-cats = Object.entries(cats).map(([file, ids]) => {
-  const [name] = file.match(/\w+?(?=\.ts$)/)
-  return [name[0].toUpperCase() + name.slice(1), ids.sort()]
-})
+const alias = { ds: 'Data Structures' }
+cats = Object.entries(cats)
+  .sort(([, a], [, b]) => Math.min(...a) - Math.min(...b))
+  .map(([file, ids]) => {
+    const [name] = file.match(/\w+?(?=\.ts$)/)
+    return [alias[name] ?? name[0].toUpperCase() + name.slice(1), ids.sort()]
+  })
 
 readme += '\n\n'
 for (const [name, ids] of cats) {
@@ -38,7 +41,7 @@ for (const [name, ids] of cats)
   readme += `\n## ${name}\n\n${ids.map(docItem).join('\n\n---\n\n')}`
 
 function docItem(id) {
-  const [name, info] = getItem(id)
+  const [name, info, nodes] = getItem(id)
   const node = info.signatures?.[0] ?? info
   let descr = node.comment?.shortText ?? ''
   if (descr && node.comment?.text) descr += `\n\n${node.comment.text}`
@@ -54,23 +57,37 @@ function docItem(id) {
     str
       .replace(/λ<([^>]+),\s*any>/g, 'λ<$1>')
       .replace(/\[\.{3}([A-Z])\[\]\]/g, '$1[]')
-  const formatNode = node => postProcess(_formatNode(node))
-  function _formatNode(node) {
-    if (node.target) node = getItem(node.target)
 
-    if (node.kindString === 'Call signature') {
+  const formatNode = (node, srcs) => postProcess(_formatNode(node, srcs))
+
+  function _formatNode(node) {
+    if (node.target)
+      node =
+        typeof node.target === 'number' ? getItem(node.target) : node.target
+
+    if (['Call signature', 'Constructor signature'].includes(node.kindString)) {
+      const isClass = node.kindString === 'Constructor signature'
+      if (isClass) delete node.type.typeArguments
       let ret = formatNode(node.type)
       if (ret === 'undefined') ret = 'void'
-      return `(${
+      const argStr = `(${
         node.parameters
           ?.map(
             v =>
               `${v.flags?.isRest ? '...' : ''}${
                 paramReplace[v.name] ?? v.name
-              }: ${formatNode(v)}`
+              }${v.flags.isOptional ? '?' : ''}: ${formatNode(v)}`
           )
           .join(', ') ?? ''
-      }) => ${ret}`
+      })`
+      if (!isClass) return `${argStr} => ${ret}`
+      const gen = !node.typeParameter
+        ? ''
+        : `<${node.typeParameter
+            .filter(v => !v.default)
+            .map(v => v.name)
+            .join(', ')}>`
+      return `class ${ret}${gen}${argStr}`
     }
 
     if (!node.type) {
@@ -119,7 +136,11 @@ function docItem(id) {
     if (node.type === 'intersection') {
       if (node.types.every(({ type }) => type === 'reflection'))
         return formatNode(node.types[0])
-      return node.types.map(formatNode).map(parenthHeur).join(' & ')
+      return node.types
+        .filter(({ type }) => type !== 'query')
+        .map(formatNode)
+        .map(parenthHeur)
+        .join(' & ')
     }
     if (node.type === 'union')
       return node.types
@@ -145,14 +166,18 @@ function docItem(id) {
       .join('\n\n')}`
   }
 
-  const [{ fileName, line }] = info.sources
+  const srcs = findSources([...nodes, info])
+  const src = srcs
+    ? `<sup><sup>_[source](${repo}/blob/main/src/${srcs[0].fileName}#L${srcs[0].line})_</sup></sup>`
+    : (console.warn(`couldn't find source for ${name} ${id}`), '')
+
   return `#### \`${name}\` 
   
 \`\`\`hs
 ${formatNode(info)}
 \`\`\`
 
-<sup><sup>_[source](${repo}/blob/main/src/${fileName}#L${line})_</sup></sup>
+${src}
 
 ${descr ?? ''}${examples(node)}`
 }
@@ -162,13 +187,25 @@ require('fs').writeFileSync(
   readme
 )
 
-function getItem(id, node = docs) {
+function getItem(id, node = docs, path = []) {
   if (node?.id === id)
-    return [node.name, !node.target ? node : getItem(node.target)[1]]
+    return [
+      node.name,
+      ...(!node.target
+        ? [node, path]
+        : getItem(node.target, docs, [...path, node]).slice(1)),
+    ]
 
   if (!node.children?.length) return
   for (const child of node.children) {
-    let match = getItem(id, child)
+    let match = getItem(id, child, [...path, node])
     if (match) return match
   }
+}
+
+function findSources(nodes) {
+  if (!nodes.length) return
+  if (nodes[nodes.length - 1].sources?.length)
+    return nodes[nodes.length - 1].sources
+  return findSources(nodes.slice(0, -1))
 }
