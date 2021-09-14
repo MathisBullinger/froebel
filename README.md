@@ -18,6 +18,16 @@ Think an opionated version of lodash, but with first-class types.
     - [throttle](#throttle)
     - [debounce](#debounce)
     - [memoize](#memoize)
+- __`list`__
+    - [atWrap](#atWrap)
+    - [zip](#zip)
+    - [zipWith](#zipWith)
+    - [unzip](#unzip)
+    - [unzipWith](#unzipWith)
+- __`equality`__
+    - [oneOf](#oneOf)
+    - [equal](#equal)
+    - [clone](#clone)
 - __`promise`__
     - [isPromise](#isPromise)
 - __`string`__
@@ -26,16 +36,6 @@ Think an opionated version of lodash, but with first-class types.
     - [lower](#lower)
     - [prefix](#prefix)
     - [suffix](#suffix)
-- __`equality`__
-    - [oneOf](#oneOf)
-    - [equal](#equal)
-    - [clone](#clone)
-- __`list`__
-    - [atWrap](#atWrap)
-    - [zip](#zip)
-    - [zipWith](#zipWith)
-    - [unzip](#unzip)
-    - [unzipWith](#unzipWith)
 - __`math`__
     - [clamp](#clamp)
 - __`data structures`__
@@ -274,134 +274,6 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 > 
 > The function's cache is available at `memoized.cache`.
 > 
-## Promise
-
-#### `isPromise` 
-  
-```hs
-(value: unknown) => value is Promise<T>
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L2)_</sup></sup>
-
-> Checks if its first argument look like a promise.
-## String
-
-#### `capitalize` 
-  
-```hs
-(str: T) => Capitalize
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L2)_</sup></sup>
-
-> Upper-case first letter of string.
-
----
-
-#### `upper` 
-  
-```hs
-(str: T) => Uppercase
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L6)_</sup></sup>
-
-> Strictly typed `String.toUpperCase()`.
-
----
-
-#### `lower` 
-  
-```hs
-(str: T) => Lowercase
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L10)_</sup></sup>
-
-> Strictly typed `String.toLowerCase()`.
-
----
-
-#### `prefix` 
-  
-```hs
-(prefix: T0, str: T1, caseMod?: C) => `${string}`
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/prefix.ts#L12)_</sup></sup>
-
-> Returns `str` prefixed with `prefix`. Optionally, allows prefxing in camel
-> case, i.e. `prefix('foo', 'bar', 'camel') => 'fooBar'`, or snake case, i.e.
-> `prefix('foo', 'bar', 'snake') => 'foo_bar'`.
-> 
-> The result is strictly typed, so `prefix('foo', 'bar')` will return the type
-> `'foobar'`, not just a generic `string`.
-> 
-
----
-
-#### `suffix` 
-  
-```hs
-(str: T1, suffix: T0, caseMod?: C) => `${string}`
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/suffix.ts#L8)_</sup></sup>
-
-> Returns `str` suffixed with `suffix`. Same case and type behavior as
-> [prefix](#prefix).
-## Equality
-
-#### `oneOf` 
-  
-```hs
-(value: T, ...cmps: TT) => value is TT[number]
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/oneOf.ts#L2)_</sup></sup>
-
-> Checks if `v` is one of `cmps`.
-
----
-
-#### `equal` 
-  
-```hs
-(a: unknown, b: unknown) => boolean
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/equal.ts#L9)_</sup></sup>
-
-> Checks if `a` and `b` are structurally equal using the following algorithm:
-> 
-> - primitives are compared by value
-> - functions are compared by reference
-> - objects (including arrays) are checked to have the same properties and
->   their values are compared recursively using the same algorithm
-> 
-
----
-
-#### `clone` 
-  
-```hs
-(value: T) => T
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/clone.ts#L15)_</sup></sup>
-
-> Returns a copied version of `value`.
-> 
-> If `value` is primitive, returns `value`.
-> Otherwise, properties of `value` are copied recursively. Only `value`'s own
-> enumerable properties are cloned. Arrays are cloned by mapping over their
-> elements.
-> 
-> If a path in `value` references itself or a parent path, then in the
-> resulting object that path will also reference the path it referenced in the
-> original object (but now in the resuling object instead of the original).
-> 
 ## List
 
 #### `atWrap` 
@@ -507,6 +379,134 @@ const [nums, str] = unzip(
 console.log(nums) // prints: [1, 2, 3]
 console.log(str)  // prints: 'abc'
 ```
+## Equality
+
+#### `oneOf` 
+  
+```hs
+(value: T, ...cmps: TT) => value is TT[number]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/oneOf.ts#L2)_</sup></sup>
+
+> Checks if `v` is one of `cmps`.
+
+---
+
+#### `equal` 
+  
+```hs
+(a: unknown, b: unknown) => boolean
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/equal.ts#L9)_</sup></sup>
+
+> Checks if `a` and `b` are structurally equal using the following algorithm:
+> 
+> - primitives are compared by value
+> - functions are compared by reference
+> - objects (including arrays) are checked to have the same properties and
+>   their values are compared recursively using the same algorithm
+> 
+
+---
+
+#### `clone` 
+  
+```hs
+(value: T) => T
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/clone.ts#L15)_</sup></sup>
+
+> Returns a copied version of `value`.
+> 
+> If `value` is primitive, returns `value`.
+> Otherwise, properties of `value` are copied recursively. Only `value`'s own
+> enumerable properties are cloned. Arrays are cloned by mapping over their
+> elements.
+> 
+> If a path in `value` references itself or a parent path, then in the
+> resulting object that path will also reference the path it referenced in the
+> original object (but now in the resuling object instead of the original).
+> 
+## Promise
+
+#### `isPromise` 
+  
+```hs
+(value: unknown) => value is Promise<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L2)_</sup></sup>
+
+> Checks if its first argument look like a promise.
+## String
+
+#### `capitalize` 
+  
+```hs
+(str: T) => Capitalize
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L2)_</sup></sup>
+
+> Upper-case first letter of string.
+
+---
+
+#### `upper` 
+  
+```hs
+(str: T) => Uppercase
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L6)_</sup></sup>
+
+> Strictly typed `String.toUpperCase()`.
+
+---
+
+#### `lower` 
+  
+```hs
+(str: T) => Lowercase
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L10)_</sup></sup>
+
+> Strictly typed `String.toLowerCase()`.
+
+---
+
+#### `prefix` 
+  
+```hs
+(prefix: T0, str: T1, caseMod?: C) => `${string}`
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/prefix.ts#L12)_</sup></sup>
+
+> Returns `str` prefixed with `prefix`. Optionally, allows prefxing in camel
+> case, i.e. `prefix('foo', 'bar', 'camel') => 'fooBar'`, or snake case, i.e.
+> `prefix('foo', 'bar', 'snake') => 'foo_bar'`.
+> 
+> The result is strictly typed, so `prefix('foo', 'bar')` will return the type
+> `'foobar'`, not just a generic `string`.
+> 
+
+---
+
+#### `suffix` 
+  
+```hs
+(str: T1, suffix: T0, caseMod?: C) => `${string}`
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/suffix.ts#L8)_</sup></sup>
+
+> Returns `str` suffixed with `suffix`. Same case and type behavior as
+> [prefix](#prefix).
 ## Math
 
 #### `clamp` 
@@ -526,7 +526,7 @@ console.log(str)  // prints: 'abc'
 class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bimap.ts#L182)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bimap.ts#L236)_</sup></sup>
 
 > Bidirectional map. Maps two sets of keys in a one-to-one relation.
 > 
@@ -593,4 +593,14 @@ dictionary.en.get('bye')   // 'tschüss'
 
 delete dictionary.de.hallo
 console.log(Object.fromEntries(dictionary.en)) // { bye: 'tschüss' }
+
+// you can also use the BiMap.alias method:
+BiMap.alias('en', 'de')<string, string>()
+BiMap.alias('en', 'de')([['hello', 'hallo']])
+BiMap.alias('en', 'de')(new Map<string, string>())
+BiMap.alias('en', 'de')({ hello: 'hallo' })
+BiMap.alias('en', 'de')(new Set(['hello']), new Set(['hallo']))
+
+// the same arguments can be used with BiMap.from, e.g.:
+BiMap.from(new Set<number>(), new Set<number>())
 ```

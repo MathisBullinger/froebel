@@ -1,4 +1,19 @@
 import { UniqueViolationError } from './error'
+import zip from './zip'
+
+type AliasConstr<AL extends string, AR extends string> = {
+  <L, R>(data?: Map<L, R>): BiMapImpl<L, R, AL, AR>
+  <T extends readonly (readonly [unknown, unknown])[]>(data: T): BiMapImpl<
+    T[number] extends [infer L, any] ? L : never,
+    T[number] extends [any, infer R] ? R : never,
+    AL,
+    AR
+  >
+  <L, R>(left: Set<L>, right: Set<R>): BiMapImpl<L, R, AL, AR>
+  <T extends Record<L, R>, L extends string | symbol, R>(
+    data: T
+  ): T extends Set<any> ? never : BiMapImpl<L, R, AL, AR>
+}
 
 class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
   constructor(
@@ -20,16 +35,45 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
       this.data.set(k, v)
     }
 
-    if (aliasLeft !== undefined)
-      Object.defineProperty(this, aliasLeft, { get: () => this.left })
-    if (aliasRight !== undefined)
-      Object.defineProperty(this, aliasRight, { get: () => this.right })
+    this.defineAlias(aliasLeft, aliasRight)
   }
 
-  public static from<K extends string | symbol, V>(
-    data: Record<K, V>
-  ): BiMapImpl<K, V, never, never> {
-    return new BiMapImpl(Object.entries(data) as [K, V][])
+  public static from: AliasConstr<never, never> = (...args: any[]) =>
+    new BiMapImpl(
+      !args[0] || args[0] instanceof Map || Array.isArray(args[0])
+        ? args[0]
+        : args[0] instanceof Set
+        ? BiMapImpl.fromSets(...(args as [any, any]))
+        : Object.entries(args[0])
+    )
+
+  private static fromSets<KL, KR>(
+    left: Set<KL>,
+    right: Set<KR>
+  ): BiMapImpl<KL, KR> {
+    if (!left || !right || left.size !== right.size)
+      throw new TypeError(
+        'must have same number of keys on left and right side'
+      )
+    return new BiMapImpl(zip([...left.keys()], [...right.keys()]))
+  }
+
+  public static alias =
+    <LA extends string, RA extends string>(
+      left: LA,
+      right: RA
+    ): AliasConstr<LA, RA> =>
+    (...args: any[]) => {
+      const map = BiMapImpl.from(...args)
+      map.defineAlias(left, right)
+      return map
+    }
+
+  private defineAlias(left?: string, right?: string) {
+    if (left !== undefined)
+      Object.defineProperty(this, left, { get: () => this.left })
+    if (right !== undefined)
+      Object.defineProperty(this, right, { get: () => this.right })
   }
 
   public reverse(): BiMapImpl<R, L, AR, AL> {
@@ -177,6 +221,16 @@ export default BiMapImpl as (new <
  *
  * delete dictionary.de.hallo
  * console.log(Object.fromEntries(dictionary.en)) // { bye: 'tschüss' }
+ *
+ * // you can also use the BiMap.alias method:
+ * BiMap.alias('en', 'de')<string, string>()
+ * BiMap.alias('en', 'de')([['hello', 'hallo']])
+ * BiMap.alias('en', 'de')(new Map<string, string>())
+ * BiMap.alias('en', 'de')({ hello: 'hallo' })
+ * BiMap.alias('en', 'de')(new Set(['hello']), new Set(['hallo']))
+ *
+ * // the same arguments can be used with BiMap.from, e.g.:
+ * BiMap.from(new Set<number>(), new Set<number>())
  * ```
  */
 export type BiMap<

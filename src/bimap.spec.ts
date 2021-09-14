@@ -1,7 +1,7 @@
 import Bimap, { BiMap } from './bimap'
 import { UniqueViolationError } from './error'
 
-const testEntries = (map: BiMap<any, any>, ...entries: any[]) => {
+const testEntries = (map: BiMap<any, any>, entries: any = []) => {
   expect([...(map as any)['data'].entries()]).toEqual(entries)
 }
 
@@ -12,9 +12,10 @@ test('construct bimap', () => {
   ] as const
 
   testEntries(new Bimap())
-  testEntries(new Bimap(entries), ...entries)
-  testEntries(new Bimap(new Map(entries)), ...entries)
-  testEntries(Bimap.from(Object.fromEntries(entries)), ...entries)
+  testEntries(new Bimap(entries), entries)
+  testEntries(new Bimap(new Map(entries)), entries)
+  testEntries(Bimap.from(Object.fromEntries(entries)), entries)
+  testEntries(Bimap.from(new Set(['a', 'b']), new Set([1, 2])), entries)
 
   expect(
     () =>
@@ -39,6 +40,10 @@ test('construct bimap', () => {
         ])
       )
   ).toThrow(UniqueViolationError)
+
+  expect(() => Bimap.from(new Set([1, 2]), new Set('a'))).toThrow(TypeError)
+  // @ts-expect-error
+  expect(() => Bimap.from(new Set(['foo']))).toThrow(TypeError)
 })
 
 const makeNumMap = (
