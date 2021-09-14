@@ -2,17 +2,17 @@ import { UniqueViolationError } from './error'
 import zip from './zip'
 
 type AliasConstr<AL extends string, AR extends string> = {
-  <L, R>(data?: Map<L, R>): BiMapImpl<L, R, AL, AR>
-  <T extends readonly (readonly [unknown, unknown])[]>(data: T): BiMapImpl<
+  <L, R>(data?: Map<L, R>): BiMap<L, R, AL, AR>
+  <T extends readonly (readonly [unknown, unknown])[]>(data: T): BiMap<
     T[number] extends [infer L, any] ? L : never,
     T[number] extends [any, infer R] ? R : never,
     AL,
     AR
   >
-  <L, R>(left: Set<L>, right: Set<R>): BiMapImpl<L, R, AL, AR>
+  <L, R>(left: Set<L>, right: Set<R>): BiMap<L, R, AL, AR>
   <T extends Record<L, R>, L extends string | symbol, R>(
     data: T
-  ): T extends Set<any> ? never : BiMapImpl<L, R, AL, AR>
+  ): T extends Set<any> ? never : BiMap<L, R, AL, AR>
 }
 
 class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
@@ -64,7 +64,7 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
       right: RA
     ): AliasConstr<LA, RA> =>
     (...args: any[]) => {
-      const map = BiMapImpl.from(...args)
+      const map: any = BiMapImpl.from(...args)
       map.defineAlias(left, right)
       return map
     }
@@ -103,6 +103,12 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
       [Symbol.iterator]: ltr
         ? () => this.data[Symbol.iterator]()
         : () => reverseIterator(this.data[Symbol.iterator]()),
+      get: ltr
+        ? (k: L) => this.data.get(k)
+        : (k: R) => {
+            for (const entry of this.data.entries())
+              if (entry[1] === k) return entry[0]
+          },
       set: ltr
         ? (k: L, v: R) => {
             for (const entry of this.data) {
@@ -131,6 +137,7 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
       get: (t: any, p) => {
         if (p in t) return t[p]
         if (p === 'size') return this.data.size
+        return t.get(p)
       },
       has: (t, p) => t.has(p),
       set: (t, p, v) => (t.set(p, v), true),

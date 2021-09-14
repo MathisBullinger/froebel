@@ -220,3 +220,10 @@ test('size', () => {
   expect(bm.left.size).toBe(2)
   expect(bm.right.size).toBe(2)
 })
+
+test('nullish assign', () => {
+  const map = new Bimap<string, string>()
+  expect((map.left.val ??= 'foo')).toBe('foo')
+  expect((map.left.val ??= 'bar')).toBe('foo')
+  expect([...map]).toEqual([['val', 'foo']])
+})
