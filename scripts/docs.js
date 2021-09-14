@@ -31,7 +31,7 @@ readme += '\n\n'
 for (const [name, ids] of cats) {
   readme += `- __\`${name.toLowerCase()}\`__\n`
   ids.forEach(id => {
-    const name = getItem(id)[0]
+    const name = getNode(id)[0]
     readme += `    - [${name}](#${name})\n`
   })
 }
@@ -41,10 +41,15 @@ for (const [name, ids] of cats)
   readme += `\n## ${name}\n\n${ids.map(docItem).join('\n\n---\n\n')}`
 
 function docItem(id) {
-  const [name, info, nodes] = getItem(id)
+  const [name, info] = getNode(id)
   const node = info.signatures?.[0] ?? info
-  let descr = node.comment?.shortText ?? ''
-  if (descr && node.comment?.text) descr += `\n\n${node.comment.text}`
+
+  const docNode = node.comment
+    ? node
+    : getNode(node.type.types[0].declaration.signatures[0].type.id)[1]
+
+  let descr = docNode.comment?.shortText ?? ''
+  if (descr && docNode.comment?.text) descr += `\n\n${docNode.comment.text}`
   if (descr)
     descr = descr
       .replace(/(?<=^|\n)(.?)/g, '> $1')
@@ -63,7 +68,7 @@ function docItem(id) {
   function _formatNode(node) {
     if (node.target)
       node =
-        typeof node.target === 'number' ? getItem(node.target) : node.target
+        typeof node.target === 'number' ? getNode(node.target) : node.target
 
     if (['Call signature', 'Constructor signature'].includes(node.kindString)) {
       const isClass = node.kindString === 'Constructor signature'
@@ -166,9 +171,9 @@ function docItem(id) {
       .join('\n\n')}`
   }
 
-  const srcs = findSources([...nodes, info])
+  const srcs = findSources(info)
   const src = srcs
-    ? `<sup><sup>_[source](${repo}/blob/main/src/${srcs[0].fileName}#L${srcs[0].line})_</sup></sup>`
+    ? `<sup><sup>_[source](${repo}/blob/main/${srcs[0].fileName}#L${srcs[0].line})_</sup></sup>`
     : (console.warn(`couldn't find source for ${name} ${id}`), '')
 
   return `#### \`${name}\` 
@@ -179,7 +184,7 @@ ${formatNode(info)}
 
 ${src}
 
-${descr ?? ''}${examples(node)}`
+${descr ?? ''}${examples(docNode)}`
 }
 
 require('fs').writeFileSync(
@@ -187,25 +192,24 @@ require('fs').writeFileSync(
   readme
 )
 
-function getItem(id, node = docs, path = []) {
+function getNode(id, node = docs, path = []) {
   if (node?.id === id)
     return [
       node.name,
       ...(!node.target
         ? [node, path]
-        : getItem(node.target, docs, [...path, node]).slice(1)),
+        : getNode(node.target, docs, [...path, node]).slice(1)),
     ]
 
   if (!node.children?.length) return
   for (const child of node.children) {
-    let match = getItem(id, child, [...path, node])
+    let match = getNode(id, child, [...path, node])
     if (match) return match
   }
 }
 
-function findSources(nodes) {
-  if (!nodes.length) return
-  if (nodes[nodes.length - 1].sources?.length)
-    return nodes[nodes.length - 1].sources
-  return findSources(nodes.slice(0, -1))
+function findSources(node) {
+  if (node.sources) return node.sources
+  return getNode(node.type.types[0].declaration.signatures[0].type.id)[1]
+    .sources
 }

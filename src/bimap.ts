@@ -94,7 +94,7 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
     })
   }
 
-  public readonly data = new Map<L, R>()
+  private readonly data = new Map<L, R>()
   public readonly left: Side<L, R> = this.proxy(true)
   public readonly right: Side<R, L> = this.proxy(false)
 }
@@ -111,6 +111,74 @@ export default BiMapImpl as (new <
 ) => BiMap<L, R, AL, AR>) &
   typeof BiMapImpl
 
+/**
+ * Bidirectional map. Maps two sets of keys in a one-to-one relation.
+ *
+ * Both sides are accessible (at .left & .right, or at their respective alias if
+ * one was provided in the constructor) with an interface similar to that of the
+ * built-in Map and the same iteration behavior.
+ *
+ * @example
+ * ```
+ * const nums = BiMap.from({ one: 1, two: 2 })
+ *
+ * // different ways of iterating over the entries
+ * [...nums.left]                 // [['one',1], ['two',2]]
+ * [...nums.right]                // [[1,'one'], [2,'two']]
+ * [...nums.left.keys()]          // ['one', 'two']
+ * [...nums.left.values()]        // [1, 2]
+ * [...nums.right.keys()]         // [1, 2]
+ * [...nums.right.values()]       // ['one', 'two']
+ * [...nums]                      // [['one',1], ['two',2]]
+ * [...nums.right.entries()]      // [[1,'one'], [2,'two']]
+ * Object.fromEntries(nums.right) // { '1': 'one', '2': 'two' }
+ *
+ * // setting a value
+ * nums.left.three = 3
+ * // when accessing a property using bracket notation (i.e. nums.right[4]),
+ * // JavaScript coerces the key to a string, so keys that aren't strings or
+ * // symbols must be accessed using the same access methods known from Map.
+ * nums.right.set(4, 'four')
+ *
+ * // remapping values
+ * nums.left.tres = 3          // {one: 1, two: 2, tres: 3, four: 4}
+ * nums.right.set(4, 'cuatro') // {one: 1, two: 2, tres: 3, cuatro: 4}
+ *
+ * // deleting
+ * delete nums.left.tres    // {one: 1, two: 2, cuatro: 4}
+ * nums.right.delete(4)     // {one: 1, two: 2}
+ *
+ * // reversing the map
+ * const num2Name = nums.reverse()
+ * console.log([...num2Name.left])                 // [[1,'one'], [2,'two']]
+ * console.log(Object.fromEntries(num2Name.right)) // {one: 1, two: 2}
+ *
+ * // other methods known from built-in Map
+ * nums.size               // 2
+ * nums.[left|right].size  // 2
+ * nums.clear() // equivalent to nums.[left|right].clear()
+ * console.log(nums.size)  // 0
+ * ```
+ *
+ * @example
+ * ```
+ * // giving aliases to both sides
+ * const dictionary = new BiMap(
+ *   [
+ *     ['hello', 'hallo'],
+ *     ['bye', 'tschüss'],
+ *   ],
+ *   'en',
+ *   'de'
+ * )
+ *
+ * dictionary.de.get('hallo') // 'hello'
+ * dictionary.en.get('bye')   // 'tschüss'
+ *
+ * delete dictionary.de.hallo
+ * console.log(Object.fromEntries(dictionary.en)) // { bye: 'tschüss' }
+ * ```
+ */
 export type BiMap<
   L,
   R,

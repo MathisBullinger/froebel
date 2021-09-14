@@ -39,7 +39,7 @@ Think an opionated version of lodash, but with first-class types.
 - __`math`__
     - [clamp](#clamp)
 - __`data structures`__
-    - [Bimap](#Bimap)
+    - [BiMap](#BiMap)
 
 
 
@@ -51,7 +51,7 @@ Think an opionated version of lodash, but with first-class types.
 (value: T) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/ident.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/ident.ts#L2)_</sup></sup>
 
 > Identity function.
 
@@ -63,7 +63,7 @@ Think an opionated version of lodash, but with first-class types.
 (fun: T, ...argsLeft: PL) => (...argsRight: PR) => ReturnType<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/partial.ts#L17)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/partial.ts#L17)_</sup></sup>
 
 > Partially apply a function.
 
@@ -86,7 +86,7 @@ console.log(oneOver(4))
 (fun: T, ...argsRight: PR) => (...argsLeft: PL) => ReturnType<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/forward.ts#L28)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/forward.ts#L28)_</sup></sup>
 
 > Given a function and its nth..last arguments, return a function accepting
 > arguments 0..n-1.
@@ -119,7 +119,7 @@ const viaHTTPS = await fetchRepo('https')
 (funs: F[], ...args: P) => ReturnTypes<F>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/callAll.ts#L16)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/callAll.ts#L16)_</sup></sup>
 
 > Take a list of functions that accept the same parameters and call them all
 > with the provided arguments.
@@ -141,7 +141,7 @@ console.log( callAll([mult, div], 4, 2) )
 (...funs: λ<T>[]) => (...args: T) => Promise<void>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/bundle.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bundle.ts#L12)_</sup></sup>
 
 > Given a list of functions that accept the same parameters, returns a function
 > that takes these parameters and invokes all of the given functions.
@@ -159,7 +159,7 @@ console.log( callAll([mult, div], 4, 2) )
 (...funs: λ<T>[]) => (...args: T) => void
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/bundle.ts#L29)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bundle.ts#L29)_</sup></sup>
 
 > Same as [bundle](#bundle), but return synchronously.
 > 
@@ -175,7 +175,7 @@ console.log( callAll([mult, div], 4, 2) )
 (...funs: [FF, ...FR[]] | []) => (...args: Parameters<FF>) => ReturnType<FF> | ReturnType<FR[number]>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/nullishChain.ts#L26)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullishChain.ts#L26)_</sup></sup>
 
 > Given a list of functions that accept the same parameters, returns a function
 > that given these arguments returns the result of the first function whose
@@ -208,7 +208,7 @@ ageGroup(50) // prints: 'adult'
 (...funs: [] | [FF, ...FR[]]) => (...args: Parameters<FF>) => Promise<PromType<ReturnType<FF>> | PromType<ReturnType<FR[number]>>>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/nullishChain.ts#L46)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullishChain.ts#L46)_</sup></sup>
 
 > Same as [nullishChain](#nullishChain) but accept asynchronous functions too.
 
@@ -230,7 +230,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, ms: number, opts?: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/throttle.ts#L15)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/throttle.ts#L15)_</sup></sup>
 
 > Created a throttled function that invokes `fun` at most every `ms` milliseconds.
 > 
@@ -248,7 +248,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, ms: number) => λ<Parameters<T>, void> & {[cancel]: () => void}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/debounce.ts#L14)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/debounce.ts#L14)_</sup></sup>
 
 > Creates a debounced function that delays invoking `fun` until `ms` milliseconds
 > have passed since the last invocation of the debounced function.
@@ -267,7 +267,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, cacheKey: (...args: Parameters<T>) => K) => T & {cache: Map<K, ReturnType<T>>}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/memoize.ts#L13)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/memoize.ts#L13)_</sup></sup>
 
 > Returns a copy of `fun` that remembers its result for any given arguments and
 > only invokes `fun` for unknown arguments.
@@ -282,7 +282,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (value: unknown) => value is Promise<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/isPromise.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L2)_</sup></sup>
 
 > Checks if its first argument look like a promise.
 ## String
@@ -293,7 +293,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (str: T) => Capitalize
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/case.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L2)_</sup></sup>
 
 > Upper-case first letter of string.
 
@@ -305,7 +305,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (str: T) => Uppercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/case.ts#L6)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L6)_</sup></sup>
 
 > Strictly typed `String.toUpperCase()`.
 
@@ -317,7 +317,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (str: T) => Lowercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/case.ts#L10)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L10)_</sup></sup>
 
 > Strictly typed `String.toLowerCase()`.
 
@@ -329,7 +329,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (prefix: T0, str: T1, caseMod?: C) => `${string}`
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/prefix.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/prefix.ts#L12)_</sup></sup>
 
 > Returns `str` prefixed with `prefix`. Optionally, allows prefxing in camel
 > case, i.e. `prefix('foo', 'bar', 'camel') => 'fooBar'`, or snake case, i.e.
@@ -347,7 +347,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (str: T1, suffix: T0, caseMod?: C) => `${string}`
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/suffix.ts#L8)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/suffix.ts#L8)_</sup></sup>
 
 > Returns `str` suffixed with `suffix`. Same case and type behavior as
 > [prefix](#prefix).
@@ -359,7 +359,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (value: T, ...cmps: TT) => value is TT[number]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/oneOf.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/oneOf.ts#L2)_</sup></sup>
 
 > Checks if `v` is one of `cmps`.
 
@@ -371,7 +371,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (a: unknown, b: unknown) => boolean
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/equal.ts#L9)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/equal.ts#L9)_</sup></sup>
 
 > Checks if `a` and `b` are structurally equal using the following algorithm:
 > 
@@ -389,7 +389,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (value: T) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/clone.ts#L15)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/clone.ts#L15)_</sup></sup>
 
 > Returns a copied version of `value`.
 > 
@@ -410,7 +410,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (arr: T[], i: number) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/atWrap.ts#L3)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/atWrap.ts#L3)_</sup></sup>
 
 > Access list at `i % length`. Negative indexes start indexing the last
 > element as `[-1]` and wrap around to the back.
@@ -423,7 +423,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (...lists: T) => Zip<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/zip.ts#L16)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L16)_</sup></sup>
 
 > Takes multiple lists and returns a list of tuples containing the value in
 > each list at the current index. If the lists are of different lengths, the
@@ -443,7 +443,7 @@ console.log(pairs) // prints: [[1,'a'], [2,'b'], [3,'c']]
 (zipper: (...args: {[I in string | number | symbol]: U}) => U, ...lists: T) => U[]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/zip.ts#L35)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/zip.ts#L35)_</sup></sup>
 
 > Same as [zip](#zip) but also takes a `zipper` function, that is called for
 > each index with the element at current index in each list as arguments. The
@@ -464,7 +464,7 @@ console.log(sums) // prints: [5,7,9]
 (...zipped: T[][]) => Unzip<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/unzip.ts#L15)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L15)_</sup></sup>
 
 > Reverse of [zip](#zip). Takes a list of tuples and deconstructs them into
 > an array (of length of the tuples length) of lists each containing all the
@@ -485,7 +485,7 @@ console.log(chars) // prints: ['a','b','c']
 (zipped: T[][], ...unzippers: U) => {[I in string | number | symbol]: ReturnType<U[I]>}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/unzip.ts#L39)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/unzip.ts#L39)_</sup></sup>
 
 > Same as [unzip](#unzip) but accepts an `unzipper` function for each tuple
 > index. The `unzipper`'s return value is used as the value in the list at
@@ -515,16 +515,82 @@ console.log(str)  // prints: 'abc'
 (min: number, num: number, max: number) => number
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/clamp.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/clamp.ts#L2)_</sup></sup>
 
 > Clamp `num` between `min` and `max` inclusively.
 ## Data Structures
 
-#### `Bimap` 
+#### `BiMap` 
   
 ```hs
 class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/src/bimap.ts#L1)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bimap.ts#L182)_</sup></sup>
 
+> Bidirectional map. Maps two sets of keys in a one-to-one relation.
+> 
+> Both sides are accessible (at .left & .right, or at their respective alias if
+> one was provided in the constructor) with an interface similar to that of the
+> built-in Map and the same iteration behavior.
+> 
+
+#### Examples
+```ts
+const nums = BiMap.from({ one: 1, two: 2 })
+
+// different ways of iterating over the entries
+[...nums.left]                 // [['one',1], ['two',2]]
+[...nums.right]                // [[1,'one'], [2,'two']]
+[...nums.left.keys()]          // ['one', 'two']
+[...nums.left.values()]        // [1, 2]
+[...nums.right.keys()]         // [1, 2]
+[...nums.right.values()]       // ['one', 'two']
+[...nums]                      // [['one',1], ['two',2]]
+[...nums.right.entries()]      // [[1,'one'], [2,'two']]
+Object.fromEntries(nums.right) // { '1': 'one', '2': 'two' }
+
+// setting a value
+nums.left.three = 3
+// when accessing a property using bracket notation (i.e. nums.right[4]),
+// JavaScript coerces the key to a string, so keys that aren't strings or
+// symbols must be accessed using the same access methods known from Map.
+nums.right.set(4, 'four')
+
+// remapping values
+nums.left.tres = 3          // {one: 1, two: 2, tres: 3, four: 4}
+nums.right.set(4, 'cuatro') // {one: 1, two: 2, tres: 3, cuatro: 4}
+
+// deleting
+delete nums.left.tres    // {one: 1, two: 2, cuatro: 4}
+nums.right.delete(4)     // {one: 1, two: 2}
+
+// reversing the map
+const num2Name = nums.reverse()
+console.log([...num2Name.left])                 // [[1,'one'], [2,'two']]
+console.log(Object.fromEntries(num2Name.right)) // {one: 1, two: 2}
+
+// other methods known from built-in Map
+nums.size               // 2
+nums.[left|right].size  // 2
+nums.clear() // equivalent to nums.[left|right].clear()
+console.log(nums.size)  // 0
+```
+
+```ts
+// giving aliases to both sides
+const dictionary = new BiMap(
+  [
+    ['hello', 'hallo'],
+    ['bye', 'tschüss'],
+  ],
+  'en',
+  'de'
+)
+
+dictionary.de.get('hallo') // 'hello'
+dictionary.en.get('bye')   // 'tschüss'
+
+delete dictionary.de.hallo
+console.log(Object.fromEntries(dictionary.en)) // { bye: 'tschüss' }
+```

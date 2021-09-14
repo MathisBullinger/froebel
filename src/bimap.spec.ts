@@ -2,10 +2,10 @@ import Bimap, { BiMap } from './bimap'
 import { UniqueViolationError } from './error'
 
 const testEntries = (map: BiMap<any, any>, ...entries: any[]) => {
-  expect([...map['data'].entries()]).toEqual(entries)
+  expect([...(map as any)['data'].entries()]).toEqual(entries)
 }
 
-test('constructor bimap', () => {
+test('construct bimap', () => {
   const entries = [
     ['a', 1],
     ['b', 2],
