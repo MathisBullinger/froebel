@@ -123,6 +123,15 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
             this.data.set(v, k)
             return v
           },
+      getOrSet: ltr
+        ? (k: L, v: R) =>
+            this.data.has(k) ? this.data.get(k) : (this.data.set(k, v), v)
+        : (k: R, v: L) => {
+            for (const entry of this.data.entries())
+              if (entry[1] === k) return entry[0]
+            this.data.set(v, k)
+            return v
+          },
       delete: ltr
         ? (k: L) => this.data.delete(k)
         : (k: R) => {
@@ -146,8 +155,8 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
   }
 
   private readonly data = new Map<L, R>()
-  public readonly left: Side<L, R> = this.proxy(true)
-  public readonly right: Side<R, L> = this.proxy(false)
+  public readonly left: MapLike<L, R> = this.proxy(true)
+  public readonly right: MapLike<R, L> = this.proxy(false)
 }
 
 export default BiMapImpl as (new <
@@ -247,17 +256,18 @@ export type BiMap<
   B extends string = never
 > = Omit<BiMapImpl<L, R, A, B>, 'reverse'> & {
   reverse(): BiMap<R, L, B, A>
-} & { [K in A]: Side<L, R> } &
-  { [K in B]: Side<R, L> }
+} & { [K in A]: MapLike<L, R> } &
+  { [K in B]: MapLike<R, L> }
 
-type Side<K, V> = {
+type MapLike<K, V> = {
   keys(): IterableIterator<K>
   values(): IterableIterator<V>
   has(key: K): boolean
   get(key: K): V | undefined
   set<T extends V>(key: K, value: T): T
+  getOrSet(key: K, value: V): V
   delete(key: K): boolean
-  clear(): Side<K, V>
+  clear(): MapLike<K, V>
   size: number
 } & { [SK in Extract<K, string | symbol>]: V } &
   IterableIterator<[K, V]>

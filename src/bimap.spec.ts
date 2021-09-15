@@ -222,8 +222,29 @@ test('size', () => {
 })
 
 test('nullish assign', () => {
-  const map = new Bimap<string, string>()
-  expect((map.left.val ??= 'foo')).toBe('foo')
-  expect((map.left.val ??= 'bar')).toBe('foo')
-  expect([...map]).toEqual([['val', 'foo']])
+  {
+    const map = new Bimap<string, string>()
+    expect((map.left.val ??= 'foo')).toBe('foo')
+    expect((map.left.val ??= 'bar')).toBe('foo')
+    expect([...map]).toEqual([['val', 'foo']])
+  }
+  {
+    const map = Bimap.alias('a', 'b')<string, string>()
+    expect((map.b.val ??= 'foo')).toBe('foo')
+    expect((map.b.val ??= 'bar')).toBe('foo')
+    expect(Object.fromEntries(map)).toEqual({ foo: 'val' })
+  }
+})
+
+test('getOrSet', () => {
+  const a = () => {}
+  const b = () => {}
+  const map = new Bimap([[a, a]])
+
+  expect(map.left.getOrSet(a, b)).toBe(a)
+  expect(map.left.getOrSet(b, b)).toBe(b)
+  expect(map.left.set(a, b)).toBe(b)
+
+  expect(map.right.getOrSet(b, b)).toBe(a)
+  expect(map.right.getOrSet(() => {}, b)).toBe(b)
 })
