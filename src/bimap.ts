@@ -16,10 +16,13 @@ type AliasConstr<AL extends string, AR extends string> = {
 }
 
 class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
+  private aliasLeft?: string
+  private aliasRight?: string
+
   constructor(
     data?: Map<L, R> | readonly (readonly [L, R])[],
-    private aliasLeft?: AL,
-    private aliasRight?: AR
+    aliasLeft?: AL,
+    aliasRight?: AR
   ) {
     const entries = data instanceof Map ? data.entries() : data ?? []
     const checkKeys = Array.isArray(data)
@@ -70,10 +73,18 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
     }
 
   private defineAlias(left?: string, right?: string) {
-    if (left !== undefined)
+    if (left !== undefined) {
+      this.aliasLeft = left
       Object.defineProperty(this, left, { get: () => this.left })
-    if (right !== undefined)
+    }
+    if (right !== undefined) {
+      this.aliasRight = right
       Object.defineProperty(this, right, { get: () => this.right })
+    }
+  }
+
+  public clone(): BiMapImpl<L, R, AL, AR> {
+    return new BiMapImpl([...this.left], this.aliasLeft, this.aliasRight)
   }
 
   public reverse(): BiMapImpl<R, L, AR, AL> {
@@ -254,7 +265,8 @@ export type BiMap<
   R,
   A extends string = never,
   B extends string = never
-> = Omit<BiMapImpl<L, R, A, B>, 'reverse'> & {
+> = Omit<BiMapImpl<L, R, A, B>, 'clone' | 'reverse'> & {
+  clone(): BiMap<L, R, A, B>
   reverse(): BiMap<R, L, B, A>
 } & { [K in A]: MapLike<L, R> } &
   { [K in B]: MapLike<R, L> }
