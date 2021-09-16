@@ -1,4 +1,11 @@
-import type { TakeFirst, TakeLast, SplitAt, NarrowList } from './types'
+import type {
+  TakeFirst,
+  TakeLast,
+  SplitAt,
+  NarrowList,
+  Camel,
+  Snake,
+} from './types'
 
 test('static type tests', () => {
   type Expected<T, U extends T> = 0
@@ -41,5 +48,20 @@ test('static type tests', () => {
       ['A' | 'B', 1 | 2 | 3, 5],
       NarrowList<Strict, [string, number, 5]>
     >
+  }
+
+  {
+    const str1: Camel<'foo_bar'> = 'fooBar'
+    const str2: Camel<'__foo_bar__baz__'> = '__fooBar_Baz__'
+    const str3: Camel<'FooBar'> = 'fooBar'
+  }
+
+  {
+    const str1: Snake<'fooBar'> = 'foo_bar'
+    const str2: Snake<'FooBar'> = 'foo_bar'
+    const str3: Snake<'fooBarABC0D'> = 'foo_bar_ABC0D'
+    const str4: Snake<'fooBarABC0DfooBar'> = 'foo_bar_ABC0D_foo_bar'
+    const str5: Snake<'foo_bar'> = 'foo_bar'
+    const str6: Snake<'foo_Bar'> = 'foo_bar'
   }
 })

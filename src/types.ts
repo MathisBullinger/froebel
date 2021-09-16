@@ -40,6 +40,19 @@ export type SplitAt<
   ? SplitAt<F_, I, [L, ...End]>
   : never
 
+export type Slice<
+  T extends any[],
+  N extends number,
+  D extends 'front' | 'back' = 'front',
+  S extends any[] = []
+> = Length<S> extends N
+  ? T
+  : T extends (
+      D extends 'front' ? [infer F, ...infer R] : [...infer R, infer F]
+    )
+  ? Slice<R, N, D, [...S, F]>
+  : T
+
 type Widen<T> = T extends string ? string : T extends number ? number : T
 
 /** If `T` is promise then the type it resolves to, otherwise `T`. */
@@ -60,3 +73,34 @@ export type Suffix<
   SUF extends string,
   CASE extends StringCase | void = void
 > = Prefix<SUF, STR, CASE>
+
+export type Camel<T extends string> = T extends `_${infer R}`
+  ? `_${Camel<R>}`
+  : _Camel<Uncapitalize<T>>
+
+type _Camel<T extends string> = T extends `${infer A}${infer B}${infer C}`
+  ? A extends '_'
+    ? B extends '_'
+      ? `${A}${_Camel<`${B}${C}`>}`
+      : `${Uppercase<B>}${_Camel<C>}`
+    : `${A}${_Camel<`${B}${C}`>}`
+  : T
+
+export type Snake<T extends string> =
+  T extends `${infer A}${infer B}${infer C}${infer R}`
+    ? Lowercase<A> extends A
+      ? A extends '_'
+        ? `_${Lowercase<B>}${Snake<`${C}${R}`>}`
+        : Lowercase<B> extends B
+        ? `${A}${Snake<`${B}${C}${R}`>}`
+        : Lowercase<C> extends C
+        ? `${A}_${Lowercase<B>}${C}${Snake<R>}`
+        : `${A}_${InvertedSnake<`${B}${C}${R}`>}`
+      : `${Lowercase<A>}${Snake<`${B}${C}${R}`>}`
+    : T
+
+type InvertedSnake<T extends string> = T extends `${infer A}${infer B}`
+  ? Uppercase<A> extends A
+    ? `${A}${InvertedSnake<B>}`
+    : `_${Snake<`${A}${B}`>}`
+  : T
