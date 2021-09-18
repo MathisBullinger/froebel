@@ -19,6 +19,7 @@ let cats = exps.reduce(
   (a, [id, file]) => ({ ...a, [file]: [...(a[file] ?? []), id] }),
   {}
 )
+
 const alias = { ds: 'Data Structures' }
 cats = Object.entries(cats)
   .sort(([, a], [, b]) => Math.min(...a) - Math.min(...b))
@@ -55,6 +56,12 @@ function docItem(id) {
 
   let descr = docNode?.comment?.shortText ?? ''
   if (descr && docNode?.comment?.text) descr += `\n\n${docNode.comment.text}`
+  const see = docNode?.comment?.tags?.filter(({ tag }) => tag === 'see') ?? []
+  if (see.length)
+    descr += `\n\n<sub>see ${new Intl.ListFormat('en').format(
+      see.map(({ text }) => `${text.replace(/\n*$/, '')}`)
+    )}</sub>`
+
   if (descr)
     descr = descr
       .replace(/(?<=^|\n)(.?)/g, '> $1')

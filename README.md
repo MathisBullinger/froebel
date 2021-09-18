@@ -30,6 +30,14 @@ Think an opionated version of lodash, but with first-class types.
     - [clone](#clone)
 - __`promise`__
     - [isPromise](#isPromise)
+    - [isNotPromise](#isNotPromise)
+- __`predicate`__
+    - [truthy](#truthy)
+    - [falsy](#falsy)
+    - [nullish](#nullish)
+    - [notNullish](#notNullish)
+    - [isFulfilled](#isFulfilled)
+    - [isRejected](#isRejected)
 - __`string`__
     - [prefix](#prefix)
     - [suffix](#suffix)
@@ -443,7 +451,97 @@ console.log(str)  // prints: 'abc'
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L2)_</sup></sup>
 
-> Checks if its first argument look like a promise.
+> Checks if `value` looks like a promise.
+
+---
+
+#### `isNotPromise` 
+  
+```hs
+(value: T) => value is Exclude<T, Promise<any>>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/isPromise.ts#L19)_</sup></sup>
+
+> Checks if `value` is not a promise.
+
+#### Example
+```ts
+(value: number | Promise<unknown>) => {
+  if (isNotPromise(value)) return value / 2
+}
+```
+## Predicate
+
+#### `truthy` 
+  
+```hs
+(value: T) => value is PickTruthy<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/truthy.ts#L2)_</sup></sup>
+
+> Checks if `value` is truthy. Literal types are narrowed accordingly.
+
+---
+
+#### `falsy` 
+  
+```hs
+(value: T) => value is PickFalsy<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/truthy.ts#L5)_</sup></sup>
+
+> Checks if `value` is falsy. Literal types are narrowed accordingly.
+
+---
+
+#### `nullish` 
+  
+```hs
+(value: null | T) => value is null
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L2)_</sup></sup>
+
+> Checks if `value` is nullish. Literal types are narrowed accordingly.
+
+---
+
+#### `notNullish` 
+  
+```hs
+(value: null | T) => value is T
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L7)_</sup></sup>
+
+> Checks if `value` is not nullish. Literal types are narrowed accordingly.
+
+---
+
+#### `isFulfilled` 
+  
+```hs
+(result: PromiseSettledResult<T>) => result is PromiseFulfilledResult<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/settled.ts#L2)_</sup></sup>
+
+> Checks if `result` (returned from `Promise.allSettled`) is fulfilled.
+
+---
+
+#### `isRejected` 
+  
+```hs
+(result: PromiseSettledResult<unknown>) => result is PromiseRejectedResult
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/settled.ts#L7)_</sup></sup>
+
+> Checks if `result` (returned from `Promise.allSettled`) is rejected.
 ## String
 
 #### `prefix` 
@@ -568,6 +666,8 @@ camel('foo_bar') // 'fooBar'
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L62)_</sup></sup>
 
 > Transform a variable name to `targetCase`
+> 
+> <sub>see [snake](#snake) and [camel](#camel)</sub>
 ## Math
 
 #### `clamp` 
