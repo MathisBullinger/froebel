@@ -500,7 +500,7 @@ console.log(str)  // prints: 'abc'
 #### `nullish` 
   
 ```hs
-(value: null | T) => value is null
+(value: T) => value is PickNullish<T> extends never ? Extract<T, null> : PickNullish<T>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L2)_</sup></sup>
@@ -515,9 +515,14 @@ console.log(str)  // prints: 'abc'
 (value: null | T) => value is T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L7)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L20)_</sup></sup>
 
 > Checks if `value` is not nullish. Literal types are narrowed accordingly.
+
+#### Example
+```ts
+const nums = (...values: (number | undefined)[]): number[] => values.filter(notNullish)
+```
 
 ---
 
