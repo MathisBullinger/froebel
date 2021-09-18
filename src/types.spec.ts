@@ -3,8 +3,8 @@ import type {
   TakeLast,
   SplitAt,
   NarrowList,
-  Camel,
-  Snake,
+  CamelCase,
+  SnakeCase,
 } from './types'
 
 test('static type tests', () => {
@@ -51,17 +51,19 @@ test('static type tests', () => {
   }
 
   {
-    const str1: Camel<'foo_bar'> = 'fooBar'
-    const str2: Camel<'__foo_bar__baz__'> = '__fooBar_Baz__'
-    const str3: Camel<'FooBar'> = 'fooBar'
+    const str1: CamelCase<'foo_bar'> = 'fooBar'
+    const str2: CamelCase<'__foo_bar__baz__'> = '__fooBar_Baz__'
+    const str3: CamelCase<'FooBar'> = 'fooBar'
   }
 
   {
-    const str1: Snake<'fooBar'> = 'foo_bar'
-    const str2: Snake<'FooBar'> = 'foo_bar'
-    const str3: Snake<'fooBarABC0D'> = 'foo_bar_ABC0D'
-    const str4: Snake<'fooBarABC0DfooBar'> = 'foo_bar_ABC0D_foo_bar'
-    const str5: Snake<'foo_bar'> = 'foo_bar'
-    const str6: Snake<'foo_Bar'> = 'foo_bar'
+    const str1: SnakeCase<'fooBar'> = 'foo_bar'
+    const str2: SnakeCase<'FooBar'> = 'foo_bar'
+    const str3: SnakeCase<'fooBarABC0D'> = 'foo_bar_ABC0D'
+    const str4: SnakeCase<'fooBarABC0DfooBar'> = 'foo_bar_ABC0D_foo_bar'
+    const str5: SnakeCase<'foo_bar'> = 'foo_bar'
+    const str6: SnakeCase<'foo_Bar'> = 'foo_bar'
+    // @ts-expect-error
+    const str7: SnakeCase<'fooBar'> = ''
   }
 })

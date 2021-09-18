@@ -13,7 +13,7 @@ const paramReplace = { __namedParameters: 'funs' }
 const exps = docs.children
   .find(({ name }) => name === 'index')
   .children.filter(v => v.kindString === 'Reference')
-  .map(v => [v.id, v.sources[0].fileName])
+  .map(v => [v.id, v.sources?.[0].fileName ?? 'src/string.ts'])
 
 let cats = exps.reduce(
   (a, [id, file]) => ({ ...a, [file]: [...(a[file] ?? []), id] }),
@@ -44,12 +44,17 @@ function docItem(id) {
   const [name, info] = getNode(id)
   const node = info.signatures?.[0] ?? info
 
-  const docNode = node.comment
-    ? node
-    : getNode(node.type.types[0].declaration.signatures[0].type.id)[1]
+  let docNode
+  try {
+    docNode = node.comment
+      ? node
+      : getNode(node.type.types[0].declaration.signatures[0].type.id)[1]
+  } catch (e) {
+    console.log('no doc node for', name)
+  }
 
-  let descr = docNode.comment?.shortText ?? ''
-  if (descr && docNode.comment?.text) descr += `\n\n${docNode.comment.text}`
+  let descr = docNode?.comment?.shortText ?? ''
+  if (descr && docNode?.comment?.text) descr += `\n\n${docNode.comment.text}`
   if (descr)
     descr = descr
       .replace(/(?<=^|\n)(.?)/g, '> $1')
@@ -161,7 +166,7 @@ function docItem(id) {
   }
 
   function examples(sig) {
-    const examples = sig.comment?.tags?.filter(({ tag }) => tag === 'example')
+    const examples = sig?.comment?.tags?.filter(({ tag }) => tag === 'example')
     if (!examples?.length) return ''
     return `\n\n#### Example${examples.length > 1 ? 's' : ''}\n${examples
       .map(

@@ -31,11 +31,14 @@ Think an opionated version of lodash, but with first-class types.
 - __`promise`__
     - [isPromise](#isPromise)
 - __`string`__
+    - [prefix](#prefix)
+    - [suffix](#suffix)
     - [capitalize](#capitalize)
     - [upper](#upper)
     - [lower](#lower)
-    - [prefix](#prefix)
-    - [suffix](#suffix)
+    - [snake](#snake)
+    - [camel](#camel)
+    - [toCase](#toCase)
 - __`math`__
     - [clamp](#clamp)
 - __`data structures`__
@@ -443,42 +446,6 @@ console.log(str)  // prints: 'abc'
 > Checks if its first argument look like a promise.
 ## String
 
-#### `capitalize` 
-  
-```hs
-(str: T) => Capitalize
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L2)_</sup></sup>
-
-> Upper-case first letter of string.
-
----
-
-#### `upper` 
-  
-```hs
-(str: T) => Uppercase
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L6)_</sup></sup>
-
-> Strictly typed `String.toUpperCase()`.
-
----
-
-#### `lower` 
-  
-```hs
-(str: T) => Lowercase
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L10)_</sup></sup>
-
-> Strictly typed `String.toLowerCase()`.
-
----
-
 #### `prefix` 
   
 ```hs
@@ -507,6 +474,100 @@ console.log(str)  // prints: 'abc'
 
 > Returns `str` suffixed with `suffix`. Same case and type behavior as
 > [prefix](#prefix).
+
+---
+
+#### `capitalize` 
+  
+```hs
+(str: T) => Capitalize
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L4)_</sup></sup>
+
+> Upper-case first letter of string.
+
+---
+
+#### `upper` 
+  
+```hs
+(str: T) => Uppercase
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L8)_</sup></sup>
+
+> Strictly typed `String.toUpperCase()`.
+
+---
+
+#### `lower` 
+  
+```hs
+(str: T) => Lowercase
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L12)_</sup></sup>
+
+> Strictly typed `String.toLowerCase()`.
+
+---
+
+#### `snake` 
+  
+```hs
+(str: T) => SnakeCase<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L28)_</sup></sup>
+
+> Transforms a variable name to snake case.
+> 
+> Note: The rules for transforming anything to snake case are somewhat vague.
+> So use this only for very simple names where the resulting value is
+> absolutely unambiguous. For more examples of how names are transformed, have
+> a look at the test cases.
+> 
+
+#### Example
+```ts
+snake('fooBar') // 'foo_bar'
+```
+
+---
+
+#### `camel` 
+  
+```hs
+(str: T) => CamelCase<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L51)_</sup></sup>
+
+> Transforms a variable name to camel case.
+> 
+> Note: The rules for transforming anything to camel case are somewhat vague.
+> So use this only for very simple names where the resulting value is
+> absolutely unambiguous. For more examples of how names are transformed, have
+> a look at the test cases.
+> 
+
+#### Example
+```ts
+camel('foo_bar') // 'fooBar'
+```
+
+---
+
+#### `toCase` 
+  
+```hs
+(str: T, targetCase: C) => SnakeCase<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L62)_</sup></sup>
+
+> Transform a variable name to `targetCase`
 ## Math
 
 #### `clamp` 
@@ -526,7 +587,7 @@ console.log(str)  // prints: 'abc'
 class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bimap.ts#L252)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/bimap.ts#L263)_</sup></sup>
 
 > Bidirectional map. Maps two sets of keys in a one-to-one relation.
 > 
