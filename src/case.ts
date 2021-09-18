@@ -59,7 +59,7 @@ export const camel = <T extends string>(str: T): CamelCase<T> =>
  * @see {@link snake}
  * @see {@link camel}
  */
-export const toCase = <T extends string, C extends StringCase>(
+export const transformCase = <T extends string, C extends StringCase>(
   str: T,
   targetCase: C
 ): C extends 'snake' ? SnakeCase<T> : never => {

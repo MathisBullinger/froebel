@@ -24,6 +24,9 @@ Think an opionated version of lodash, but with first-class types.
     - [zipWith](#zipWith)
     - [unzip](#unzip)
     - [unzipWith](#unzipWith)
+- __`object`__
+    - [pick](#pick)
+    - [omit](#omit)
 - __`equality`__
     - [oneOf](#oneOf)
     - [equal](#equal)
@@ -46,7 +49,7 @@ Think an opionated version of lodash, but with first-class types.
     - [lower](#lower)
     - [snake](#snake)
     - [camel](#camel)
-    - [toCase](#toCase)
+    - [transformCase](#transformCase)
 - __`math`__
     - [clamp](#clamp)
 - __`data structures`__
@@ -390,6 +393,39 @@ const [nums, str] = unzip(
 console.log(nums) // prints: [1, 2, 3]
 console.log(str)  // prints: 'abc'
 ```
+## Object
+
+#### `pick` 
+  
+```hs
+(obj: T, ...keys: K[]) => Pick<T, K>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/pick.ts#L9)_</sup></sup>
+
+> From `obj`, create a new object that only includes `keys`.
+
+#### Example
+```ts
+pick({ a: 1, b: 2, c: 3 }, 'a', 'c') // { a: 1, c: 3 }
+```
+
+---
+
+#### `omit` 
+  
+```hs
+(obj: T, ...keys: K[]) => Omit<T, K>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/omit.ts#L9)_</sup></sup>
+
+> From `obj`, create a new object that does not include `keys`.
+
+#### Example
+```ts
+omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
+```
 ## Equality
 
 #### `oneOf` 
@@ -500,7 +536,7 @@ console.log(str)  // prints: 'abc'
 #### `nullish` 
   
 ```hs
-(value: T) => value is PickNullish<T> extends never ? Extract<T, null> : PickNullish<T>
+(value: T) => value is Nullish<T>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L2)_</sup></sup>
@@ -515,7 +551,7 @@ console.log(str)  // prints: 'abc'
 (value: null | T) => value is T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L20)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullish.ts#L21)_</sup></sup>
 
 > Checks if `value` is not nullish. Literal types are narrowed accordingly.
 
@@ -662,7 +698,7 @@ camel('foo_bar') // 'fooBar'
 
 ---
 
-#### `toCase` 
+#### `transformCase` 
   
 ```hs
 (str: T, targetCase: C) => SnakeCase<T>
