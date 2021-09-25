@@ -45,6 +45,7 @@ Think an opionated version of lodash, but with first-class types.
     - [prefix](#prefix)
     - [suffix](#suffix)
     - [capitalize](#capitalize)
+    - [uncapitalize](#uncapitalize)
     - [upper](#upper)
     - [lower](#lower)
     - [snake](#snake)
@@ -628,13 +629,25 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 
 ---
 
+#### `uncapitalize` 
+  
+```hs
+(str: T) => Uncapitalize
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L8)_</sup></sup>
+
+> Lower-case first letter of string
+
+---
+
 #### `upper` 
   
 ```hs
 (str: T) => Uppercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L8)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L12)_</sup></sup>
 
 > Strictly typed `String.toUpperCase()`.
 
@@ -646,7 +659,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T) => Lowercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L16)_</sup></sup>
 
 > Strictly typed `String.toLowerCase()`.
 
@@ -658,7 +671,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T) => SnakeCase<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L28)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L32)_</sup></sup>
 
 > Transforms a variable name to snake case.
 > 
@@ -681,7 +694,7 @@ snake('fooBar') // 'foo_bar'
 (str: T) => CamelCase<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L51)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L55)_</sup></sup>
 
 > Transforms a variable name to camel case.
 > 
@@ -704,7 +717,7 @@ camel('foo_bar') // 'fooBar'
 (str: T, targetCase: C) => SnakeCase<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L62)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/case.ts#L66)_</sup></sup>
 
 > Transform a variable name to `targetCase`
 > 

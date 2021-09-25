@@ -4,6 +4,10 @@ import type { StringCase, SnakeCase, CamelCase } from './types'
 export const capitalize = <T extends string>(str: T) =>
   (str[0].toUpperCase() + str.slice(1)) as Capitalize<T>
 
+/** Lower-case first letter of string */
+export const uncapitalize = <T extends string>(str: T) =>
+  (str[0].toLowerCase() + str.slice(1)) as Uncapitalize<T>
+
 /** Strictly typed `String.toUpperCase()`. */
 export const upper = <T extends string>(str: T) =>
   str.toUpperCase() as Uppercase<T>
@@ -64,5 +68,6 @@ export const transformCase = <T extends string, C extends StringCase>(
   targetCase: C
 ): C extends 'snake' ? SnakeCase<T> : never => {
   if (targetCase === 'snake') return snake(str) as any
+  if (targetCase === 'camel') return camel(str) as any
   throw Error(`can't convert to ${targetCase} case`)
 }

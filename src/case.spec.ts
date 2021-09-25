@@ -7,6 +7,13 @@ test('capitalize', () => {
   const wrong: 'FOO' = c.capitalize('foo')
 })
 
+test('uncapitalize', () => {
+  expect(c.uncapitalize('Foo')).toBe('foo')
+
+  // @ts-expect-error
+  const wrong: 'Foo' = c.uncapitalize('Foo')
+})
+
 test('uppercase', () => {
   expect(c.upper('foo')).toBe('FOO')
 
