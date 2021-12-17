@@ -55,6 +55,8 @@ Think an opionated version of lodash, but with first-class types.
     - [clamp](#clamp)
 - __`data structures`__
     - [BiMap](#BiMap)
+- __`path`__
+    - [select](#select)
 
 
 
@@ -819,3 +821,15 @@ BiMap.alias('en', 'de')(new Set(['hello']), new Set(['hallo']))
 // the same arguments can be used with BiMap.from, e.g.:
 BiMap.from(new Set<number>(), new Set<number>())
 ```
+## Path
+
+#### `select` 
+  
+```hs
+(obj: T, ...path: P) => PickPath<T, P>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/select.ts#L7)_</sup></sup>
+
+> Returns the value in `obj` at `path`. If the given path does not exist,
+> the symbol `none` is returned.

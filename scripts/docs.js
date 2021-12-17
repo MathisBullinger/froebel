@@ -10,10 +10,21 @@ Think an opionated version of lodash, but with first-class types.
 `
 const paramReplace = { __namedParameters: 'funs' }
 
-const exps = docs.children
+const indCont = require('fs').readFileSync(
+  require('path').resolve(__dirname, '../src/index.ts'),
+  'utf8'
+)
+
+const resImport = ({ fileName, line } = {}) => {
+  if (!fileName) return 'src/string.ts'
+  if (!fileName.endsWith('index.ts')) return fileName
+  return `src/${indCont.split('\n')[line - 1].match(/\w+(?=')/)[0]}.ts`
+}
+
+let exps = docs.children
   .find(({ name }) => name === 'index')
   .children.filter(v => v.kindString === 'Reference')
-  .map(v => [v.id, v.sources?.[0].fileName ?? 'src/string.ts'])
+  .map(v => [v.id, resImport(v.sources?.[0])])
 
 let cats = exps.reduce(
   (a, [id, file]) => ({ ...a, [file]: [...(a[file] ?? []), id] }),
@@ -25,7 +36,15 @@ cats = Object.entries(cats)
   .sort(([, a], [, b]) => Math.min(...a) - Math.min(...b))
   .map(([file, ids]) => {
     const [name] = file.match(/\w+?(?=\.ts$)/)
-    return [alias[name] ?? name[0].toUpperCase() + name.slice(1), ids.sort()]
+    return [
+      alias[name] ?? name[0].toUpperCase() + name.slice(1),
+      ids
+        .filter(v => {
+          const [, info] = getNode(v)
+          return info.kindString !== 'Variable' || info.type.type !== 'query'
+        })
+        .sort(),
+    ]
   })
 
 readme += '\n\n'
@@ -109,10 +128,11 @@ function docItem(id) {
 
     if (!node.type) {
       if (node.signatures?.length) return formatNode(node.signatures[0])
-      if (node.children)
+      if (node.children) {
         return `{${node.children
           .map(v => `${v.name}: ${formatNode(v.type ?? v.signatures[0])}`)
           .join(', ')}}`
+      }
       throw node
     }
 
