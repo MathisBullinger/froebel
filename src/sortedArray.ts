@@ -104,6 +104,30 @@ const wrap = <T>(v: T): T =>
     },
   })
 
+/**
+ * Sorted array. Behaves much like a regular array but its elements remain
+ * sorted using the `compare` function supplied in the constructor.
+ *
+ * Contains most of the methods defined on regular JavaScript arrays as long as
+ * they don't modify the array's content in place.
+ *
+ * New elements are added using the `add(...values)` method.
+ *
+ * Elements can still be accessed using bracket notation as in plain JavaScript
+ * arrays but can't be assigned using bracket notation (as that could change the
+ * element's sort position).
+ *
+ * Elements can be removed using the `delete(...indices)` method, which returns
+ * an array containing the deleted values.
+ * Deleting an element using `delete sorted[index]` will also work, but results
+ * in a TypeScript error because element access is marked readonly.
+ *
+ * Array methods that pass a reference of the array to a callback (e.g. `map`,
+ * `reduce`, `find`) will pass a reference to the SortedArray instance instead.
+ *
+ * The `filter` and `slice` methods will return SortedArray instances instead of
+ * plain arrays.
+ */
 export interface SortedArray<T> extends SortedArrayImpl<T> {
   readonly [K: number]: T
 }
