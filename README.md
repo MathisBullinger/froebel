@@ -24,6 +24,7 @@ Think an opionated version of lodash, but with first-class types.
     - [zipWith](#zipWith)
     - [unzip](#unzip)
     - [unzipWith](#unzipWith)
+    - [partition](#partition)
     - [range](#range)
     - [numberRange](#numberRange)
     - [alphaRange](#alphaRange)
@@ -400,6 +401,33 @@ const [nums, str] = unzip(
 
 console.log(nums) // prints: [1, 2, 3]
 console.log(str)  // prints: 'abc'
+```
+
+---
+
+#### `partition` 
+  
+```hs
+(list: T[], predicate: (el: T) => el is S) => [S[], Exclude<T, S>[]]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/partition.ts#L30)_</sup></sup>
+
+> Takes a `list` and returns a pair of lists containing: the elements that
+> match the `predicate` and those that don't, respectively.
+> 
+> Think of it as `filter`, but the elements that don't pass the filter aren't
+> discarded but returned in a separate list instead.
+> 
+
+#### Example
+```ts
+const [strings, numbers] = partition(
+  ['a', 'b', 1, 'c', 2, 3],
+  (el): el is string => typeof el === 'string'
+)
+// strings: ["a", "b", "c"]
+// numbers: [1, 2, 3]
 ```
 
 ---
