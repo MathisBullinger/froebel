@@ -1,4 +1,4 @@
-import type { λ } from './types'
+import type { λ, FilterKeys } from './types'
 
 class SortedArrayImpl<T> {
   #data: T[] = []
@@ -39,7 +39,7 @@ class SortedArrayImpl<T> {
     this.#data = []
   }
 
-  #ref<K extends Met<T>, I extends number>(
+  #ref<K extends FilterKeys<T[], λ>, I extends number>(
     method: K,
     i: I
   ): SetArg<T[][K], 0, SetArg<FA<T[][K]>, I, SortedArray<T>>> {
@@ -50,7 +50,7 @@ class SortedArrayImpl<T> {
       )) as any
   }
 
-  #bind = <K extends Met<T>>(method: K) =>
+  #bind = <K extends FilterKeys<T[], λ>>(method: K) =>
     ((...args: any[]) => (this.#data as any)[method](...args)) as T[][K]
 
   #wrap =
@@ -75,16 +75,16 @@ class SortedArrayImpl<T> {
   slice = this.#wrap(this.#bind('slice'))
   some = this.#ref('some', 2)
 
-  public [Symbol.iterator]() {
-    return this.#data[Symbol.iterator]()
-  }
-
   at =
     (this.#data as any).at?.bind(this.#data) ??
     ((i: number) => this.#data[i >= 0 ? i : this.#data.length + i])
 
   get length() {
     return this.#data.length
+  }
+
+  public [Symbol.iterator]() {
+    return this.#data[Symbol.iterator]()
   }
 }
 
@@ -114,8 +114,8 @@ const wrap = <T>(v: T): T =>
  * New elements are added using the `add(...values)` method.
  *
  * Elements can still be accessed using bracket notation as in plain JavaScript
- * arrays but can't be assigned using bracket notation (as that could change the
- * element's sort position).
+ * arrays but can't be assigned to using bracket notation (as that could change
+ * the element's sort position).
  *
  * Elements can be removed using the `delete(...indices)` method, which returns
  * an array containing the deleted values.
@@ -138,8 +138,6 @@ export default SortedArrayImpl as unknown as (new <T>(
 ) => SortedArray<T>) & { from: typeof SortedArrayImpl.from }
 
 type Cmp<T> = (a: T, b: T) => number
-
-type Met<T> = keyof { [K in keyof T[] as T[][K] extends λ ? K : never]: 0 }
 
 type SetI<T extends any[], I extends number, V> = Tup<{
   [K in keyof T]: K extends `${I}` ? V : T[K]

@@ -94,17 +94,19 @@ function docItem(id) {
       .replace(/λ<([^>]+),\s*any>/g, 'λ<$1>')
       .replace(/\[\.{3}([A-Z])\[\]\]/g, '$1[]')
 
-  const formatNode = (node, srcs) => postProcess(_formatNode(node, srcs))
+  const formatNode = (node, name) => postProcess(_formatNode(node, name))
 
-  function _formatNode(node) {
+  function _formatNode(node, name) {
     if (node.target)
       node =
         typeof node.target === 'number' ? getNode(node.target) : node.target
 
+    if (node.name === 'default') node.name = name
+
     if (['Call signature', 'Constructor signature'].includes(node.kindString)) {
       const isClass = node.kindString === 'Constructor signature'
       if (isClass) delete node.type.typeArguments
-      let ret = formatNode(node.type)
+      let ret = formatNode(node.type, name)
       if (ret === 'undefined') ret = 'void'
       const argStr = `(${
         node.parameters
@@ -112,7 +114,7 @@ function docItem(id) {
             v =>
               `${v.flags?.isRest ? '...' : ''}${
                 paramReplace[v.name] ?? v.name
-              }${v.flags.isOptional ? '?' : ''}: ${formatNode(v)}`
+              }${v.flags.isOptional ? '?' : ''}: ${formatNode(v, name)}`
           )
           .join(', ') ?? ''
       })`
@@ -127,61 +129,80 @@ function docItem(id) {
     }
 
     if (!node.type) {
-      if (node.signatures?.length) return formatNode(node.signatures[0])
+      // console.log('no type', node.id)
+      if (node.signatures?.length) return formatNode(node.signatures[0], name)
       if (node.children) {
+        if (node.children[0].name === 'constructor')
+          return formatNode(node.children[0], name)
         return `{${node.children
-          .map(v => `${v.name}: ${formatNode(v.type ?? v.signatures[0])}`)
+          .map(
+            v => `${v.name}: ${formatNode(v.type ?? v.signatures?.[0])}`,
+            name
+          )
           .join(', ')}}`
       }
       throw node
     }
 
-    if (typeof node.type === 'object') return formatNode(node.type)
+    if (typeof node.type === 'object') return formatNode(node.type, name)
     if (node.type === 'reference') {
       const name = node.name
+      if (name === 'default') console.log('default', node)
       if (!node.typeArguments?.length) return name
-      return `${name}<${node.typeArguments.map(formatNode).join(', ')}>`
+      return `${name}<${node.typeArguments
+        .map(v => formatNode(v, name))
+        .join(', ')}>`
     }
     if (node.type === 'intrinsic') return node.name
     if (node.type === 'literal') return JSON.stringify(node.value)
     if (node.type === 'predicate')
-      return `${node.name} is ${formatNode(node.targetType)}`
+      return `${node.name} is ${formatNode(node.targetType, name)}`
     if (node.type === 'indexedAccess')
-      return `${formatNode(node.objectType)}[${formatNode(node.indexType)}]`
-    if (node.type === 'array') return `${formatNode(node.elementType)}[]`
-    if (node.type === 'reflection') return formatNode(node.declaration)
+      return `${formatNode(node.objectType, name)}[${formatNode(
+        node.indexType,
+        name
+      )}]`
+    if (node.type === 'array') return `${formatNode(node.elementType, name)}[]`
+    if (node.type === 'reflection') return formatNode(node.declaration, name)
     if (node.type === 'tuple')
-      return `[${node.elements?.map(formatNode).join(', ') ?? ''}]`
-    if (node.type === 'rest') return `...${formatNode(node.elementType)}`
+      return `[${
+        node.elements?.map(v => formatNode(v, name)).join(', ') ?? ''
+      }]`
+    if (node.type === 'rest') return `...${formatNode(node.elementType, name)}`
     if (node.type === 'template-literal') return `\`\${string}\``
     if (node.type === 'mapped')
       return `{[${node.parameter} in ${formatNode(
-        node.parameterType
-      )}]: ${formatNode(node.templateType)}}`
+        node.parameterType,
+        name
+      )}]: ${formatNode(node.templateType, name)}}`
     if (node.type === 'conditional') {
       if (
         (node.trueType.name === 'never') !==
         (node.falseType.name === 'never')
       )
         return formatNode(
-          node.falseType.name === 'never' ? node.trueType : node.falseType
+          node.falseType.name === 'never' ? node.trueType : node.falseType,
+          name
         )
       return `${formatNode(node.checkType)}${
-        node.extendsType ? ` extends ${formatNode(node.extendsType)}` : ''
-      } ? ${formatNode(node.trueType)} : ${formatNode(node.falseType)}`
+        node.extendsType ? ` extends ${formatNode(node.extendsType, name)}` : ''
+      } ? ${formatNode(node.trueType, name)} : ${formatNode(
+        node.falseType,
+        name
+      )}`
     }
     if (node.type === 'intersection') {
       if (node.types.every(({ type }) => type === 'reflection'))
-        return formatNode(node.types[0])
+        return formatNode(node.types[0], name)
       return node.types
         .filter(({ type }) => type !== 'query')
-        .map(formatNode)
+        .map(v => formatNode(v, name))
         .map(parenthHeur)
         .join(' & ')
     }
     if (node.type === 'union')
       return node.types
-        .map(formatNode)
+        .map(v => formatNode(v, name))
         .filter(v => v !== 'undefined')
         .map(parenthHeur)
         .join(' | ')
@@ -211,7 +232,7 @@ function docItem(id) {
   return `#### \`${name}\` 
   
 \`\`\`hs
-${formatNode(info)}
+${formatNode(info, name)}
 \`\`\`
 
 ${src}

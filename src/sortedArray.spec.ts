@@ -1,6 +1,6 @@
 import Sorted, { SortedArray } from './sortedArray'
 
-test('sorted array', () => {
+test('SortedArray', () => {
   const cmp = (a: number, b: number) => a - b
 
   expect([...new Sorted(cmp, 2, 1, 3)]).toEqual([1, 2, 3])

@@ -56,6 +56,7 @@ Think an opionated version of lodash, but with first-class types.
 - __`data structures`__
     - [BiMap](#BiMap)
     - [SortedArray](#SortedArray)
+    - [SortedMap](#SortedMap)
 - __`path`__
     - [select](#select)
 
@@ -842,8 +843,8 @@ class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 > New elements are added using the `add(...values)` method.
 > 
 > Elements can still be accessed using bracket notation as in plain JavaScript
-> arrays but can't be assigned using bracket notation (as that could change the
-> element's sort position).
+> arrays but can't be assigned to using bracket notation (as that could change
+> the element's sort position).
 > 
 > Elements can be removed using the `delete(...indices)` method, which returns
 > an array containing the deleted values.
@@ -855,6 +856,24 @@ class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 > 
 > The `filter` and `slice` methods will return SortedArray instances instead of
 > plain arrays.
+> 
+
+---
+
+#### `SortedMap` 
+  
+```hs
+class SortedMap<K, V>(compare: Cmp<K, V>, entries?: null | [K, V][])
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/sortedMap.ts#L11)_</sup></sup>
+
+> Behaves like a regular JavaScript `Map`, but its iteration order is dependant
+> on the `compare` function supplied in the constructor.
+> 
+> Note: The item's sort position is only computed automatically on insertion.
+> If you update one of the values that the `compare` function depends on, you
+> must call the `update(key)` method afterwards to ensure the map stays sorted.
 > 
 ## Path
 

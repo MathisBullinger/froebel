@@ -3,6 +3,10 @@ export type Fun = λ
 
 export type Primitive = string | number | boolean | symbol | null | undefined
 
+export type FilterKeys<T, F> = keyof {
+  [K in keyof T as T[K] extends F ? K : never]: 0
+}
+
 /** Any list of the `n`-first elements of `T`. */
 export type PartialList<T extends any[]> = T extends [infer L, ...infer R]
   ? [] | [Widen<L>] | [Widen<L>, ...PartialList<R>]
