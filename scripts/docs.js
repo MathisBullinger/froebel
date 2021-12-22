@@ -209,6 +209,8 @@ function docItem(id) {
 
     if (node.type === 'query') return `<${node.queryType.name}>`
 
+    if (node.type === 'named-tuple-member') throw 0
+
     console.warn(`unknown node type ${node.type}:`, node)
     return '???'
   }
@@ -229,11 +231,16 @@ function docItem(id) {
     ? `<sup><sup>_[source](${repo}/blob/main/${srcs[0].fileName}#L${srcs[0].line})_</sup></sup>`
     : (console.warn(`couldn't find source for ${name} ${id}`), '')
 
+  let code = ''
+  try {
+    code = `\`\`\`hs\n${formatNode(info, name)}\n\`\`\``
+  } catch (e) {
+    if (e !== 0) throw e
+  }
+
   return `#### \`${name}\` 
   
-\`\`\`hs
-${formatNode(info, name)}
-\`\`\`
+${code}
 
 ${src}
 

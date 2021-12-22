@@ -24,6 +24,9 @@ Think an opionated version of lodash, but with first-class types.
     - [zipWith](#zipWith)
     - [unzip](#unzip)
     - [unzipWith](#unzipWith)
+    - [range](#range)
+    - [numberRange](#numberRange)
+    - [alphaRange](#alphaRange)
 - __`object`__
     - [pick](#pick)
     - [omit](#omit)
@@ -397,6 +400,55 @@ const [nums, str] = unzip(
 
 console.log(nums) // prints: [1, 2, 3]
 console.log(str)  // prints: 'abc'
+```
+
+---
+
+#### `range` 
+  
+
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/range.ts#L65)_</sup></sup>
+
+> Creates a range between two values.
+> 
+> <sub>see [numberRange](#numberRange) and [alphaRange](#alphaRange)</sub>
+
+---
+
+#### `numberRange` 
+  
+```hs
+(start: number, end: number, step: number) => number[]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/range.ts#L17)_</sup></sup>
+
+> Constructs a numeric between `start` and `end` inclusively.
+
+#### Example
+```ts
+range(2, 6)      // -> [2, 3, 4, 5, 6]
+range(8, 9, .3)  // -> [8, 8.3, 8.6, 8.9]
+range(3, -2)     // -> [3, 2, 1, 0, -1, -2]
+```
+
+---
+
+#### `alphaRange` 
+  
+```hs
+(start: string, end: string) => string[]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/range.ts#L42)_</sup></sup>
+
+> Constructs a range between characters.
+
+#### Example
+```ts
+range('a', 'd')  // -> ['a', 'b', 'c', 'd']
+range('Z', 'W')  // -> ['Z', 'Y', 'X', 'W']
 ```
 ## Object
 
