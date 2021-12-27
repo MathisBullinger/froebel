@@ -195,7 +195,7 @@ console.log( callAll([mult, div], 4, 2) )
 #### `nullishChain` 
   
 ```hs
-(...funs: [FF, ...FR[]] | []) => (...args: Parameters<FF>) => ReturnType<FF> | ReturnType<FR[number]>
+(...funs: [] | [FF, ...FR[]]) => (...args: Parameters<FF>) => ReturnType<FF> | ReturnType<FR[number]>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/nullishChain.ts#L26)_</sup></sup>
@@ -287,16 +287,60 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 #### `memoize` 
   
 ```hs
-(fun: T, cacheKey: (...args: Parameters<T>) => K) => T & {cache: Map<K, ReturnType<T>>}
+(fun: T, opt: {limit: number, key: (...args: Parameters<T>) => K}) => T & {cache: Map<K, ReturnType<T>>}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/memoize.ts#L13)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/memoize.ts#L58)_</sup></sup>
 
 > Returns a copy of `fun` that remembers its result for any given arguments and
 > only invokes `fun` for unknown arguments.
 > 
+> The cache key is computed using the `key` function. The default `key`
+> function simply stringifies the arguments.
+> 
+> If `limit` is specified, only the `limit`-last entries are kept in cache.
+> 
 > The function's cache is available at `memoized.cache`.
 > 
+
+#### Examples
+```ts
+const expensiveCalculation = (a: number, b: number) => {
+  console.log(`calculate ${a} + ${b}`)
+  return a + b
+}
+const calc = memoize(expensiveCalculation)
+
+console.log(calc(1, 2))
+// calculate 1 + 2
+// 3
+console.log(calc(20, 5))
+// calculate 20 + 5
+// 25
+console.log(calc(20, 5))
+// 25
+console.log(calc(1, 2))
+// 3
+```
+
+```ts
+const logIfDifferent = memoize(
+  (msg: string) => console.log(msg),
+  {
+    limit: 1,
+    key: msg => msg
+  }
+)
+
+logIfDifferent('a')
+logIfDifferent('a')
+logIfDifferent('b')
+logIfDifferent('a')
+
+// a
+// b
+// a
+```
 ## List
 
 #### `atWrap` 

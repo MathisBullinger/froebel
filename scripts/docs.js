@@ -129,7 +129,6 @@ function docItem(id) {
     }
 
     if (!node.type) {
-      // console.log('no type', node.id)
       if (node.signatures?.length) return formatNode(node.signatures[0], name)
       if (node.children) {
         if (node.children[0].name === 'constructor')
