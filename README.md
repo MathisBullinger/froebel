@@ -287,10 +287,10 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 #### `memoize` 
   
 ```hs
-(fun: T, opt: {limit: number, key: (...args: Parameters<T>) => K}) => T & {cache: Map<K, ReturnType<T>>}
+(fun: T, opt: {limit: number, weak: W, key: (...args: Parameters<T>) => K}) => T & {cache: W extends false ? Map<K, ReturnType<T>> : Cache<K, ReturnType<T>>}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/memoize.ts#L58)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/snatchblock/blob/main/src/memoize.ts#L70)_</sup></sup>
 
 > Returns a copy of `fun` that remembers its result for any given arguments and
 > only invokes `fun` for unknown arguments.
@@ -302,6 +302,12 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 > 
 > The function's cache is available at `memoized.cache`.
 > 
+> If `opt.weak` is `true`, non-primitive cache keys are stored in a WeakMap.
+> This behavior might for example be useful if you want to memoize some
+> calculation including a DOM Node without holding on to a reference of that
+> node.
+> Using weak keys prohibits setting a `limit`.
+> 
 
 #### Examples
 ```ts
@@ -311,15 +317,20 @@ const expensiveCalculation = (a: number, b: number) => {
 }
 const calc = memoize(expensiveCalculation)
 
-console.log(calc(1, 2))
+console.log( calc(1, 2) )
 // calculate 1 + 2
 // 3
-console.log(calc(20, 5))
+console.log( calc(20, 5) )
 // calculate 20 + 5
 // 25
-console.log(calc(20, 5))
+console.log( calc(20, 5) )
 // 25
-console.log(calc(1, 2))
+console.log( calc(1, 2) )
+// 3
+
+calc.cache.clear()
+console.log( calc(1, 2) )
+// calculate 1 + 2
 // 3
 ```
 

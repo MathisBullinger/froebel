@@ -43,4 +43,24 @@ test('memoize', () => {
   expect(effect).toHaveBeenCalledTimes(5)
   expect(eff(1)).toBe(1)
   expect(effect).toHaveBeenCalledTimes(5)
+
+  const mem = memoize((el: HTMLElement) => el.getBoundingClientRect(), {
+    key: n => n,
+    weak: true,
+  })
+  {
+    // @ts-expect-error
+    const cache: Map<any, any> = mem.cache
+  }
+  {
+    const cache: Map<any, any> = memRoot.cache
+  }
+
+  expect(() =>
+    memoize((el: HTMLElement) => el.getBoundingClientRect(), {
+      key: n => n,
+      weak: true,
+      limit: 1,
+    })
+  ).toThrow()
 })
