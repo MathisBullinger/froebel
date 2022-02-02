@@ -20,7 +20,7 @@ import type { λ } from './types'
  * const fetchUrl = async (protocol: string, domain: string, path: string) =>
  *   await fetch(`${protocol}://${domain}/${path}`)
  *
- * const fetchRepo = forward(fetchUrl, 'github.com', 'MathisBullinger/snatchblock')
+ * const fetchRepo = forward(fetchUrl, 'github.com', 'MathisBullinger/facula')
  *
  * const viaHTTPS = await fetchRepo('https')
  * ```

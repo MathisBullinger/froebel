@@ -1,7 +1,7 @@
 const docs = require('../docs.json')
 
-const repo = 'https://github.com/MathisBullinger/snatchblock'
-let readme = `# SnatchBlock - a strictly typed TypeScript utility library.
+const repo = 'https://github.com/MathisBullinger/facula'
+let readme = `# Facula - a strictly typed TypeScript utility library.
 
 This is my (WIP) personal collection of TypeScript helper functions and utilities that
 I use across different projects.
