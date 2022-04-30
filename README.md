@@ -18,6 +18,8 @@ Think an opionated version of lodash, but with first-class types.
     - [throttle](#throttle)
     - [debounce](#debounce)
     - [memoize](#memoize)
+    - [limitInvocations](#limitInvocations)
+    - [once](#once)
 - __`list`__
     - [atWrap](#atWrap)
     - [zip](#zip)
@@ -195,7 +197,7 @@ console.log( callAll([mult, div], 4, 2) )
 #### `nullishChain` 
   
 ```hs
-(...funs: [FF, ...FR[]] | []) => (...args: Parameters<FF>) => ReturnType<FF> | ReturnType<FR[number]>
+(...funs: [] | [FF, ...FR[]]) => (...args: Parameters<FF>) => ReturnType<FF> | ReturnType<FR[number]>
 ```
 
 <sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullishChain.ts#L26)_</sup></sup>
@@ -352,6 +354,40 @@ logIfDifferent('a')
 // b
 // a
 ```
+
+---
+
+#### `limitInvocations` 
+  
+```hs
+(fun: T, limit: number, ...funs: ExcS<T>) => T
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L15)_</sup></sup>
+
+> Returns a version of the function `fun` that can only be invoked `limit` times.
+> An optional `except` function will be called with the same parameters on any
+> additional invocations.
+> If `fun` returns anything but `void` (or `Promise<void>`), supplying an
+> `except` function is mandatory.
+> The `except` function must have the same return type as `fun`, or — if `fun`
+> returns a promise — it may return the type that the promise resolves to
+> synchronously.
+> The `except` function may also throw instead of returning a value.
+
+---
+
+#### `once` 
+  
+```hs
+(fun: T, ...funs: ExcS<T>) => T
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L36)_</sup></sup>
+
+> Special case of [limitInvocations](#limitInvocations). `fun` can only be invoked once.
+> 
+> <sub>see [limitInvocations](#limitInvocations)</sub>
 ## List
 
 #### `atWrap` 
@@ -880,7 +916,7 @@ camel('foo_bar') // 'fooBar'
 class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bimap.ts#L263)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bimap.ts#L173)_</sup></sup>
 
 > Bidirectional map. Maps two sets of keys in a one-to-one relation.
 > 
@@ -967,7 +1003,7 @@ BiMap.from(new Set<number>(), new Set<number>())
 class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/sortedArray.ts#L131)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/sortedArray.ts#L135)_</sup></sup>
 
 > Sorted array. Behaves much like a regular array but its elements remain
 > sorted using the `compare` function supplied in the constructor.
