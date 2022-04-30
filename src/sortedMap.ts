@@ -88,6 +88,10 @@ export default class SortedMap<K, V> implements Map<K, V> {
     for (const [k, v] of this.entries()) callback(v, k, this)
   }
 
+  map<T>(callback: (value: V, key: K, map: SortedMap<K, V>) => T): T[] {
+    return [...this].map(([k, v]) => callback(v, k, this))
+  }
+
   get size() {
     return this.#map.size
   }

@@ -28,6 +28,8 @@ test('SortedMap', () => {
   expect([...map.entries()]).toEqual(entries)
   expect([...map.keys()]).toEqual(keys())
   expect([...map.values()]).toEqual(values())
+  expect(map.map(v => v)).toEqual(values())
+  expect(map.map((_, k) => k)).toEqual(keys())
 
   const fe: any[] = []
   map.forEach((v, k) => fe.push([k, v]))
