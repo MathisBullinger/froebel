@@ -1,2 +1,2 @@
-export { default as repeat } from './repeat'
-export { takeGenerator as take } from './take'
+export { default as repeat } from "./repeat.ts";
+export { takeGenerator as take } from "./take.ts";

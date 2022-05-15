@@ -1,6 +1,6 @@
-import type { λ } from './types'
+import type { λ } from "./types.ts";
 
-export const cancel = Symbol('debounce.cancel')
+export const cancel = Symbol("debounce.cancel");
 
 /**
  * Creates a debounced function that delays invoking `fun` until `ms` milliseconds
@@ -13,21 +13,23 @@ export const cancel = Symbol('debounce.cancel')
  */
 const debounce = Object.assign(
   (fun: λ, ms: number) => {
-    let toId: any
+    let toId: any;
     return Object.assign(
       (...args: any[]) => {
-        clearTimeout(toId)
-        toId = setTimeout(() => fun(...args), ms)
+        clearTimeout(toId);
+        toId = setTimeout(() => fun(...args), ms);
       },
-      { [cancel]: () => clearTimeout(toId) }
-    ) as any
+      { [cancel]: () => clearTimeout(toId) },
+    ) as any;
   },
-  { cancel }
-) as (<T extends λ>(
-  fun: T,
-  ms: number
-) => λ<Parameters<T>, void> & { [cancel](): void }) & {
-  cancel: typeof cancel
-}
+  { cancel },
+) as
+  & (<T extends λ>(
+    fun: T,
+    ms: number,
+  ) => λ<Parameters<T>, void> & { [cancel](): void })
+  & {
+    cancel: typeof cancel;
+  };
 
-export default debounce
+export default debounce;

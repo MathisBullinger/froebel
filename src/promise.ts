@@ -1,1 +1,1 @@
-export { default as isPromise, isNotPromise } from './isPromise'
+export { default as isPromise, isNotPromise } from "./isPromise.ts";

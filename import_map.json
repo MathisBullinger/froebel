@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "testing/": "https://raw.githubusercontent.com/denoland/deno_std/main/testing/"
+  }
+}

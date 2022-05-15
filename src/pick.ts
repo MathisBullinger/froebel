@@ -8,7 +8,7 @@
  */
 const pick = <T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> =>
   Object.fromEntries(
-    Object.entries(obj).filter(([k]) => keys.includes(k as any))
-  ) as any
+    Object.entries(obj).filter(([k]) => keys.includes(k as any)),
+  ) as any;
 
-export default pick
+export default pick;

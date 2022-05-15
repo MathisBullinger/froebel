@@ -1,4 +1,4 @@
-import type { λ, PartialList } from './types'
+import type { PartialList, λ } from "./types.ts";
 
 /**
  * Partially apply a function.
@@ -14,14 +14,12 @@ import type { λ, PartialList } from './types'
  * console.log(oneOver(4))
  * ```
  */
-const partial =
-  <T extends λ, PL extends PartialList<Parameters<T>>>(
-    fun: T,
-    ...argsLeft: PL
-  ) =>
+const partial = <T extends λ, PL extends PartialList<Parameters<T>>>(
+  fun: T,
+  ...argsLeft: PL
+) =>
   (
     ...argsRight: Parameters<T> extends [...PL, ...infer PR] ? PR : never
-  ): ReturnType<T> =>
-    fun(...argsLeft, ...argsRight)
+  ): ReturnType<T> => fun(...argsLeft, ...argsRight);
 
-export default partial
+export default partial;

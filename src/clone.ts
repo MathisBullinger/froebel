@@ -1,4 +1,4 @@
-import type { λ } from './types'
+import type { λ } from "./types.ts";
 
 /**
  * Returns a copied version of `value`.
@@ -13,35 +13,35 @@ import type { λ } from './types'
  * original object (but now in the resuling object instead of the original).
  */
 export default function clone<T>(value: T): T {
-  const map = new Map()
-  const replacers: λ[] = []
-  const cloned = _clone(value, map, replacers, undefined as any)
-  for (const f of replacers) f()
-  return cloned
+  const map = new Map();
+  const replacers: λ[] = [];
+  const cloned = _clone(value, map, replacers, undefined as any);
+  for (const f of replacers) f();
+  return cloned;
 }
 
 function _clone(
   v: any,
   visited: Map<any, any>,
   replacers: λ[],
-  replace: λ<[λ]>
+  replace: λ<[λ]>,
 ): any {
-  if (typeof v !== 'object' || v === null) return v
-  if (visited.has(v)) return replace(v)
-  visited.set(v, 0)
+  if (typeof v !== "object" || v === null) return v;
+  if (visited.has(v)) return replace(v);
+  visited.set(v, 0);
 
   const cloneNext = (v: any, r: (v: any) => void) =>
-    _clone(v, visited, replacers, (v: λ) => replacers.push(() => r(v)))
+    _clone(v, visited, replacers, (v: λ) => replacers.push(() => r(v)));
 
   const cloned: any = Array.isArray(v)
-    ? v.map((e, i) => cloneNext(e, v => (cloned[i] = visited.get(v))))
+    ? v.map((e, i) => cloneNext(e, (v) => (cloned[i] = visited.get(v))))
     : Object.fromEntries(
-        Object.entries(v).map(([k, e]) => [
-          k,
-          cloneNext(e, v => (cloned[k] = visited.get(v))),
-        ])
-      )
+      Object.entries(v).map(([k, e]) => [
+        k,
+        cloneNext(e, (v) => (cloned[k] = visited.get(v))),
+      ]),
+    );
 
-  visited.set(v, cloned)
-  return cloned
+  visited.set(v, cloned);
+  return cloned;
 }

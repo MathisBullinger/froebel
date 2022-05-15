@@ -1,44 +1,44 @@
-import { UniqueViolationError } from './error'
-import zip from './zip'
+import { UniqueViolationError } from "./error.ts";
+import zip from "./zip.ts";
 
 type AliasConstr<AL extends string, AR extends string> = {
-  <L, R>(data?: Map<L, R>): BiMap<L, R, AL, AR>
+  <L, R>(data?: Map<L, R>): BiMap<L, R, AL, AR>;
   <T extends readonly (readonly [unknown, unknown])[]>(data: T): BiMap<
     T[number] extends [infer L, any] ? L : never,
     T[number] extends [any, infer R] ? R : never,
     AL,
     AR
-  >
-  <L, R>(left: Set<L>, right: Set<R>): BiMap<L, R, AL, AR>
+  >;
+  <L, R>(left: Set<L>, right: Set<R>): BiMap<L, R, AL, AR>;
   <T extends Record<L, R>, L extends string | symbol, R>(
-    data: T
-  ): T extends Set<any> ? never : BiMap<L, R, AL, AR>
-}
+    data: T,
+  ): T extends Set<any> ? never : BiMap<L, R, AL, AR>;
+};
 
 class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
-  private aliasLeft?: string
-  private aliasRight?: string
+  private aliasLeft?: string;
+  private aliasRight?: string;
 
   constructor(
     data?: Map<L, R> | readonly (readonly [L, R])[],
     aliasLeft?: AL,
-    aliasRight?: AR
+    aliasRight?: AR,
   ) {
-    const entries = data instanceof Map ? data.entries() : data ?? []
-    const checkKeys = Array.isArray(data)
+    const entries = data instanceof Map ? data.entries() : data ?? [];
+    const checkKeys = Array.isArray(data);
 
     const errDup = (side: string, k: any) => {
       throw new UniqueViolationError(
-        `duplicate ${side} key ${JSON.stringify(k)}`
-      )
-    }
+        `duplicate ${side} key ${JSON.stringify(k)}`,
+      );
+    };
     for (const [k, v] of entries) {
-      if (checkKeys && this.data.has(k)) errDup('left', k)
-      if (iterHas(this.data.values(), v)) errDup('right', v)
-      this.data.set(k, v)
+      if (checkKeys && this.data.has(k)) errDup("left", k);
+      if (iterHas(this.data.values(), v)) errDup("right", v);
+      this.data.set(k, v);
     }
 
-    this.defineAlias(aliasLeft, aliasRight)
+    this.defineAlias(aliasLeft, aliasRight);
   }
 
   public static from: AliasConstr<never, never> = (...args: any[]) =>
@@ -47,140 +47,140 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
         ? args[0]
         : args[0] instanceof Set
         ? BiMapImpl.fromSets(...(args as [any, any]))
-        : Object.entries(args[0])
-    )
+        : Object.entries(args[0]),
+    );
 
   private static fromSets<KL, KR>(
     left: Set<KL>,
-    right: Set<KR>
+    right: Set<KR>,
   ): BiMapImpl<KL, KR> {
-    if (!left || !right || left.size !== right.size)
+    if (!left || !right || left.size !== right.size) {
       throw new TypeError(
-        'must have same number of keys on left and right side'
-      )
-    return new BiMapImpl(zip([...left.keys()], [...right.keys()]))
+        "must have same number of keys on left and right side",
+      );
+    }
+    return new BiMapImpl(zip([...left.keys()], [...right.keys()]));
   }
 
-  public static alias =
-    <LA extends string, RA extends string>(
-      left: LA,
-      right: RA
-    ): AliasConstr<LA, RA> =>
+  public static alias = <LA extends string, RA extends string>(
+    left: LA,
+    right: RA,
+  ): AliasConstr<LA, RA> =>
     (...args: any[]) => {
-      const map: any = BiMapImpl.from(...args)
-      map.defineAlias(left, right)
-      return map
-    }
+      const map: any = BiMapImpl.from(...args);
+      map.defineAlias(left, right);
+      return map;
+    };
 
   private defineAlias(left?: string, right?: string) {
     if (left !== undefined) {
-      this.aliasLeft = left
-      Object.defineProperty(this, left, { get: () => this.left })
+      this.aliasLeft = left;
+      Object.defineProperty(this, left, { get: () => this.left });
     }
     if (right !== undefined) {
-      this.aliasRight = right
-      Object.defineProperty(this, right, { get: () => this.right })
+      this.aliasRight = right;
+      Object.defineProperty(this, right, { get: () => this.right });
     }
   }
 
   public clone(): BiMapImpl<L, R, AL, AR> {
-    return new BiMapImpl([...this.left], this.aliasLeft, this.aliasRight)
+    return new BiMapImpl([...this.left], this.aliasLeft, this.aliasRight);
   }
 
   public reverse(): BiMapImpl<R, L, AR, AL> {
-    return new BiMapImpl([...this.right], this.aliasRight, this.aliasLeft)
+    return new BiMapImpl([...this.right], this.aliasRight, this.aliasLeft);
   }
 
   public clear() {
-    this.data.clear()
-    return this
+    this.data.clear();
+    return this;
   }
 
   public get size() {
-    return this.data.size
+    return this.data.size;
   }
 
   public [Symbol.iterator]() {
-    return this.data[Symbol.iterator]()
+    return this.data[Symbol.iterator]();
   }
 
   private proxy(ltr: boolean) {
     const map = {
-      keys: this.data[ltr ? 'keys' : 'values'].bind(this.data),
-      values: this.data[ltr ? 'values' : 'keys'].bind(this.data),
+      keys: this.data[ltr ? "keys" : "values"].bind(this.data),
+      values: this.data[ltr ? "values" : "keys"].bind(this.data),
       has: ltr
         ? (k: L) => this.data.has(k)
         : (k: R) => iterHas(this.data.values(), k),
       [Symbol.iterator]: ltr
         ? () => this.data[Symbol.iterator]()
         : () => reverseIterator(this.data[Symbol.iterator]()),
-      get: ltr
-        ? (k: L) => this.data.get(k)
-        : (k: R) => {
-            for (const entry of this.data.entries())
-              if (entry[1] === k) return entry[0]
-          },
+      get: ltr ? (k: L) => this.data.get(k) : (k: R) => {
+        for (const entry of this.data.entries()) {
+          if (entry[1] === k) return entry[0];
+        }
+      },
       set: ltr
         ? (k: L, v: R) => {
-            for (const entry of this.data) {
-              if (entry[1] !== v) continue
-              this.data.delete(entry[0])
-              break
-            }
-            this.data.set(k, v)
-            return v
+          for (const entry of this.data) {
+            if (entry[1] !== v) continue;
+            this.data.delete(entry[0]);
+            break;
           }
+          this.data.set(k, v);
+          return v;
+        }
         : (k: R, v: L) => {
-            this.data.set(v, k)
-            return v
-          },
+          this.data.set(v, k);
+          return v;
+        },
       getOrSet: ltr
         ? (k: L, v: R) =>
-            this.data.has(k) ? this.data.get(k) : (this.data.set(k, v), v)
+          this.data.has(k) ? this.data.get(k) : (this.data.set(k, v), v)
         : (k: R, v: L) => {
-            for (const entry of this.data.entries())
-              if (entry[1] === k) return entry[0]
-            this.data.set(v, k)
-            return v
-          },
-      delete: ltr
-        ? (k: L) => this.data.delete(k)
-        : (k: R) => {
-            for (const entry of this.data)
-              if (entry[1] === k) return this.data.delete(entry[0])
-            return false
-          },
+          for (const entry of this.data.entries()) {
+            if (entry[1] === k) return entry[0];
+          }
+          this.data.set(v, k);
+          return v;
+        },
+      delete: ltr ? (k: L) => this.data.delete(k) : (k: R) => {
+        for (const entry of this.data) {
+          if (entry[1] === k) return this.data.delete(entry[0]);
+        }
+        return false;
+      },
       clear: () => (this.clear(), ltr ? this.left : this.right),
-    }
+    };
 
     return new Proxy(map, {
       get: (t: any, p) => {
-        if (p in t) return t[p]
-        if (p === 'size') return this.data.size
-        return t.get(p)
+        if (p in t) return t[p];
+        if (p === "size") return this.data.size;
+        return t.get(p);
       },
       has: (t, p) => t.has(p),
       set: (t, p, v) => (t.set(p, v), true),
       deleteProperty: (t, p) => (t.delete(p), true),
-    })
+    });
   }
 
-  private readonly data = new Map<L, R>()
-  public readonly left: MapLike<L, R> = this.proxy(true)
-  public readonly right: MapLike<R, L> = this.proxy(false)
+  private readonly data = new Map<L, R>();
+  public readonly left: MapLike<L, R> = this.proxy(true);
+  public readonly right: MapLike<R, L> = this.proxy(false);
 }
 
-export default BiMapImpl as (new <
-  L,
-  R,
-  AL extends string = never,
-  AR extends string = never
->(
-  data?: Map<L, R> | readonly (readonly [L, R])[],
-  aliasLeft?: AL,
-  aliasRight?: AR
-) => BiMap<L, R, AL, AR>) &
-  typeof BiMapImpl
+export default BiMapImpl as
+  & (new <
+    L,
+    R,
+    AL extends string = never,
+    AR extends string = never,
+  >(
+    data?: Map<L, R> | readonly (readonly [L, R])[],
+    aliasLeft?: AL,
+    aliasRight?: AR,
+  ) => BiMap<L, R, AL, AR>)
+  & typeof BiMapImpl;
 
 /**
  * Bidirectional map. Maps two sets of keys in a one-to-one relation.
@@ -264,41 +264,46 @@ export type BiMap<
   L,
   R,
   A extends string = never,
-  B extends string = never
-> = Omit<BiMapImpl<L, R, A, B>, 'clone' | 'reverse'> & {
-  clone(): BiMap<L, R, A, B>
-  reverse(): BiMap<R, L, B, A>
-} & { [K in A]: MapLike<L, R> } &
-  { [K in B]: MapLike<R, L> }
+  B extends string = never,
+> =
+  & Omit<BiMapImpl<L, R, A, B>, "clone" | "reverse">
+  & {
+    clone(): BiMap<L, R, A, B>;
+    reverse(): BiMap<R, L, B, A>;
+  }
+  & { [K in A]: MapLike<L, R> }
+  & { [K in B]: MapLike<R, L> };
 
-type MapLike<K, V> = {
-  keys(): IterableIterator<K>
-  values(): IterableIterator<V>
-  has(key: K): boolean
-  get(key: K): V | undefined
-  set<T extends V>(key: K, value: T): T
-  getOrSet(key: K, value: V): V
-  delete(key: K): boolean
-  clear(): MapLike<K, V>
-  size: number
-} & { [SK in Extract<K, string | symbol>]: V } &
-  IterableIterator<[K, V]>
+type MapLike<K, V> =
+  & {
+    keys(): IterableIterator<K>;
+    values(): IterableIterator<V>;
+    has(key: K): boolean;
+    get(key: K): V | undefined;
+    set<T extends V>(key: K, value: T): T;
+    getOrSet(key: K, value: V): V;
+    delete(key: K): boolean;
+    clear(): MapLike<K, V>;
+    size: number;
+  }
+  & { [SK in Extract<K, string | symbol>]: V }
+  & IterableIterator<[K, V]>;
 
 function reverseIterator<L, R>(
-  iter: IterableIterator<[L, R]>
+  iter: IterableIterator<[L, R]>,
 ): IterableIterator<[R, L]> {
   return {
     next() {
-      const { done, value } = iter.next()
-      return { done, value: !value ? value : [value[1], value[0]] }
+      const { done, value } = iter.next();
+      return { done, value: !value ? value : [value[1], value[0]] };
     },
     [Symbol.iterator]() {
-      return this
+      return this;
     },
-  }
+  };
 }
 
 function iterHas<T>(iter: IterableIterator<T>, value: T) {
-  for (const entry of iter) if (entry === value) return true
-  return false
+  for (const entry of iter) if (entry === value) return true;
+  return false;
 }

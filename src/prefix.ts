@@ -1,5 +1,5 @@
-import { capitalize } from './case'
-import type { StringCase, Prefix } from './types'
+import { capitalize } from "./case.ts";
+import type { Prefix, StringCase } from "./types.ts";
 
 /**
  * Returns `str` prefixed with `prefix`. Optionally, allows prefxing in camel
@@ -12,14 +12,14 @@ import type { StringCase, Prefix } from './types'
 const prefix = <
   T0 extends string,
   T1 extends string,
-  C extends StringCase | void = void
+  C extends StringCase | void = void,
 >(
   prefix: T0,
   str: T1,
-  caseMod?: C
+  caseMod?: C,
 ): Prefix<T1, T0, C> =>
-  `${prefix}${caseMod === 'snake' ? '_' : ''}${
-    caseMod === 'camel' ? capitalize(str) : str
-  }` as any
+  `${prefix}${caseMod === "snake" ? "_" : ""}${
+    caseMod === "camel" ? capitalize(str) : str
+  }` as any;
 
-export default prefix
+export default prefix;

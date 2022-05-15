@@ -10,7 +10,7 @@
  */
 export const takeList = <T>(n: number, list: Iterable<T>): T[] => [
   ...takeGenerator(n, list),
-]
+];
 
 /**
  * Takes `n` elements from the iterable `list` and returns them as a generator.
@@ -23,9 +23,9 @@ export const takeList = <T>(n: number, list: Iterable<T>): T[] => [
  * ```
  */
 export function* takeGenerator<T>(n: number, list: Iterable<T>): Generator<T> {
-  let i = 0
+  let i = 0;
   for (const el of list) {
-    if (i++ >= n) return
-    yield el
+    if (i++ >= n) return;
+    yield el;
   }
 }

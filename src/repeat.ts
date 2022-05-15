@@ -10,5 +10,5 @@
  * ```
  */
 export default function* repeat<T>(...sequence: [T, ...T[]]): Generator<T> {
-  while (true) for (const n of sequence) yield n
+  while (true) for (const n of sequence) yield n;
 }

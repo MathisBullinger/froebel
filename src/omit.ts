@@ -8,7 +8,7 @@
  */
 const omit = <T, K extends keyof T>(obj: T, ...keys: K[]): Omit<T, K> =>
   Object.fromEntries(
-    Object.entries(obj).filter(([k]) => !keys.includes(k as any))
-  ) as any
+    Object.entries(obj).filter(([k]) => !keys.includes(k as any)),
+  ) as any;
 
-export default omit
+export default omit;

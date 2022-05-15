@@ -1,5 +1,5 @@
-import type { λ } from './types'
-import { assert } from './internal/except'
+import type { λ } from "./types.ts";
+import { assert } from "./internal/except.ts";
 
 /**
  * Returns a copy of `fun` that remembers its result for any given arguments and
@@ -73,74 +73,77 @@ const memoize = <T extends λ, K = string, W extends boolean = false>(
     /**
      * How the cache key is computed. Defaults to `JSON.stringify`ing the arguments.
      */
-    key?: (...args: Parameters<T>) => K
+    key?: (...args: Parameters<T>) => K;
     /**
      * The maximum number of results that can be kept in cache before discarding the oldest result.
      */
-    limit?: number
+    limit?: number;
     /**
      * Store non-primitive cache keys in a WeakMap.
      */
-    weak?: W
-  } = {}
+    weak?: W;
+  } = {},
 ): T & {
-  cache: W extends false ? Map<K, ReturnType<T>> : Cache<K, ReturnType<T>>
+  cache: W extends false ? Map<K, ReturnType<T>> : Cache<K, ReturnType<T>>;
 } => {
-  opt.key ??= (...args) => JSON.stringify(args) as any
+  opt.key ??= (...args) => JSON.stringify(args) as any;
 
   const cache = opt.weak
     ? new Cache<K, ReturnType<T>>()
-    : new Map<K, ReturnType<T>>()
+    : new Map<K, ReturnType<T>>();
 
-  if (!Number.isFinite(opt.limit)) opt.limit = -1
+  if (!Number.isFinite(opt.limit)) opt.limit = -1;
 
-  assert(!opt.weak || opt.limit! <= 0, "can't set a limit when using weak keys")
+  assert(
+    !opt.weak || opt.limit! <= 0,
+    "can't set a limit when using weak keys",
+  );
 
-  const hasLimit = (cache: unknown): cache is Map<unknown, unknown> =>
-    opt.limit! > 0
+  const hasLimit = (_cache: unknown): _cache is Map<unknown, unknown> =>
+    opt.limit! > 0;
 
   return Object.assign(
     (...args: Parameters<T>) => {
-      const k = opt.key!(...args)
-      if (cache.has(k)) return cache.get(k)
+      const k = opt.key!(...args);
+      if (cache.has(k)) return cache.get(k);
       if (hasLimit(cache) && opt.limit! <= cache.size) {
-        const n = cache.size - opt.limit! + 1
-        for (let i = 0; i < n; i++) cache.delete(cache.keys().next().value)
+        const n = cache.size - opt.limit! + 1;
+        for (let i = 0; i < n; i++) cache.delete(cache.keys().next().value);
       }
-      const res = fun(...args)
-      cache.set(k, res)
-      return res
+      const res = fun(...args);
+      cache.set(k, res);
+      return res;
     },
     {
       cache,
-    }
-  ) as any
-}
+    },
+  ) as any;
+};
 
-export default memoize
+export default memoize;
 
 class Cache<K, V> {
-  #primitives = new Map()
-  #objects = new (globalThis.WeakMap ?? Map)()
+  #primitives = new Map();
+  #objects = new (globalThis.WeakMap ?? Map)();
 
   #getMap(key: K): WeakMap<any, any> {
-    if (typeof key === 'object' && key !== null) return this.#objects
-    return this.#primitives
+    if (typeof key === "object" && key !== null) return this.#objects;
+    return this.#primitives;
   }
 
   delete(key: K) {
-    return this.#getMap(key).delete(key)
+    return this.#getMap(key).delete(key);
   }
 
   has(key: K) {
-    return this.#getMap(key).has(key)
+    return this.#getMap(key).has(key);
   }
 
   get(key: K): V | undefined {
-    return this.#getMap(key).get(key)
+    return this.#getMap(key).get(key);
   }
 
   set(key: K, value: V) {
-    this.#getMap(key).set(key, value)
+    this.#getMap(key).set(key, value);
   }
 }

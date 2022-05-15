@@ -7,7 +7,7 @@
   "private": "true",
   "scripts": {
     "build": "rm -rf build && tsc -p tsconfig.json && cp package.json build",
-    "test": "jest --config jest.config.js",
+    "test": "deno test --importmap=import_map.json src",
     "postversion": "git push --follow-tags",
     "docs": "typedoc src/* --json docs.json && node scripts/docs"
   },
@@ -15,8 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/MathisBullinger/facula.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Mathis Bullinger",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/MathisBullinger/facula/issues"

@@ -1,4 +1,4 @@
-import type { λ } from './types'
+import type { λ } from "./types.ts";
 
 /**
  * Take a list of functions that accept the same parameters and call them all
@@ -16,10 +16,10 @@ import type { λ } from './types'
 const callAll = <P extends any[], F extends λ<P>[]>(
   funs: [...F],
   ...args: P
-): ReturnTypes<F> => (funs.map(cb => cb(...args)) ?? []) as any
+): ReturnTypes<F> => (funs.map((cb) => cb(...args)) ?? []) as any;
 
 type ReturnTypes<T extends λ[]> = {
-  [K in keyof T]: T[K] extends λ<any, infer I> ? I : never
-}
+  [K in keyof T]: T[K] extends λ<any, infer I> ? I : never;
+};
 
-export default callAll
+export default callAll;

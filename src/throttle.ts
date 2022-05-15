@@ -1,8 +1,9 @@
-import type { λ } from './types'
-const { performance } =
-  'performance' in globalThis ? globalThis : require('perf_hooks')
+import type { λ } from "./types.ts";
+const { performance } = "performance" in globalThis
+  ? globalThis
+  : (globalThis as any).perf_hooks;
 
-export const cancel = Symbol('throttle.cancel')
+export const cancel = Symbol("throttle.cancel");
 
 /**
  * Created a throttled function that invokes `fun` at most every `ms` milliseconds.
@@ -14,36 +15,39 @@ export const cancel = Symbol('throttle.cancel')
  */
 const throttle = Object.assign(
   (fun: λ, ms: number, { leading = true, trailing = true } = {}) => {
-    let toId: any
-    let lastInvoke = -Infinity
-    let lastArgs: any[] | undefined
+    let toId: any;
+    let lastInvoke = -Infinity;
+    let lastArgs: any[] | undefined;
 
     const invoke = () => {
-      lastInvoke = performance.now()
-      toId = undefined
-      fun(...lastArgs!)
-    }
+      lastInvoke = performance.now();
+      toId = undefined;
+      fun(...lastArgs!);
+    };
 
     return Object.assign(
       (...args: any[]) => {
-        if (!leading && !trailing) return
-        lastArgs = args
-        const dt = performance.now() - lastInvoke
+        if (!leading && !trailing) return;
+        lastArgs = args;
+        const dt = performance.now() - lastInvoke;
 
-        if (dt >= ms && toId === undefined && leading) invoke()
-        else if (toId === undefined && trailing)
-          toId = setTimeout(invoke, dt >= ms ? ms : ms - dt)
+        if (dt >= ms && toId === undefined && leading) invoke();
+        else if (toId === undefined && trailing) {
+          toId = setTimeout(invoke, dt >= ms ? ms : ms - dt);
+        }
       },
-      { [cancel]: () => clearTimeout(toId) }
-    )
+      { [cancel]: () => clearTimeout(toId) },
+    );
   },
-  { cancel }
-) as (<T extends λ>(
-  fun: T,
-  ms: number,
-  opts?: { leading?: boolean; trailing: boolean }
-) => λ<Parameters<T>, void> & { [cancel](): void }) & {
-  cancel: typeof cancel
-}
+  { cancel },
+) as
+  & (<T extends λ>(
+    fun: T,
+    ms: number,
+    opts?: { leading?: boolean; trailing: boolean },
+  ) => λ<Parameters<T>, void> & { [cancel](): void })
+  & {
+    cancel: typeof cancel;
+  };
 
-export default throttle
+export default throttle;

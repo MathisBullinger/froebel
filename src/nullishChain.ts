@@ -1,4 +1,4 @@
-import type { λ, PromType } from './types'
+import type { PromType, λ } from "./types.ts";
 
 /**
  * Given a list of functions that accept the same parameters, returns a function
@@ -23,12 +23,11 @@ import type { λ, PromType } from './types'
  * ageGroup(50) // prints: 'adult'
  * ```
  */
-export const nullishChain =
-  <FF extends λ, FR extends λ<Parameters<FF>>[]>(
-    ...[fun, ...rest]: [FF, ...FR] | []
-  ) =>
+export const nullishChain = <FF extends λ, FR extends λ<Parameters<FF>>[]>(
+  ...[fun, ...rest]: [FF, ...FR] | []
+) =>
   (...args: Parameters<FF>): ReturnType<FF | FR[number]> | undefined =>
-    !fun ? undefined : fun(...args) ?? nullishChain(...(rest as any))(...args)
+    !fun ? undefined : fun(...args) ?? nullishChain(...(rest as any))(...args);
 
 /**
  * Same as {@link nullishChain} but accept asynchronous functions too.
@@ -43,14 +42,11 @@ export const nullishChain =
  * const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
  * ```
  */
-export const asyncNullishChain =
-  <FF extends λ, FR extends λ<Parameters<FF>>[]>(
-    ...[fun, ...rest]: [FF, ...FR] | []
-  ) =>
+export const asyncNullishChain = <FF extends λ, FR extends λ<Parameters<FF>>[]>(
+  ...[fun, ...rest]: [FF, ...FR] | []
+) =>
   async (
     ...args: Parameters<FF>
   ): Promise<PromType<ReturnType<FF | FR[number]>> | undefined> =>
-    !fun
-      ? undefined
-      : (await fun(...args)) ??
-        (await asyncNullishChain(...(rest as any))(...args))
+    !fun ? undefined : (await fun(...args)) ??
+      (await asyncNullishChain(...(rest as any))(...args));

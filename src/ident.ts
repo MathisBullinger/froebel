@@ -1,4 +1,4 @@
 /** Identity function. */
-const ident = <T>(value: T): T => value
+const ident = <T>(value: T): T => value;
 
-export default ident
+export default ident;

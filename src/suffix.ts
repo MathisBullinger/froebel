@@ -1,5 +1,5 @@
-import type { StringCase, Suffix } from './types'
-import prefix from './prefix'
+import type { StringCase, Suffix } from "./types.ts";
+import prefix from "./prefix.ts";
 
 /**
  * Returns `str` suffixed with `suffix`. Same case and type behavior as
@@ -8,11 +8,11 @@ import prefix from './prefix'
 const suffix = <
   T0 extends string,
   T1 extends string,
-  C extends StringCase | void = void
+  C extends StringCase | void = void,
 >(
   str: T1,
   suffix: T0,
-  caseMod?: C
-): Suffix<T1, T0, C> => prefix(str, suffix, caseMod)
+  caseMod?: C,
+): Suffix<T1, T0, C> => prefix(str, suffix, caseMod);
 
-export default suffix
+export default suffix;

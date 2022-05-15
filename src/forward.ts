@@ -1,4 +1,4 @@
-import type { λ } from './types'
+import type { λ } from "./types.ts";
 
 /**
  * Given a function and its nth..last arguments, return a function accepting
@@ -25,11 +25,9 @@ import type { λ } from './types'
  * const viaHTTPS = await fetchRepo('https')
  * ```
  */
-const forward =
-  <T extends λ, PR extends any[]>(fun: T, ...argsRight: PR) =>
+const forward = <T extends λ, PR extends any[]>(fun: T, ...argsRight: PR) =>
   (
     ...argsLeft: Parameters<T> extends [...infer PL, ...PR] ? PL : never
-  ): ReturnType<T> =>
-    fun(...argsLeft, ...argsRight)
+  ): ReturnType<T> => fun(...argsLeft, ...argsRight);
 
-export default forward
+export default forward;

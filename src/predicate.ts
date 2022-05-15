@@ -1,4 +1,4 @@
-export { default as isPromise, isNotPromise } from './isPromise'
-export { truthy, falsy } from './truthy'
-export { nullish, notNullish } from './nullish'
-export { isFulfilled, isRejected } from './settled'
+export { default as isPromise, isNotPromise } from "./isPromise.ts";
+export { falsy, truthy } from "./truthy.ts";
+export { notNullish, nullish } from "./nullish.ts";
+export { isFulfilled, isRejected } from "./settled.ts";

@@ -1,4 +1,4 @@
-import { assert } from './internal/except'
+import { assert } from "./internal/except.ts";
 
 /**
  * Constructs a numeric between `start` and `end` inclusively.
@@ -17,17 +17,18 @@ import { assert } from './internal/except'
 export function numberRange(
   start: number,
   end: number,
-  step = end > start ? 1 : -1
+  step = end > start ? 1 : -1,
 ): number[] {
   assert(
     Math.sign(step) === Math.sign(end - start),
-    'step must be >0 for ascending and <0 descending ranges',
-    RangeError
-  )
-  const sequence: number[] = []
-  for (let n = start; step > 0 ? n <= end : n >= end; n += step)
-    sequence.push(n)
-  return sequence
+    "step must be >0 for ascending and <0 descending ranges",
+    RangeError,
+  );
+  const sequence: number[] = [];
+  for (let n = start; step > 0 ? n <= end : n >= end; n += step) {
+    sequence.push(n);
+  }
+  return sequence;
 }
 
 /**
@@ -42,19 +43,19 @@ export function numberRange(
 export function alphaRange(start: string, end: string) {
   assert(
     start.length === 1 && end.length === 1,
-    'alphabetical range can only be constructed between single-character strings',
-    RangeError
-  )
+    "alphabetical range can only be constructed between single-character strings",
+    RangeError,
+  );
 
-  return numberRange(start.charCodeAt(0), end.charCodeAt(0)).map(n =>
+  return numberRange(start.charCodeAt(0), end.charCodeAt(0)).map((n) =>
     String.fromCharCode(n)
-  )
+  );
 }
 
 type RangeSig = {
-  (...args: Parameters<typeof numberRange>): ReturnType<typeof numberRange>
-  (...args: Parameters<typeof alphaRange>): ReturnType<typeof alphaRange>
-}
+  (...args: Parameters<typeof numberRange>): ReturnType<typeof numberRange>;
+  (...args: Parameters<typeof alphaRange>): ReturnType<typeof alphaRange>;
+};
 
 /**
  * Creates a range between two values.
@@ -63,6 +64,6 @@ type RangeSig = {
  * @see {@link alphaRange}
  */
 const range: RangeSig = (...args: unknown[]) =>
-  ((typeof args[0] === 'number' ? numberRange : alphaRange) as any)(...args)
+  ((typeof args[0] === "number" ? numberRange : alphaRange) as any)(...args);
 
-export default range
+export default range;

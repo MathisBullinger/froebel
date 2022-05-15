@@ -1,5 +1,5 @@
-import callAll from './callAll'
-import type { λ } from './types'
+import callAll from "./callAll.ts";
+import type { λ } from "./types.ts";
 
 /**
  * Given a list of functions that accept the same parameters, returns a function
@@ -9,16 +9,15 @@ import type { λ } from './types'
  * returned/resolved and rejects if any of the functions throws/rejects - but
  * only after all returned promises have been settled.
  */
-const bundle =
-  <T extends any[]>(...funs: (λ<T> | undefined)[]) =>
+const bundle = <T extends unknown[]>(...funs: (λ<T> | undefined)[]) =>
   async (...args: T): Promise<void> => {
     const res = await Promise.allSettled(
-      funs.map(f => (async () => await f?.(...args))())
-    )
-    res.forEach(v => {
-      if (v.status === 'rejected') throw v.reason
-    })
-  }
+      funs.map((f) => (async () => await f?.(...args))()),
+    );
+    res.forEach((v) => {
+      if (v.status === "rejected") throw v.reason;
+    });
+  };
 
 /**
  * Same as {@link bundle}, but return synchronously.
@@ -26,9 +25,10 @@ const bundle =
  * If any of the functions throws an error synchronously, none of the functions
  * after it will be invoked and the error will propagate.
  */
-export const bundleSync =
-  <T extends any[]>(...funs: (λ<T> | undefined)[]) =>
+export const bundleSync = <T extends unknown[]>(
+  ...funs: (λ<T> | undefined)[]
+) =>
   (...args: T) =>
-    void callAll(funs.filter(f => f !== undefined) as λ<T>[], ...args)
+    void callAll(funs.filter((f) => f !== undefined) as λ<T>[], ...args);
 
-export default bundle
+export default bundle;

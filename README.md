@@ -368,17 +368,21 @@ logIfDifferent('a')
 (fun: T, limit: number, ...funs: ExcS<T>) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L15)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L18)_</sup></sup>
 
 > Returns a version of the function `fun` that can only be invoked `limit` times.
 > An optional `except` function will be called with the same parameters on any
 > additional invocations.
+> 
 > If `fun` returns anything but `void` (or `Promise<void>`), supplying an
 > `except` function is mandatory.
+> 
 > The `except` function must have the same return type as `fun`, or — if `fun`
 > returns a promise — it may return the type that the promise resolves to
 > synchronously.
+> 
 > The `except` function may also throw instead of returning a value.
+> 
 
 ---
 
@@ -388,7 +392,7 @@ logIfDifferent('a')
 (fun: T, ...funs: ExcS<T>) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L36)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L39)_</sup></sup>
 
 > Special case of [limitInvocations](#limitInvocations). `fun` can only be invoked once.
 > 
