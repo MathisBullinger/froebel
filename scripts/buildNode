@@ -1,0 +1,16 @@
+#!/bin/bash
+
+rm -rf build tmp
+mkdir build tmp
+cp -r src/* tmp
+cd tmp
+find . -name '*.test.ts' | xargs rm -r
+mv mod.ts index.ts
+find . -name '*.ts' | xargs sed -i '' 's/.ts";/";/g'
+cp ../tsconfig.json .
+npx tsc -p tsconfig.json
+cp ../package.json ../build
+cd ../build
+rm -r ../tmp
+jq 'del(.scripts,.private)' ../package.json > package.json
+cp ../README.md .

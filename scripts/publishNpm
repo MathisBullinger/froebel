@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -r build
-npm run build
-cd build && jq 'del(.scripts,.private)' ../package.json > package.json && cp ../README.md .
+
+buildNode
+cd build
 npm publish

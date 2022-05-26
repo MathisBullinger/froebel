@@ -1,4 +1,4 @@
-const docs = require('../docs.json')
+const docs = require('./docs.json')
 
 const repo = 'https://github.com/MathisBullinger/facula'
 let readme = `# Facula - a strictly typed TypeScript utility library.
@@ -11,12 +11,12 @@ Think an opionated version of lodash, but with first-class types.
 const paramReplace = { __namedParameters: 'funs' }
 
 const indCont = require('fs').readFileSync(
-  require('path').resolve(__dirname, '../src/index.ts'),
+  require('path').resolve(__dirname, './index.ts'),
   'utf8'
 )
 
 const resImport = ({ fileName, line } = {}) => {
-  if (!fileName) return 'src/string.ts'
+  if (!fileName) return 'tmp/string.ts'
   if (!fileName.endsWith('index.ts')) return fileName
   return `src/${indCont.split('\n')[line - 1].match(/\w+(?=')/)[0]}.ts`
 }
@@ -249,7 +249,7 @@ function docItem(id) {
 
   const srcs = findSources(info)
   const src = srcs
-    ? `<sup><sup>_[source](${repo}/blob/main/${srcs[0].fileName}#L${srcs[0].line})_</sup></sup>`
+    ? `<sup><sup>_[source](${repo}/blob/main/${srcs[0].fileName.replace('tmp/', 'src/')}#L${srcs[0].line})_</sup></sup>`
     : (console.warn(`couldn't find source for ${name} ${id}`), '')
 
   let code = ''

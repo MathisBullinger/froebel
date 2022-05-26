@@ -2,7 +2,8 @@ import type { λ } from "./types.ts";
 import { assert } from "./internal/except.ts";
 
 /**
- * Returns a version of the function `fun` that can only be invoked `limit` times.
+ * Returns a version of the function `fun` that can only be invoked `limit`
+ * times.
  * An optional `except` function will be called with the same parameters on any
  * additional invocations.
  *

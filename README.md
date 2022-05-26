@@ -189,7 +189,7 @@ console.log( callAll([mult, div], 4, 2) )
 (...funs: λ<T>[]) => (...args: T) => void
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bundle.ts#L29)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bundle.ts#L28)_</sup></sup>
 
 > Same as [bundle](#bundle), but return synchronously.
 > 
@@ -238,7 +238,7 @@ ageGroup(50) // prints: 'adult'
 (...funs: [] | [FF, ...FR[]]) => (...args: Parameters<FF>) => Promise<PromType<ReturnType<FF>> | PromType<ReturnType<FR[number]>>>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullishChain.ts#L46)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullishChain.ts#L45)_</sup></sup>
 
 > Same as [nullishChain](#nullishChain) but accept asynchronous functions too.
 
@@ -260,7 +260,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, ms: number, opts?: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/throttle.ts#L15)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/throttle.ts#L16)_</sup></sup>
 
 > Created a throttled function that invokes `fun` at most every `ms` milliseconds.
 > 
@@ -368,9 +368,10 @@ logIfDifferent('a')
 (fun: T, limit: number, ...funs: ExcS<T>) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L18)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L19)_</sup></sup>
 
-> Returns a version of the function `fun` that can only be invoked `limit` times.
+> Returns a version of the function `fun` that can only be invoked `limit`
+> times.
 > An optional `except` function will be called with the same parameters on any
 > additional invocations.
 > 
@@ -392,7 +393,7 @@ logIfDifferent('a')
 (fun: T, ...funs: ExcS<T>) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L39)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L40)_</sup></sup>
 
 > Special case of [limitInvocations](#limitInvocations). `fun` can only be invoked once.
 > 
@@ -575,7 +576,7 @@ take(3, [1, 2])        // -> [1, 2]
   
 
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/range.ts#L65)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/range.ts#L66)_</sup></sup>
 
 > Creates a range between two values.
 > 
@@ -608,7 +609,7 @@ range(3, -2)     // -> [3, 2, 1, 0, -1, -2]
 (start: string, end: string) => string[]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/range.ts#L42)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/range.ts#L43)_</sup></sup>
 
 > Constructs a range between characters.
 
@@ -813,7 +814,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: null | T) => value is T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullish.ts#L21)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullish.ts#L20)_</sup></sup>
 
 > Checks if `value` is not nullish. Literal types are narrowed accordingly.
 
@@ -1002,7 +1003,7 @@ camel('foo_bar') // 'fooBar'
 class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bimap.ts#L173)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bimap.ts#L172)_</sup></sup>
 
 > Bidirectional map. Maps two sets of keys in a one-to-one relation.
 > 
@@ -1089,7 +1090,7 @@ BiMap.from(new Set<number>(), new Set<number>())
 class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/sortedArray.ts#L135)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/sortedArray.ts#L134)_</sup></sup>
 
 > Sorted array. Behaves much like a regular array but its elements remain
 > sorted using the `compare` function supplied in the constructor.

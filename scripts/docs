@@ -1,0 +1,15 @@
+#!/bin/bash
+
+rm -rf tmp
+mkdir tmp
+cp -r src/* tmp
+cd tmp
+find . -name '*.test.ts' | xargs rm -r
+mv mod.ts index.ts
+find . -name '*.ts' | xargs sed -i '' 's/.ts";/";/g'
+cp ../tsconfig.json .
+npx typedoc ./* --json docs.json
+cp ../scripts/docs.js .
+node docs.js
+cd ..
+rm -r tmp
