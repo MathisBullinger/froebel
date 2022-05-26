@@ -1,16 +1,10 @@
 {
   "name": "facula",
-  "version": "0.13.3",
+  "version": "0.14.0",
   "description": "TypeScript utility library",
   "main": "index.js",
   "types": "index.d.ts",
   "private": "true",
-  "scripts": {
-    "build": "scripts/buildNode",
-    "docs": "scripts/docs",
-    "test": "deno lint src && deno test --importmap=import_map.json src",
-    "postversion": "git push --follow-tags"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MathisBullinger/facula.git"

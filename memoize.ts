@@ -1,5 +1,5 @@
 import type { λ } from "./types.ts";
-import { assert } from "./internal/except.ts";
+import { assert } from "./except.ts";
 
 /**
  * Returns a copy of `fun` that remembers its result for any given arguments and

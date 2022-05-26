@@ -1,0 +1,4 @@
+#!/bin/bash
+
+deno lint ./*.ts
+deno test --importmap=import_map.json ./*.test.ts
