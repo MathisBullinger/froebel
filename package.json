@@ -1,6 +1,6 @@
 {
   "name": "facula",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "TypeScript utility library",
   "main": "index.js",
   "types": "index.d.ts",
