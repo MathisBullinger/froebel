@@ -204,3 +204,24 @@ export type TypedArray =
 
 export type PositiveInfinity = 1e999;
 export type NegativeInfinity = -1e999;
+
+export type SizedArray<N extends number, T = unknown> = BuildSizedArray<
+  N,
+  T,
+  []
+>;
+
+type BuildSizedArray<N extends number, T, A extends T[]> = SizeOf<A> extends N
+  ? A
+  : BuildSizedArray<N, T, [...A, T]>;
+
+export type SizeOf<T extends unknown[]> = T extends { length: infer I }
+  ? I extends number ? I
+  : never
+  : never;
+
+export type AppendArray<A extends unknown[], B extends unknown[]> = B extends [
+  infer H,
+  ...infer T,
+] ? AppendArray<[...A, H], T>
+  : A;

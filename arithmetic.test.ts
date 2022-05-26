@@ -1,6 +1,6 @@
 import * as T from "./arithmetic.ts";
 
-test("static arithmetic type tests", () => {
+Deno.test("static arithmetic type tests", () => {
   expectType<T.Add<2, 1>, 3>();
   // @ts-expect-error
   expectType<T.Add<2, 2>, 3>();
