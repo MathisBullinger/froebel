@@ -26,6 +26,7 @@ Think an opionated version of lodash, but with first-class types.
     - [zipWith](#zipWith)
     - [unzip](#unzip)
     - [unzipWith](#unzipWith)
+    - [batch](#batch)
     - [partition](#partition)
     - [range](#range)
     - [numberRange](#numberRange)
@@ -492,6 +493,26 @@ const [nums, str] = unzip(
 
 console.log(nums) // prints: [1, 2, 3]
 console.log(str)  // prints: 'abc'
+```
+
+---
+
+#### `batch` 
+  
+```hs
+(list: T[], batchSize: number) => T[][]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/batch.ts#L14)_</sup></sup>
+
+> Takes a `list` and returns it in multiple smaller lists of the size
+> `batchSize`.
+> The last batch may be smaller than `batchSize` depending on if `list` size is
+> divisible by `batchSize`.
+
+#### Example
+```ts
+batch([1,2,3,4,5], 2)  // -> [ [1,2], [3,4], [5] ]
 ```
 
 ---

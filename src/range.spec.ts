@@ -17,6 +17,4 @@ test('range', () => {
   expect(() => alphaRange('foo', 'bar')).toThrow(RangeError)
   expect(() => numberRange(1, 2, -1)).toThrow(RangeError)
   expect(() => numberRange(2, 1, 1)).toThrow(RangeError)
-
-  console.log(range('Z', 'W'))
 })
