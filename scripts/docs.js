@@ -72,8 +72,22 @@ cats = Object.entries(cats)
           return info.kindString !== 'Variable' || info.type.type !== 'query'
         })
         .sort(),
+      file
     ]
   })
+
+const catByName = {}
+const catById = {}
+  
+for (const [, ids, file] of cats) {
+  for (const id of ids) {
+    const [name] = getNode(id)
+    if (!(name in catByName)) catByName[name] = []
+    const fileName = file.replace(/^tmp\//, '')
+    catByName[name].push(fileName)
+    catById[id] = fileName
+  }
+}
 
 readme += '\n\n'
 for (const [name, ids] of cats) {
@@ -260,6 +274,7 @@ function docItem(id) {
     : (console.warn(`couldn't find source for ${name} ${id}`), '')
 
   const importPart = `import ${info.name === 'default' ? name : `{ ${name} }`} from`
+  let importPath = catByName[name].length > 1 ? catById[id] : fileName
 
   let code = ''
   try {
@@ -276,21 +291,14 @@ ${code}
 ${src}
 
 ${descr ?? ''}
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-\`\`\`js
-${importPart} "froebel/${fileName.replace(/\.ts$/, '')}";
+
+#### Import
+
+\`\`\`ts
+/* Node: */  ${importPart} "froebel/${importPath.replace(/\.ts$/, '')}";
+/* Deno: */  ${importPart} "https://deno.land/x/froebel@${version}/${importPath}";
 \`\`\`
-
-#### Deno
-
-\`\`\`js
-${importPart} "https://deno.land/x/froebel@${version}/${fileName}";
-\`\`\`
-</details>
 
 
 ${examples(docNode)}`

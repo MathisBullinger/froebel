@@ -5,7 +5,7 @@ I use across different projects.
 
 Think an opionated version of lodash, but with first-class types.
 
-Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.land/x/froebel@v0.14.3) or [npm](https://www.npmjs.com/package/froebel).
+Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.land/x/froebel@v0.14.4) or [npm](https://www.npmjs.com/package/froebel).
 
 
 
@@ -88,21 +88,14 @@ Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.la
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/ident.ts#L2)_</sup></sup>
 
 > Identity function.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import ident from "froebel/ident";
+
+#### Import
+
+```ts
+/* Node: */  import ident from "froebel/ident";
+/* Deno: */  import ident from "https://deno.land/x/froebel@v0.14.4/ident.ts";
 ```
-
-#### Deno
-
-```js
-import ident from "https://deno.land/x/froebel@v0.14.3/ident.ts";
-```
-</details>
 
 
 
@@ -118,21 +111,14 @@ import ident from "https://deno.land/x/froebel@v0.14.3/ident.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/partial.ts#L17)_</sup></sup>
 
 > Partially apply a function.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import partial from "froebel/partial";
+
+#### Import
+
+```ts
+/* Node: */  import partial from "froebel/partial";
+/* Deno: */  import partial from "https://deno.land/x/froebel@v0.14.4/partial.ts";
 ```
-
-#### Deno
-
-```js
-import partial from "https://deno.land/x/froebel@v0.14.3/partial.ts";
-```
-</details>
 
 
 
@@ -160,21 +146,14 @@ console.log(oneOver(4))
 
 > Given a function and its nth..last arguments, return a function accepting
 > arguments 0..n-1.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import forward from "froebel/forward";
+
+#### Import
+
+```ts
+/* Node: */  import forward from "froebel/forward";
+/* Deno: */  import forward from "https://deno.land/x/froebel@v0.14.4/forward.ts";
 ```
-
-#### Deno
-
-```js
-import forward from "https://deno.land/x/froebel@v0.14.3/forward.ts";
-```
-</details>
 
 
 
@@ -211,21 +190,14 @@ const viaHTTPS = await fetchRepo('https')
 
 > Take a list of functions that accept the same parameters and call them all
 > with the provided arguments.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import callAll from "froebel/callAll";
+
+#### Import
+
+```ts
+/* Node: */  import callAll from "froebel/callAll";
+/* Deno: */  import callAll from "https://deno.land/x/froebel@v0.14.4/callAll.ts";
 ```
-
-#### Deno
-
-```js
-import callAll from "https://deno.land/x/froebel@v0.14.3/callAll.ts";
-```
-</details>
 
 
 
@@ -256,21 +228,14 @@ console.log( callAll([mult, div], 4, 2) )
 > returned/resolved and rejects if any of the functions throws/rejects - but
 > only after all returned promises have been settled.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import bundle from "froebel/bundle";
+
+#### Import
+
+```ts
+/* Node: */  import bundle from "froebel/bundle";
+/* Deno: */  import bundle from "https://deno.land/x/froebel@v0.14.4/bundle.ts";
 ```
-
-#### Deno
-
-```js
-import bundle from "https://deno.land/x/froebel@v0.14.3/bundle.ts";
-```
-</details>
 
 
 
@@ -290,21 +255,14 @@ import bundle from "https://deno.land/x/froebel@v0.14.3/bundle.ts";
 > If any of the functions throws an error synchronously, none of the functions
 > after it will be invoked and the error will propagate.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { bundleSync } from "froebel/bundle";
+
+#### Import
+
+```ts
+/* Node: */  import { bundleSync } from "froebel/bundle";
+/* Deno: */  import { bundleSync } from "https://deno.land/x/froebel@v0.14.4/bundle.ts";
 ```
-
-#### Deno
-
-```js
-import { bundleSync } from "https://deno.land/x/froebel@v0.14.3/bundle.ts";
-```
-</details>
 
 
 
@@ -326,21 +284,14 @@ import { bundleSync } from "https://deno.land/x/froebel@v0.14.3/bundle.ts";
 > This is equivalent to chaining together invocations of the passed in
 > functions with the given arguments with nullish coalescing _(`??`)_ operators.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { nullishChain } from "froebel/nullishChain";
+
+#### Import
+
+```ts
+/* Node: */  import { nullishChain } from "froebel/nullishChain";
+/* Deno: */  import { nullishChain } from "https://deno.land/x/froebel@v0.14.4/nullishChain.ts";
 ```
-
-#### Deno
-
-```js
-import { nullishChain } from "https://deno.land/x/froebel@v0.14.3/nullishChain.ts";
-```
-</details>
 
 
 
@@ -371,21 +322,14 @@ ageGroup(50) // prints: 'adult'
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/nullishChain.ts#L45)_</sup></sup>
 
 > Same as [nullishChain](#nullishChain) but accept asynchronous functions too.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { asyncNullishChain } from "froebel/nullishChain";
+
+#### Import
+
+```ts
+/* Node: */  import { asyncNullishChain } from "froebel/nullishChain";
+/* Deno: */  import { asyncNullishChain } from "https://deno.land/x/froebel@v0.14.4/nullishChain.ts";
 ```
-
-#### Deno
-
-```js
-import { asyncNullishChain } from "https://deno.land/x/froebel@v0.14.3/nullishChain.ts";
-```
-</details>
 
 
 
@@ -417,21 +361,14 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 > Calling `[throttle.cancel]()` on the throttled function will cancel the currently
 > scheduled invocation.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import throttle from "froebel/throttle";
+
+#### Import
+
+```ts
+/* Node: */  import throttle from "froebel/throttle";
+/* Deno: */  import throttle from "https://deno.land/x/froebel@v0.14.4/throttle.ts";
 ```
-
-#### Deno
-
-```js
-import throttle from "https://deno.land/x/froebel@v0.14.3/throttle.ts";
-```
-</details>
 
 
 
@@ -454,21 +391,14 @@ import throttle from "https://deno.land/x/froebel@v0.14.3/throttle.ts";
 > Calling `[debounce.cancel]()` on the debounced function will cancel the currently
 > scheduled invocation.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import debounce from "froebel/debounce";
+
+#### Import
+
+```ts
+/* Node: */  import debounce from "froebel/debounce";
+/* Deno: */  import debounce from "https://deno.land/x/froebel@v0.14.4/debounce.ts";
 ```
-
-#### Deno
-
-```js
-import debounce from "https://deno.land/x/froebel@v0.14.3/debounce.ts";
-```
-</details>
 
 
 
@@ -499,21 +429,14 @@ import debounce from "https://deno.land/x/froebel@v0.14.3/debounce.ts";
 > node.
 > Using weak keys prohibits setting a `limit`.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import memoize from "froebel/memoize";
+
+#### Import
+
+```ts
+/* Node: */  import memoize from "froebel/memoize";
+/* Deno: */  import memoize from "https://deno.land/x/froebel@v0.14.4/memoize.ts";
 ```
-
-#### Deno
-
-```js
-import memoize from "https://deno.land/x/froebel@v0.14.3/memoize.ts";
-```
-</details>
 
 
 
@@ -586,21 +509,14 @@ logIfDifferent('a')
 > 
 > The `except` function may also throw instead of returning a value.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { limitInvocations } from "froebel/invoke";
+
+#### Import
+
+```ts
+/* Node: */  import { limitInvocations } from "froebel/invoke";
+/* Deno: */  import { limitInvocations } from "https://deno.land/x/froebel@v0.14.4/invoke.ts";
 ```
-
-#### Deno
-
-```js
-import { limitInvocations } from "https://deno.land/x/froebel@v0.14.3/invoke.ts";
-```
-</details>
 
 
 
@@ -618,21 +534,14 @@ import { limitInvocations } from "https://deno.land/x/froebel@v0.14.3/invoke.ts"
 > Special case of [limitInvocations](#limitInvocations). `fun` can only be invoked once.
 > 
 > <sub>see [limitInvocations](#limitInvocations)</sub>
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { once } from "froebel/invoke";
+
+#### Import
+
+```ts
+/* Node: */  import { once } from "froebel/invoke";
+/* Deno: */  import { once } from "https://deno.land/x/froebel@v0.14.4/invoke.ts";
 ```
-
-#### Deno
-
-```js
-import { once } from "https://deno.land/x/froebel@v0.14.3/invoke.ts";
-```
-</details>
 
 
 
@@ -648,21 +557,14 @@ import { once } from "https://deno.land/x/froebel@v0.14.3/invoke.ts";
 
 > Access list at `i % length`. Negative indexes start indexing the last
 > element as `[-1]` and wrap around to the back.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import atWrap from "froebel/atWrap";
+
+#### Import
+
+```ts
+/* Node: */  import atWrap from "froebel/atWrap";
+/* Deno: */  import atWrap from "https://deno.land/x/froebel@v0.14.4/atWrap.ts";
 ```
-
-#### Deno
-
-```js
-import atWrap from "https://deno.land/x/froebel@v0.14.3/atWrap.ts";
-```
-</details>
 
 
 
@@ -680,21 +582,14 @@ import atWrap from "https://deno.land/x/froebel@v0.14.3/atWrap.ts";
 > Takes multiple lists and returns a list of tuples containing the value in
 > each list at the current index. If the lists are of different lengths, the
 > returned list of tuples has the length of the shortest passed in list.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import zip from "froebel/zip";
+
+#### Import
+
+```ts
+/* Node: */  import zip from "froebel/zip";
+/* Deno: */  import zip from "https://deno.land/x/froebel@v0.14.4/zip.ts";
 ```
-
-#### Deno
-
-```js
-import zip from "https://deno.land/x/froebel@v0.14.3/zip.ts";
-```
-</details>
 
 
 
@@ -719,21 +614,14 @@ console.log(pairs) // prints: [[1,'a'], [2,'b'], [3,'c']]
 > each index with the element at current index in each list as arguments. The
 > result of `zipper` is the element at current index in the list returned from
 > `zipWith`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { zipWith } from "froebel/zip";
+
+#### Import
+
+```ts
+/* Node: */  import { zipWith } from "froebel/zip";
+/* Deno: */  import { zipWith } from "https://deno.land/x/froebel@v0.14.4/zip.ts";
 ```
-
-#### Deno
-
-```js
-import { zipWith } from "https://deno.land/x/froebel@v0.14.3/zip.ts";
-```
-</details>
 
 
 
@@ -757,21 +645,14 @@ console.log(sums) // prints: [5,7,9]
 > Reverse of [zip](#zip). Takes a list of tuples and deconstructs them into
 > an array (of length of the tuples length) of lists each containing all the
 > elements in all tuples at the lists index.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import unzip from "froebel/unzip";
+
+#### Import
+
+```ts
+/* Node: */  import unzip from "froebel/unzip";
+/* Deno: */  import unzip from "https://deno.land/x/froebel@v0.14.4/unzip.ts";
 ```
-
-#### Deno
-
-```js
-import unzip from "https://deno.land/x/froebel@v0.14.3/unzip.ts";
-```
-</details>
 
 
 
@@ -801,21 +682,14 @@ console.log(chars) // prints: ['a','b','c']
 > accumulator as second argument (initially `undefined`) and its return value
 > is the accumulator passed into the next invocation.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { unzipWith } from "froebel/unzip";
+
+#### Import
+
+```ts
+/* Node: */  import { unzipWith } from "froebel/unzip";
+/* Deno: */  import { unzipWith } from "https://deno.land/x/froebel@v0.14.4/unzip.ts";
 ```
-
-#### Deno
-
-```js
-import { unzipWith } from "https://deno.land/x/froebel@v0.14.3/unzip.ts";
-```
-</details>
 
 
 
@@ -846,21 +720,14 @@ console.log(str)  // prints: 'abc'
 > `batchSize`.
 > The last batch may be smaller than `batchSize` depending on if `list` size is
 > divisible by `batchSize`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import batch from "froebel/batch";
+
+#### Import
+
+```ts
+/* Node: */  import batch from "froebel/batch";
+/* Deno: */  import batch from "https://deno.land/x/froebel@v0.14.4/batch.ts";
 ```
-
-#### Deno
-
-```js
-import batch from "https://deno.land/x/froebel@v0.14.3/batch.ts";
-```
-</details>
 
 
 
@@ -886,21 +753,14 @@ batch([1,2,3,4,5], 2)  // -> [ [1,2], [3,4], [5] ]
 > Think of it as `filter`, but the elements that don't pass the filter aren't
 > discarded but returned in a separate list instead.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import partition from "froebel/partition";
+
+#### Import
+
+```ts
+/* Node: */  import partition from "froebel/partition";
+/* Deno: */  import partition from "https://deno.land/x/froebel@v0.14.4/partition.ts";
 ```
-
-#### Deno
-
-```js
-import partition from "https://deno.land/x/froebel@v0.14.3/partition.ts";
-```
-</details>
 
 
 
@@ -926,21 +786,14 @@ const [strings, numbers] = partition(
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/take.ts#L11)_</sup></sup>
 
 > Takes `n` elements from the iterable `list` and returns them as an array.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { take } from "froebel/take";
+
+#### Import
+
+```ts
+/* Node: */  import { take } from "froebel/list";
+/* Deno: */  import { take } from "https://deno.land/x/froebel@v0.14.4/list.ts";
 ```
-
-#### Deno
-
-```js
-import { take } from "https://deno.land/x/froebel@v0.14.3/take.ts";
-```
-</details>
 
 
 
@@ -963,21 +816,14 @@ take(3, [1, 2])        // -> [1, 2]
 > Creates a range between two values.
 > 
 > <sub>see [numberRange](#numberRange) and [alphaRange](#alphaRange)</sub>
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import range from "froebel/range";
+
+#### Import
+
+```ts
+/* Node: */  import range from "froebel/range";
+/* Deno: */  import range from "https://deno.land/x/froebel@v0.14.4/range.ts";
 ```
-
-#### Deno
-
-```js
-import range from "https://deno.land/x/froebel@v0.14.3/range.ts";
-```
-</details>
 
 
 
@@ -993,21 +839,14 @@ import range from "https://deno.land/x/froebel@v0.14.3/range.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/range.ts#L17)_</sup></sup>
 
 > Constructs a numeric between `start` and `end` inclusively.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { numberRange } from "froebel/range";
+
+#### Import
+
+```ts
+/* Node: */  import { numberRange } from "froebel/range";
+/* Deno: */  import { numberRange } from "https://deno.land/x/froebel@v0.14.4/range.ts";
 ```
-
-#### Deno
-
-```js
-import { numberRange } from "https://deno.land/x/froebel@v0.14.3/range.ts";
-```
-</details>
 
 
 
@@ -1030,21 +869,14 @@ range(3, -2)     // -> [3, 2, 1, 0, -1, -2]
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/range.ts#L43)_</sup></sup>
 
 > Constructs a range between characters.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { alphaRange } from "froebel/range";
+
+#### Import
+
+```ts
+/* Node: */  import { alphaRange } from "froebel/range";
+/* Deno: */  import { alphaRange } from "https://deno.land/x/froebel@v0.14.4/range.ts";
 ```
-
-#### Deno
-
-```js
-import { alphaRange } from "https://deno.land/x/froebel@v0.14.3/range.ts";
-```
-</details>
 
 
 
@@ -1065,21 +897,14 @@ range('Z', 'W')  // -> ['Z', 'Y', 'X', 'W']
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/repeat.ts#L11)_</sup></sup>
 
 > Returns a generator that repeats `sequence`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import repeat from "froebel/repeat";
+
+#### Import
+
+```ts
+/* Node: */  import repeat from "froebel/repeat";
+/* Deno: */  import repeat from "https://deno.land/x/froebel@v0.14.4/repeat.ts";
 ```
-
-#### Deno
-
-```js
-import repeat from "https://deno.land/x/froebel@v0.14.3/repeat.ts";
-```
-</details>
 
 
 
@@ -1102,21 +927,14 @@ for (const n of repeat(1, 2, 3))
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/take.ts#L25)_</sup></sup>
 
 > Takes `n` elements from the iterable `list` and returns them as a generator.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { take } from "froebel/take";
+
+#### Import
+
+```ts
+/* Node: */  import { take } from "froebel/iterable";
+/* Deno: */  import { take } from "https://deno.land/x/froebel@v0.14.4/iterable.ts";
 ```
-
-#### Deno
-
-```js
-import { take } from "https://deno.land/x/froebel@v0.14.3/take.ts";
-```
-</details>
 
 
 
@@ -1138,21 +956,14 @@ import { take } from "https://deno.land/x/froebel@v0.14.3/take.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/pick.ts#L9)_</sup></sup>
 
 > From `obj`, create a new object that only includes `keys`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import pick from "froebel/pick";
+
+#### Import
+
+```ts
+/* Node: */  import pick from "froebel/pick";
+/* Deno: */  import pick from "https://deno.land/x/froebel@v0.14.4/pick.ts";
 ```
-
-#### Deno
-
-```js
-import pick from "https://deno.land/x/froebel@v0.14.3/pick.ts";
-```
-</details>
 
 
 
@@ -1173,21 +984,14 @@ pick({ a: 1, b: 2, c: 3 }, 'a', 'c') // { a: 1, c: 3 }
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/omit.ts#L9)_</sup></sup>
 
 > From `obj`, create a new object that does not include `keys`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import omit from "froebel/omit";
+
+#### Import
+
+```ts
+/* Node: */  import omit from "froebel/omit";
+/* Deno: */  import omit from "https://deno.land/x/froebel@v0.14.4/omit.ts";
 ```
-
-#### Deno
-
-```js
-import omit from "https://deno.land/x/froebel@v0.14.3/omit.ts";
-```
-</details>
 
 
 
@@ -1207,21 +1011,14 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/oneOf.ts#L2)_</sup></sup>
 
 > Checks if `v` is one of `cmps`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import oneOf from "froebel/oneOf";
+
+#### Import
+
+```ts
+/* Node: */  import oneOf from "froebel/oneOf";
+/* Deno: */  import oneOf from "https://deno.land/x/froebel@v0.14.4/oneOf.ts";
 ```
-
-#### Deno
-
-```js
-import oneOf from "https://deno.land/x/froebel@v0.14.3/oneOf.ts";
-```
-</details>
 
 
 
@@ -1243,21 +1040,14 @@ import oneOf from "https://deno.land/x/froebel@v0.14.3/oneOf.ts";
 > - objects (including arrays) are checked to have the same properties and
 >   their values are compared recursively using the same algorithm
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import equal from "froebel/equal";
+
+#### Import
+
+```ts
+/* Node: */  import equal from "froebel/equal";
+/* Deno: */  import equal from "https://deno.land/x/froebel@v0.14.4/equal.ts";
 ```
-
-#### Deno
-
-```js
-import equal from "https://deno.land/x/froebel@v0.14.3/equal.ts";
-```
-</details>
 
 
 
@@ -1283,21 +1073,14 @@ import equal from "https://deno.land/x/froebel@v0.14.3/equal.ts";
 > resulting object that path will also reference the path it referenced in the
 > original object (but now in the resuling object instead of the original).
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import clone from "froebel/clone";
+
+#### Import
+
+```ts
+/* Node: */  import clone from "froebel/clone";
+/* Deno: */  import clone from "https://deno.land/x/froebel@v0.14.4/clone.ts";
 ```
-
-#### Deno
-
-```js
-import clone from "https://deno.land/x/froebel@v0.14.3/clone.ts";
-```
-</details>
 
 
 
@@ -1312,21 +1095,14 @@ import clone from "https://deno.land/x/froebel@v0.14.3/clone.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/isPromise.ts#L2)_</sup></sup>
 
 > Checks if `value` looks like a promise.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import isPromise from "froebel/isPromise";
+
+#### Import
+
+```ts
+/* Node: */  import isPromise from "froebel/isPromise";
+/* Deno: */  import isPromise from "https://deno.land/x/froebel@v0.14.4/isPromise.ts";
 ```
-
-#### Deno
-
-```js
-import isPromise from "https://deno.land/x/froebel@v0.14.3/isPromise.ts";
-```
-</details>
 
 
 
@@ -1342,21 +1118,14 @@ import isPromise from "https://deno.land/x/froebel@v0.14.3/isPromise.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/isPromise.ts#L19)_</sup></sup>
 
 > Checks if `value` is not a promise.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { isNotPromise } from "froebel/isPromise";
+
+#### Import
+
+```ts
+/* Node: */  import { isNotPromise } from "froebel/isPromise";
+/* Deno: */  import { isNotPromise } from "https://deno.land/x/froebel@v0.14.4/isPromise.ts";
 ```
-
-#### Deno
-
-```js
-import { isNotPromise } from "https://deno.land/x/froebel@v0.14.3/isPromise.ts";
-```
-</details>
 
 
 
@@ -1378,21 +1147,14 @@ import { isNotPromise } from "https://deno.land/x/froebel@v0.14.3/isPromise.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/truthy.ts#L2)_</sup></sup>
 
 > Checks if `value` is truthy. Literal types are narrowed accordingly.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { truthy } from "froebel/truthy";
+
+#### Import
+
+```ts
+/* Node: */  import { truthy } from "froebel/truthy";
+/* Deno: */  import { truthy } from "https://deno.land/x/froebel@v0.14.4/truthy.ts";
 ```
-
-#### Deno
-
-```js
-import { truthy } from "https://deno.land/x/froebel@v0.14.3/truthy.ts";
-```
-</details>
 
 
 
@@ -1408,21 +1170,14 @@ import { truthy } from "https://deno.land/x/froebel@v0.14.3/truthy.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/truthy.ts#L5)_</sup></sup>
 
 > Checks if `value` is falsy. Literal types are narrowed accordingly.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { falsy } from "froebel/truthy";
+
+#### Import
+
+```ts
+/* Node: */  import { falsy } from "froebel/truthy";
+/* Deno: */  import { falsy } from "https://deno.land/x/froebel@v0.14.4/truthy.ts";
 ```
-
-#### Deno
-
-```js
-import { falsy } from "https://deno.land/x/froebel@v0.14.3/truthy.ts";
-```
-</details>
 
 
 
@@ -1438,21 +1193,14 @@ import { falsy } from "https://deno.land/x/froebel@v0.14.3/truthy.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/nullish.ts#L2)_</sup></sup>
 
 > Checks if `value` is nullish. Literal types are narrowed accordingly.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { nullish } from "froebel/nullish";
+
+#### Import
+
+```ts
+/* Node: */  import { nullish } from "froebel/nullish";
+/* Deno: */  import { nullish } from "https://deno.land/x/froebel@v0.14.4/nullish.ts";
 ```
-
-#### Deno
-
-```js
-import { nullish } from "https://deno.land/x/froebel@v0.14.3/nullish.ts";
-```
-</details>
 
 
 
@@ -1468,21 +1216,14 @@ import { nullish } from "https://deno.land/x/froebel@v0.14.3/nullish.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/nullish.ts#L20)_</sup></sup>
 
 > Checks if `value` is not nullish. Literal types are narrowed accordingly.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { notNullish } from "froebel/nullish";
+
+#### Import
+
+```ts
+/* Node: */  import { notNullish } from "froebel/nullish";
+/* Deno: */  import { notNullish } from "https://deno.land/x/froebel@v0.14.4/nullish.ts";
 ```
-
-#### Deno
-
-```js
-import { notNullish } from "https://deno.land/x/froebel@v0.14.3/nullish.ts";
-```
-</details>
 
 
 
@@ -1503,21 +1244,14 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/settled.ts#L2)_</sup></sup>
 
 > Checks if `result` (returned from `Promise.allSettled`) is fulfilled.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { isFulfilled } from "froebel/settled";
+
+#### Import
+
+```ts
+/* Node: */  import { isFulfilled } from "froebel/settled";
+/* Deno: */  import { isFulfilled } from "https://deno.land/x/froebel@v0.14.4/settled.ts";
 ```
-
-#### Deno
-
-```js
-import { isFulfilled } from "https://deno.land/x/froebel@v0.14.3/settled.ts";
-```
-</details>
 
 
 
@@ -1533,21 +1267,14 @@ import { isFulfilled } from "https://deno.land/x/froebel@v0.14.3/settled.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/settled.ts#L7)_</sup></sup>
 
 > Checks if `result` (returned from `Promise.allSettled`) is rejected.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { isRejected } from "froebel/settled";
+
+#### Import
+
+```ts
+/* Node: */  import { isRejected } from "froebel/settled";
+/* Deno: */  import { isRejected } from "https://deno.land/x/froebel@v0.14.4/settled.ts";
 ```
-
-#### Deno
-
-```js
-import { isRejected } from "https://deno.land/x/froebel@v0.14.3/settled.ts";
-```
-</details>
 
 
 
@@ -1568,21 +1295,14 @@ import { isRejected } from "https://deno.land/x/froebel@v0.14.3/settled.ts";
 > The result is strictly typed, so `prefix('foo', 'bar')` will return the type
 > `'foobar'`, not just a generic `string`.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import prefix from "froebel/prefix";
+
+#### Import
+
+```ts
+/* Node: */  import prefix from "froebel/prefix";
+/* Deno: */  import prefix from "https://deno.land/x/froebel@v0.14.4/prefix.ts";
 ```
-
-#### Deno
-
-```js
-import prefix from "https://deno.land/x/froebel@v0.14.3/prefix.ts";
-```
-</details>
 
 
 
@@ -1599,21 +1319,14 @@ import prefix from "https://deno.land/x/froebel@v0.14.3/prefix.ts";
 
 > Returns `str` suffixed with `suffix`. Same case and type behavior as
 > [prefix](#prefix).
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import suffix from "froebel/suffix";
+
+#### Import
+
+```ts
+/* Node: */  import suffix from "froebel/suffix";
+/* Deno: */  import suffix from "https://deno.land/x/froebel@v0.14.4/suffix.ts";
 ```
-
-#### Deno
-
-```js
-import suffix from "https://deno.land/x/froebel@v0.14.3/suffix.ts";
-```
-</details>
 
 
 
@@ -1629,21 +1342,14 @@ import suffix from "https://deno.land/x/froebel@v0.14.3/suffix.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L4)_</sup></sup>
 
 > Upper-case first letter of string.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { capitalize } from "froebel/case";
+
+#### Import
+
+```ts
+/* Node: */  import { capitalize } from "froebel/case";
+/* Deno: */  import { capitalize } from "https://deno.land/x/froebel@v0.14.4/case.ts";
 ```
-
-#### Deno
-
-```js
-import { capitalize } from "https://deno.land/x/froebel@v0.14.3/case.ts";
-```
-</details>
 
 
 
@@ -1659,21 +1365,14 @@ import { capitalize } from "https://deno.land/x/froebel@v0.14.3/case.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L8)_</sup></sup>
 
 > Lower-case first letter of string
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { uncapitalize } from "froebel/case";
+
+#### Import
+
+```ts
+/* Node: */  import { uncapitalize } from "froebel/case";
+/* Deno: */  import { uncapitalize } from "https://deno.land/x/froebel@v0.14.4/case.ts";
 ```
-
-#### Deno
-
-```js
-import { uncapitalize } from "https://deno.land/x/froebel@v0.14.3/case.ts";
-```
-</details>
 
 
 
@@ -1689,21 +1388,14 @@ import { uncapitalize } from "https://deno.land/x/froebel@v0.14.3/case.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L12)_</sup></sup>
 
 > Strictly typed `String.toUpperCase()`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { upper } from "froebel/case";
+
+#### Import
+
+```ts
+/* Node: */  import { upper } from "froebel/case";
+/* Deno: */  import { upper } from "https://deno.land/x/froebel@v0.14.4/case.ts";
 ```
-
-#### Deno
-
-```js
-import { upper } from "https://deno.land/x/froebel@v0.14.3/case.ts";
-```
-</details>
 
 
 
@@ -1719,21 +1411,14 @@ import { upper } from "https://deno.land/x/froebel@v0.14.3/case.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L16)_</sup></sup>
 
 > Strictly typed `String.toLowerCase()`.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { lower } from "froebel/case";
+
+#### Import
+
+```ts
+/* Node: */  import { lower } from "froebel/case";
+/* Deno: */  import { lower } from "https://deno.land/x/froebel@v0.14.4/case.ts";
 ```
-
-#### Deno
-
-```js
-import { lower } from "https://deno.land/x/froebel@v0.14.3/case.ts";
-```
-</details>
 
 
 
@@ -1755,21 +1440,14 @@ import { lower } from "https://deno.land/x/froebel@v0.14.3/case.ts";
 > absolutely unambiguous. For more examples of how names are transformed, have
 > a look at the test cases.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { snake } from "froebel/case";
+
+#### Import
+
+```ts
+/* Node: */  import { snake } from "froebel/case";
+/* Deno: */  import { snake } from "https://deno.land/x/froebel@v0.14.4/case.ts";
 ```
-
-#### Deno
-
-```js
-import { snake } from "https://deno.land/x/froebel@v0.14.3/case.ts";
-```
-</details>
 
 
 
@@ -1796,21 +1474,14 @@ snake('fooBar') // 'foo_bar'
 > absolutely unambiguous. For more examples of how names are transformed, have
 > a look at the test cases.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { camel } from "froebel/case";
+
+#### Import
+
+```ts
+/* Node: */  import { camel } from "froebel/case";
+/* Deno: */  import { camel } from "https://deno.land/x/froebel@v0.14.4/case.ts";
 ```
-
-#### Deno
-
-```js
-import { camel } from "https://deno.land/x/froebel@v0.14.3/case.ts";
-```
-</details>
 
 
 
@@ -1833,21 +1504,14 @@ camel('foo_bar') // 'fooBar'
 > Transform a variable name to `targetCase`
 > 
 > <sub>see [snake](#snake) and [camel](#camel)</sub>
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import { transformCase } from "froebel/case";
+
+#### Import
+
+```ts
+/* Node: */  import { transformCase } from "froebel/case";
+/* Deno: */  import { transformCase } from "https://deno.land/x/froebel@v0.14.4/case.ts";
 ```
-
-#### Deno
-
-```js
-import { transformCase } from "https://deno.land/x/froebel@v0.14.3/case.ts";
-```
-</details>
 
 
 
@@ -1862,21 +1526,14 @@ import { transformCase } from "https://deno.land/x/froebel@v0.14.3/case.ts";
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/clamp.ts#L2)_</sup></sup>
 
 > Clamp `num` between `min` and `max` inclusively.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import clamp from "froebel/clamp";
+
+#### Import
+
+```ts
+/* Node: */  import clamp from "froebel/clamp";
+/* Deno: */  import clamp from "https://deno.land/x/froebel@v0.14.4/clamp.ts";
 ```
-
-#### Deno
-
-```js
-import clamp from "https://deno.land/x/froebel@v0.14.3/clamp.ts";
-```
-</details>
 
 
 
@@ -1896,21 +1553,14 @@ class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 > one was provided in the constructor) with an interface similar to that of the
 > built-in Map and the same iteration behavior.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import BiMap from "froebel/bimap";
+
+#### Import
+
+```ts
+/* Node: */  import BiMap from "froebel/bimap";
+/* Deno: */  import BiMap from "https://deno.land/x/froebel@v0.14.4/bimap.ts";
 ```
-
-#### Deno
-
-```js
-import BiMap from "https://deno.land/x/froebel@v0.14.3/bimap.ts";
-```
-</details>
 
 
 
@@ -2018,21 +1668,14 @@ class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 > The `filter` and `slice` methods will return SortedArray instances instead of
 > plain arrays.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import SortedArray from "froebel/sortedArray";
+
+#### Import
+
+```ts
+/* Node: */  import SortedArray from "froebel/sortedArray";
+/* Deno: */  import SortedArray from "https://deno.land/x/froebel@v0.14.4/sortedArray.ts";
 ```
-
-#### Deno
-
-```js
-import SortedArray from "https://deno.land/x/froebel@v0.14.3/sortedArray.ts";
-```
-</details>
 
 
 
@@ -2054,21 +1697,14 @@ class SortedMap<K, V>(compare: Cmp<K, V>, entries?: null | [K, V][])
 > If you update one of the values that the `compare` function depends on, you
 > must call the `update(key)` method afterwards to ensure the map stays sorted.
 > 
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import SortedMap from "froebel/sortedMap";
+
+#### Import
+
+```ts
+/* Node: */  import SortedMap from "froebel/sortedMap";
+/* Deno: */  import SortedMap from "https://deno.land/x/froebel@v0.14.4/sortedMap.ts";
 ```
-
-#### Deno
-
-```js
-import SortedMap from "https://deno.land/x/froebel@v0.14.3/sortedMap.ts";
-```
-</details>
 
 
 
@@ -2084,20 +1720,13 @@ import SortedMap from "https://deno.land/x/froebel@v0.14.3/sortedMap.ts";
 
 > Returns the value in `obj` at `path`. If the given path does not exist,
 > the symbol `none` is returned.
-<details>
-  <summary>import</summary>
 
-#### Node
-  
-```js
-import select from "froebel/select";
+
+#### Import
+
+```ts
+/* Node: */  import select from "froebel/select";
+/* Deno: */  import select from "https://deno.land/x/froebel@v0.14.4/select.ts";
 ```
-
-#### Deno
-
-```js
-import select from "https://deno.land/x/froebel@v0.14.3/select.ts";
-```
-</details>
 
 
