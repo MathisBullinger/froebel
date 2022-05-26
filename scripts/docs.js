@@ -21,19 +21,39 @@ const resImport = ({ fileName, line } = {}) => {
   return `src/${indCont.split('\n')[line - 1].match(/\w+(?=')/)[0]}.ts`
 }
 
-let exps = docs.children
-  .find(({ name }) => name === 'index')
-  .children.filter(v => v.kindString === 'Reference')
-  .map(v => [v.id, resImport(v.sources?.[0])])
+const modules = new Set(
+  docs.children
+    .find(({ name }) => name === 'index')
+    .children.filter(v => v.kindString === 'Reference')
+    .map(v => resImport(v.sources?.[0]))
+)
+
+const exps = [...modules].flatMap(name =>
+  docs.children
+    .find(child => child.name === name.split('/').pop().replace(/\.ts$/, ''))
+    .children.filter(v => v.kindString === 'Reference')
+    .map(v => [v.id, resImport(v.sources?.[0])])
+)
 
 let cats = exps.reduce(
   (a, [id, file]) => ({ ...a, [file]: [...(a[file] ?? []), id] }),
   {}
 )
 
-const alias = { ds: 'Data Structures' }
-cats = Object.entries(cats)
+const defaultExports = docs.children
+  .find(({ name }) => name === 'index')
+  .children.filter(v => v.kindString === 'Reference')
+  .map(v => [v.id, resImport(v.sources?.[0])])
+  .reduce((a, [id, file]) => ({ ...a, [file]: [...(a[file] ?? []), id] }), {})
+
+const moduleOrder = Object.entries(defaultExports)
   .sort(([, a], [, b]) => Math.min(...a) - Math.min(...b))
+  .map(([v]) => v)
+
+const alias = { ds: 'Data Structures' }
+const seen = new Set()
+cats = Object.entries(cats)
+  .sort(([a], [b]) => moduleOrder.indexOf(a) - moduleOrder.indexOf(b))
   .map(([file, ids]) => {
     const [name] = file.match(/\w+?(?=\.ts$)/)
     return [
@@ -41,6 +61,8 @@ cats = Object.entries(cats)
       ids
         .filter(v => {
           const [, info] = getNode(v)
+          if (seen.has(info.id)) return false
+          seen.add(info.id)
           return info.kindString !== 'Variable' || info.type.type !== 'query'
         })
         .sort(),
