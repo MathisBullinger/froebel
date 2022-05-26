@@ -1,4 +1,4 @@
-import { assert } from "./internal/except.ts";
+import { assert } from "./except.ts";
 
 /**
  * Constructs a numeric between `start` and `end` inclusively.

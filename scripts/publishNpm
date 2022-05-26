@@ -1,5 +1,6 @@
 #!/bin/bash
 
+scripts/test
 scripts/buildNode
 cd build
 npm publish

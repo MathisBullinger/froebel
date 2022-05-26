@@ -2,15 +2,15 @@
 
 rm -rf build tmp
 mkdir build tmp
-cp -r src/* tmp
+cp -r ./*.ts tmp
 cd tmp
 find . -name '*.test.ts' | xargs rm -r
 mv mod.ts index.ts
 find . -name '*.ts' | xargs sed -i '' 's/.ts";/";/g'
-cp ../tsconfig.json .
+cp ../npm/tsconfig.json .
+ln -s ../npm/node_modules node_modules
 npx tsc -p tsconfig.json
-cp ../package.json ../build
 cd ../build
 rm -r ../tmp
-jq 'del(.scripts,.private)' ../package.json > package.json
+jq 'del(.scripts,.private)' ../npm/package.json > package.json
 cp ../README.md .

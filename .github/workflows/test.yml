@@ -14,4 +14,4 @@ jobs:
           deno-version: vx.x.x
 
       - name: Test
-        run: npm test
+        run: scripts/test

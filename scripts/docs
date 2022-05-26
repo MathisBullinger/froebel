@@ -2,12 +2,14 @@
 
 rm -rf tmp
 mkdir tmp
-cp -r src/* tmp
+cp -r ./*.ts tmp
 cd tmp
-find . -name '*.test.ts' | xargs rm -r
+find . -name './*.test.ts' | xargs rm -r
 mv mod.ts index.ts
+rm -r ./*.test.ts
 find . -name '*.ts' | xargs sed -i '' 's/.ts";/";/g'
-cp ../tsconfig.json .
+cp ../npm/tsconfig.json .
+ln -s ../npm/node_modules node_modules
 npx typedoc ./* --json docs.json
 cp ../scripts/docs.js .
 node docs.js

@@ -1,5 +1,5 @@
 import type { λ } from "./types.ts";
-import { assert } from "./internal/except.ts";
+import { assert } from "./except.ts";
 
 /**
  * Returns a version of the function `fun` that can only be invoked `limit`

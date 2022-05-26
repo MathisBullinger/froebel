@@ -1,4 +1,4 @@
-import { assert } from "./internal/except.ts";
+import { assert } from "./except.ts";
 
 /**
  * Takes a `list` and returns it in multiple smaller lists of the size
