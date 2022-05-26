@@ -4,7 +4,6 @@
  * @example
  * ```
  * // prints: 1, 2, 3, 1, 2, 3, ...
- *
  * for (const n of repeat(1, 2, 3))
  *   console.log(n)
  * ```
