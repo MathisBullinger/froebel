@@ -1,4 +1,6 @@
 const docs = require('./docs.json')
+const package = require('../npm/package.json')
+const version = `v${package.version}`
 
 const repo = 'https://github.com/MathisBullinger/froebel'
 let readme = `# Froebel - a strictly typed TypeScript utility library.
@@ -7,6 +9,10 @@ This is my (WIP) personal collection of TypeScript helper functions and utilitie
 I use across different projects.
 
 Think an opionated version of lodash, but with first-class types.
+
+Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.land/x/froebel@v${version}) or [npm](https://www.npmjs.com/package/froebel).
+
+
 `
 const paramReplace = { __namedParameters: 'funs' }
 
@@ -248,9 +254,12 @@ function docItem(id) {
   }
 
   const srcs = findSources(info)
+  const fileName = srcs[0].fileName.replace('tmp/', '')
   const src = srcs
-    ? `<sup><sup>_[source](${repo}/blob/main/${srcs[0].fileName.replace('tmp/', 'src/')}#L${srcs[0].line})_</sup></sup>`
+    ? `<sup><sup>_[source](${repo}/blob/main/src/${fileName}#L${srcs[0].line})_</sup></sup>`
     : (console.warn(`couldn't find source for ${name} ${id}`), '')
+
+  const importPart = `import ${info.name === 'default' ? name : `{ ${name} }`} from`
 
   let code = ''
   try {
@@ -259,13 +268,32 @@ function docItem(id) {
     if (e !== 0) throw e
   }
 
+
   return `#### \`${name}\` 
   
 ${code}
 
 ${src}
 
-${descr ?? ''}${examples(docNode)}`
+${descr ?? ''}
+<details>
+  <summary>import</summary>
+
+#### Node
+  
+\`\`\`js
+${importPart} "froebel/${fileName.replace(/\.ts$/, '')}";
+\`\`\`
+
+#### Deno
+
+\`\`\`js
+${importPart} "https://deno.land/x/froebel@${version}/${fileName}";
+\`\`\`
+</details>
+
+
+${examples(docNode)}`
 }
 
 require('fs').writeFileSync(
