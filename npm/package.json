@@ -1,20 +1,20 @@
 {
-  "name": "facula",
-  "version": "0.14.0",
+  "name": "froebel",
+  "version": "0.14.1",
   "description": "TypeScript utility library",
   "main": "index.js",
   "types": "index.d.ts",
   "private": "true",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MathisBullinger/facula.git"
+    "url": "git+https://github.com/MathisBullinger/froebel.git"
   },
   "author": "Mathis Bullinger",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MathisBullinger/facula/issues"
+    "url": "https://github.com/MathisBullinger/froebel/issues"
   },
-  "homepage": "https://github.com/MathisBullinger/facula#readme",
+  "homepage": "https://github.com/MathisBullinger/froebel#readme",
   "devDependencies": {
     "typedoc": "^0.22.15"
   }

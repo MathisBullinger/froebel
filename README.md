@@ -1,4 +1,4 @@
-# Facula - a strictly typed TypeScript utility library.
+# Froebel - a strictly typed TypeScript utility library.
 
 This is my (WIP) personal collection of TypeScript helper functions and utilities that
 I use across different projects.
@@ -81,7 +81,7 @@ Think an opionated version of lodash, but with first-class types.
 (value: T) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/ident.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/ident.ts#L2)_</sup></sup>
 
 > Identity function.
 
@@ -93,7 +93,7 @@ Think an opionated version of lodash, but with first-class types.
 (fun: T, ...argsLeft: PL) => (...argsRight: PR) => ReturnType<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/partial.ts#L17)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/partial.ts#L17)_</sup></sup>
 
 > Partially apply a function.
 
@@ -116,7 +116,7 @@ console.log(oneOver(4))
 (fun: T, ...argsRight: PR) => (...argsLeft: PL) => ReturnType<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/forward.ts#L28)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/forward.ts#L28)_</sup></sup>
 
 > Given a function and its nth..last arguments, return a function accepting
 > arguments 0..n-1.
@@ -136,7 +136,7 @@ console.log(divideBy2(1))
 const fetchUrl = async (protocol: string, domain: string, path: string) =>
   await fetch(`${protocol}://${domain}/${path}`)
 
-const fetchRepo = forward(fetchUrl, 'github.com', 'MathisBullinger/facula')
+const fetchRepo = forward(fetchUrl, 'github.com', 'MathisBullinger/froebel')
 
 const viaHTTPS = await fetchRepo('https')
 ```
@@ -149,7 +149,7 @@ const viaHTTPS = await fetchRepo('https')
 (funs: F[], ...args: P) => ReturnTypes<F>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/callAll.ts#L16)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/callAll.ts#L16)_</sup></sup>
 
 > Take a list of functions that accept the same parameters and call them all
 > with the provided arguments.
@@ -171,7 +171,7 @@ console.log( callAll([mult, div], 4, 2) )
 (...funs: λ<T>[]) => (...args: T) => Promise<void>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bundle.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/bundle.ts#L12)_</sup></sup>
 
 > Given a list of functions that accept the same parameters, returns a function
 > that takes these parameters and invokes all of the given functions.
@@ -189,7 +189,7 @@ console.log( callAll([mult, div], 4, 2) )
 (...funs: λ<T>[]) => (...args: T) => void
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bundle.ts#L28)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/bundle.ts#L28)_</sup></sup>
 
 > Same as [bundle](#bundle), but return synchronously.
 > 
@@ -205,7 +205,7 @@ console.log( callAll([mult, div], 4, 2) )
 (...funs: [] | [FF, ...FR[]]) => (...args: Parameters<FF>) => ReturnType<FF> | ReturnType<FR[number]>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullishChain.ts#L26)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/nullishChain.ts#L26)_</sup></sup>
 
 > Given a list of functions that accept the same parameters, returns a function
 > that given these arguments returns the result of the first function whose
@@ -238,7 +238,7 @@ ageGroup(50) // prints: 'adult'
 (...funs: [] | [FF, ...FR[]]) => (...args: Parameters<FF>) => Promise<PromType<ReturnType<FF>> | PromType<ReturnType<FR[number]>>>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullishChain.ts#L45)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/nullishChain.ts#L45)_</sup></sup>
 
 > Same as [nullishChain](#nullishChain) but accept asynchronous functions too.
 
@@ -260,7 +260,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, ms: number, opts?: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/throttle.ts#L16)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/throttle.ts#L16)_</sup></sup>
 
 > Created a throttled function that invokes `fun` at most every `ms` milliseconds.
 > 
@@ -278,7 +278,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, ms: number) => λ<Parameters<T>, void> & {[cancel]: () => void}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/debounce.ts#L14)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/debounce.ts#L14)_</sup></sup>
 
 > Creates a debounced function that delays invoking `fun` until `ms` milliseconds
 > have passed since the last invocation of the debounced function.
@@ -297,7 +297,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, opt: {limit: number, weak: W, key: (...args: Parameters<T>) => K}) => T & {cache: W extends false ? Map<K, ReturnType<T>> : Cache<K, ReturnType<T>>}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/memoize.ts#L70)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/memoize.ts#L70)_</sup></sup>
 
 > Returns a copy of `fun` that remembers its result for any given arguments and
 > only invokes `fun` for unknown arguments.
@@ -368,7 +368,7 @@ logIfDifferent('a')
 (fun: T, limit: number, ...funs: ExcS<T>) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L19)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/invoke.ts#L19)_</sup></sup>
 
 > Returns a version of the function `fun` that can only be invoked `limit`
 > times.
@@ -393,7 +393,7 @@ logIfDifferent('a')
 (fun: T, ...funs: ExcS<T>) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/invoke.ts#L40)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/invoke.ts#L40)_</sup></sup>
 
 > Special case of [limitInvocations](#limitInvocations). `fun` can only be invoked once.
 > 
@@ -406,7 +406,7 @@ logIfDifferent('a')
 (arr: T[], i: number) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/atWrap.ts#L3)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/atWrap.ts#L3)_</sup></sup>
 
 > Access list at `i % length`. Negative indexes start indexing the last
 > element as `[-1]` and wrap around to the back.
@@ -419,7 +419,7 @@ logIfDifferent('a')
 (...lists: T) => Zip<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/zip.ts#L16)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/zip.ts#L16)_</sup></sup>
 
 > Takes multiple lists and returns a list of tuples containing the value in
 > each list at the current index. If the lists are of different lengths, the
@@ -439,7 +439,7 @@ console.log(pairs) // prints: [[1,'a'], [2,'b'], [3,'c']]
 (zipper: (...args: {[I in string | number | symbol]: U}) => U, ...lists: T) => U[]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/zip.ts#L35)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/zip.ts#L35)_</sup></sup>
 
 > Same as [zip](#zip) but also takes a `zipper` function, that is called for
 > each index with the element at current index in each list as arguments. The
@@ -460,7 +460,7 @@ console.log(sums) // prints: [5,7,9]
 (...zipped: T[][]) => Unzip<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/unzip.ts#L15)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/unzip.ts#L15)_</sup></sup>
 
 > Reverse of [zip](#zip). Takes a list of tuples and deconstructs them into
 > an array (of length of the tuples length) of lists each containing all the
@@ -481,7 +481,7 @@ console.log(chars) // prints: ['a','b','c']
 (zipped: T[][], ...unzippers: U) => {[I in string | number | symbol]: ReturnType<U[I]>}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/unzip.ts#L39)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/unzip.ts#L39)_</sup></sup>
 
 > Same as [unzip](#unzip) but accepts an `unzipper` function for each tuple
 > index. The `unzipper`'s return value is used as the value in the list at
@@ -512,7 +512,7 @@ console.log(str)  // prints: 'abc'
 (list: T[], batchSize: number) => T[][]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/batch.ts#L14)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/batch.ts#L14)_</sup></sup>
 
 > Takes a `list` and returns it in multiple smaller lists of the size
 > `batchSize`.
@@ -532,7 +532,7 @@ batch([1,2,3,4,5], 2)  // -> [ [1,2], [3,4], [5] ]
 (list: T[], predicate: (el: T) => el is S) => [S[], Exclude<T, S>[]]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/partition.ts#L30)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/partition.ts#L30)_</sup></sup>
 
 > Takes a `list` and returns a pair of lists containing: the elements that
 > match the `predicate` and those that don't, respectively.
@@ -559,7 +559,7 @@ const [strings, numbers] = partition(
 (n: number, list: Iterable<T>) => T[]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/take.ts#L11)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/take.ts#L11)_</sup></sup>
 
 > Takes `n` elements from the iterable `list` and returns them as an array.
 
@@ -576,7 +576,7 @@ take(3, [1, 2])        // -> [1, 2]
   
 
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/range.ts#L66)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/range.ts#L66)_</sup></sup>
 
 > Creates a range between two values.
 > 
@@ -590,7 +590,7 @@ take(3, [1, 2])        // -> [1, 2]
 (start: number, end: number, step: number) => number[]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/range.ts#L17)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/range.ts#L17)_</sup></sup>
 
 > Constructs a numeric between `start` and `end` inclusively.
 
@@ -609,7 +609,7 @@ range(3, -2)     // -> [3, 2, 1, 0, -1, -2]
 (start: string, end: string) => string[]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/range.ts#L43)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/range.ts#L43)_</sup></sup>
 
 > Constructs a range between characters.
 
@@ -626,7 +626,7 @@ range('Z', 'W')  // -> ['Z', 'Y', 'X', 'W']
 (...sequence: [T, ...T[]]) => Generator<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/repeat.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/repeat.ts#L12)_</sup></sup>
 
 > Returns a generator that repeats `sequence`.
 
@@ -646,7 +646,7 @@ for (const n of repeat(1, 2, 3))
 (n: number, list: Iterable<T>) => Generator<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/take.ts#L25)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/take.ts#L25)_</sup></sup>
 
 > Takes `n` elements from the iterable `list` and returns them as a generator.
 
@@ -664,7 +664,7 @@ for (const n of repeat(1, 2, 3))
 (obj: T, ...keys: K[]) => Pick<T, K>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/pick.ts#L9)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/pick.ts#L9)_</sup></sup>
 
 > From `obj`, create a new object that only includes `keys`.
 
@@ -681,7 +681,7 @@ pick({ a: 1, b: 2, c: 3 }, 'a', 'c') // { a: 1, c: 3 }
 (obj: T, ...keys: K[]) => Omit<T, K>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/omit.ts#L9)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/omit.ts#L9)_</sup></sup>
 
 > From `obj`, create a new object that does not include `keys`.
 
@@ -697,7 +697,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: T, ...cmps: TT) => value is TT[number]
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/oneOf.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/oneOf.ts#L2)_</sup></sup>
 
 > Checks if `v` is one of `cmps`.
 
@@ -709,7 +709,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (a: unknown, b: unknown) => boolean
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/equal.ts#L9)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/equal.ts#L9)_</sup></sup>
 
 > Checks if `a` and `b` are structurally equal using the following algorithm:
 > 
@@ -727,7 +727,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: T) => T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/clone.ts#L15)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/clone.ts#L15)_</sup></sup>
 
 > Returns a copied version of `value`.
 > 
@@ -748,7 +748,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: unknown) => value is Promise<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/isPromise.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/isPromise.ts#L2)_</sup></sup>
 
 > Checks if `value` looks like a promise.
 
@@ -760,7 +760,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: T) => value is Exclude<T, Promise<any>>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/isPromise.ts#L19)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/isPromise.ts#L19)_</sup></sup>
 
 > Checks if `value` is not a promise.
 
@@ -778,7 +778,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: T) => value is PickTruthy<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/truthy.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/truthy.ts#L2)_</sup></sup>
 
 > Checks if `value` is truthy. Literal types are narrowed accordingly.
 
@@ -790,7 +790,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: T) => value is PickFalsy<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/truthy.ts#L5)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/truthy.ts#L5)_</sup></sup>
 
 > Checks if `value` is falsy. Literal types are narrowed accordingly.
 
@@ -802,7 +802,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: T) => value is Nullish<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullish.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/nullish.ts#L2)_</sup></sup>
 
 > Checks if `value` is nullish. Literal types are narrowed accordingly.
 
@@ -814,7 +814,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 (value: null | T) => value is T
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/nullish.ts#L20)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/nullish.ts#L20)_</sup></sup>
 
 > Checks if `value` is not nullish. Literal types are narrowed accordingly.
 
@@ -831,7 +831,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (result: PromiseSettledResult<T>) => result is PromiseFulfilledResult<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/settled.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/settled.ts#L2)_</sup></sup>
 
 > Checks if `result` (returned from `Promise.allSettled`) is fulfilled.
 
@@ -843,7 +843,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (result: PromiseSettledResult<unknown>) => result is PromiseRejectedResult
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/settled.ts#L7)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/settled.ts#L7)_</sup></sup>
 
 > Checks if `result` (returned from `Promise.allSettled`) is rejected.
 ## String
@@ -854,7 +854,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (prefix: T0, str: T1, caseMod?: C) => `${string}`
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/prefix.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/prefix.ts#L12)_</sup></sup>
 
 > Returns `str` prefixed with `prefix`. Optionally, allows prefxing in camel
 > case, i.e. `prefix('foo', 'bar', 'camel') => 'fooBar'`, or snake case, i.e.
@@ -872,7 +872,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T1, suffix: T0, caseMod?: C) => `${string}`
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/suffix.ts#L8)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/suffix.ts#L8)_</sup></sup>
 
 > Returns `str` suffixed with `suffix`. Same case and type behavior as
 > [prefix](#prefix).
@@ -885,7 +885,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T) => Capitalize
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/case.ts#L4)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L4)_</sup></sup>
 
 > Upper-case first letter of string.
 
@@ -897,7 +897,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T) => Uncapitalize
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/case.ts#L8)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L8)_</sup></sup>
 
 > Lower-case first letter of string
 
@@ -909,7 +909,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T) => Uppercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/case.ts#L12)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L12)_</sup></sup>
 
 > Strictly typed `String.toUpperCase()`.
 
@@ -921,7 +921,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T) => Lowercase
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/case.ts#L16)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L16)_</sup></sup>
 
 > Strictly typed `String.toLowerCase()`.
 
@@ -933,7 +933,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 (str: T) => SnakeCase<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/case.ts#L32)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L32)_</sup></sup>
 
 > Transforms a variable name to snake case.
 > 
@@ -956,7 +956,7 @@ snake('fooBar') // 'foo_bar'
 (str: T) => CamelCase<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/case.ts#L55)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L55)_</sup></sup>
 
 > Transforms a variable name to camel case.
 > 
@@ -979,7 +979,7 @@ camel('foo_bar') // 'fooBar'
 (str: T, targetCase: C) => SnakeCase<T>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/case.ts#L66)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/case.ts#L66)_</sup></sup>
 
 > Transform a variable name to `targetCase`
 > 
@@ -992,7 +992,7 @@ camel('foo_bar') // 'fooBar'
 (min: number, num: number, max: number) => number
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/clamp.ts#L2)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/clamp.ts#L2)_</sup></sup>
 
 > Clamp `num` between `min` and `max` inclusively.
 ## Data Structures
@@ -1003,7 +1003,7 @@ camel('foo_bar') // 'fooBar'
 class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/bimap.ts#L172)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/bimap.ts#L172)_</sup></sup>
 
 > Bidirectional map. Maps two sets of keys in a one-to-one relation.
 > 
@@ -1090,7 +1090,7 @@ BiMap.from(new Set<number>(), new Set<number>())
 class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/sortedArray.ts#L134)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/sortedArray.ts#L134)_</sup></sup>
 
 > Sorted array. Behaves much like a regular array but its elements remain
 > sorted using the `compare` function supplied in the constructor.
@@ -1124,7 +1124,7 @@ class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 class SortedMap<K, V>(compare: Cmp<K, V>, entries?: null | [K, V][])
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/sortedMap.ts#L11)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/sortedMap.ts#L11)_</sup></sup>
 
 > Behaves like a regular JavaScript `Map`, but its iteration order is dependant
 > on the `compare` function supplied in the constructor.
@@ -1141,7 +1141,7 @@ class SortedMap<K, V>(compare: Cmp<K, V>, entries?: null | [K, V][])
 (obj: T, ...path: P) => PickPath<T, P>
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/select.ts#L7)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/select.ts#L7)_</sup></sup>
 
 > Returns the value in `obj` at `path`. If the given path does not exist,
 > the symbol `none` is returned.
