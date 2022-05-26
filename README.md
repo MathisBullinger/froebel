@@ -28,11 +28,13 @@ Think an opionated version of lodash, but with first-class types.
     - [unzipWith](#unzipWith)
     - [batch](#batch)
     - [partition](#partition)
+    - [take](#take)
     - [range](#range)
     - [numberRange](#numberRange)
     - [alphaRange](#alphaRange)
-- __`generator`__
+- __`iterable`__
     - [repeat](#repeat)
+    - [take](#take)
 - __`object`__
     - [pick](#pick)
     - [omit](#omit)
@@ -546,6 +548,25 @@ const [strings, numbers] = partition(
 
 ---
 
+#### `take` 
+  
+```hs
+(n: number, list: Iterable<T>) => T[]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/take.ts#L11)_</sup></sup>
+
+> Takes `n` elements from the iterable `list` and returns them as an array.
+
+#### Example
+```ts
+take(5, repeat(1, 2))  // -> [1, 2, 1, 2, 1]
+take(3, [1, 2, 3, 4])  // -> [1, 2, 3]
+take(3, [1, 2])        // -> [1, 2]
+```
+
+---
+
 #### `range` 
   
 
@@ -592,7 +613,7 @@ range(3, -2)     // -> [3, 2, 1, 0, -1, -2]
 range('a', 'd')  // -> ['a', 'b', 'c', 'd']
 range('Z', 'W')  // -> ['Z', 'Y', 'X', 'W']
 ```
-## Generator
+## Iterable
 
 #### `repeat` 
   
@@ -610,6 +631,25 @@ range('Z', 'W')  // -> ['Z', 'Y', 'X', 'W']
 
 for (const n of repeat(1, 2, 3))
   console.log(n)
+```
+
+---
+
+#### `take` 
+  
+```hs
+(n: number, list: Iterable<T>) => Generator<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/take.ts#L25)_</sup></sup>
+
+> Takes `n` elements from the iterable `list` and returns them as a generator.
+
+#### Example
+```ts
+[...take(5, repeat(1, 2))]  // -> [1, 2, 1, 2, 1]
+[...take(3, [1, 2, 3, 4])]  // -> [1, 2, 3]
+[...take(3, [1, 2])]        // -> [1, 2]
 ```
 ## Object
 

@@ -1,6 +1,7 @@
 export * from './function'
 export * from './list'
-export * from './generator'
+// @ts-ignore
+export * from './iterable'
 export * from './object'
 export * from './equality'
 export * from './promise'
