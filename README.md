@@ -31,6 +31,8 @@ Think an opionated version of lodash, but with first-class types.
     - [range](#range)
     - [numberRange](#numberRange)
     - [alphaRange](#alphaRange)
+- __`generator`__
+    - [repeat](#repeat)
 - __`object`__
     - [pick](#pick)
     - [omit](#omit)
@@ -589,6 +591,25 @@ range(3, -2)     // -> [3, 2, 1, 0, -1, -2]
 ```ts
 range('a', 'd')  // -> ['a', 'b', 'c', 'd']
 range('Z', 'W')  // -> ['Z', 'Y', 'X', 'W']
+```
+## Generator
+
+#### `repeat` 
+  
+```hs
+(...sequence: [T, ...T[]]) => Generator<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/facula/blob/main/src/repeat.ts#L12)_</sup></sup>
+
+> Returns a generator that repeats `sequence`.
+
+#### Example
+```ts
+// prints: 1, 2, 3, 1, 2, 3, ...
+
+for (const n of repeat(1, 2, 3))
+  console.log(n)
 ```
 ## Object
 

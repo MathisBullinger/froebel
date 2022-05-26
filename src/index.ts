@@ -1,5 +1,6 @@
 export * from './function'
 export * from './list'
+export * from './generator'
 export * from './object'
 export * from './equality'
 export * from './promise'
