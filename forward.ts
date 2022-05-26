@@ -9,7 +9,7 @@ import type { λ } from "./types.ts";
  * const divide = (dividend: number, divisor: number) => dividend / divisor
  *
  * // (dividend: number) => number
- * const divideBy2 = partial(divide, 2)
+ * const divideBy2 = forward(divide, 2)
  *
  * // prints: 0.5
  * console.log(divideBy2(1))
