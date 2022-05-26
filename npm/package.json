@@ -1,6 +1,6 @@
 {
   "name": "froebel",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "TypeScript utility library",
   "main": "index.js",
   "types": "index.d.ts",
@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/MathisBullinger/froebel#readme",
   "devDependencies": {
+    "@types/node": "^17.0.35",
     "typedoc": "^0.22.15"
   }
 }

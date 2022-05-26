@@ -7,6 +7,7 @@ cd tmp
 find . -name '*.test.ts' | xargs rm -r
 mv mod.ts index.ts
 find . -name '*.ts' | xargs sed -i '' 's/.ts";/";/g'
+find . -name '*.ts' | xargs sed -i '' 's/{ performance } = globalThis/{ performance } = "performance" in globalThis ? globalThis : require("perf_hooks")/g'
 cp ../npm/tsconfig.json .
 ln -s ../npm/node_modules node_modules
 npx tsc -p tsconfig.json

@@ -1,8 +1,6 @@
 import type { λ } from "./types.ts";
-const { performance } = "performance" in globalThis
-  ? globalThis
-  : (globalThis as any).perf_hooks;
 
+const { performance } = globalThis;
 export const cancel = Symbol("throttle.cancel");
 
 /**

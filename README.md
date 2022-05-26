@@ -260,7 +260,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 (fun: T, ms: number, opts?: {leading: boolean, trailing: boolean}) => λ<Parameters<T>, void> & {[cancel]: () => void}
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/throttle.ts#L16)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/src/throttle.ts#L14)_</sup></sup>
 
 > Created a throttled function that invokes `fun` at most every `ms` milliseconds.
 > 
