@@ -96,7 +96,7 @@ for (const [name, ids] of cats) {
   readme += `- __\`${name.toLowerCase()}\`__\n`
   ids.forEach(id => {
     const name = getNode(id)[0]
-    readme += `    - [${name}](#${name})\n`
+    readme += `    - [${name}](#${name.toLowerCase()})\n`
   })
 }
 readme += '\n\n'
@@ -122,13 +122,13 @@ function docItem(id) {
   const see = docNode?.comment?.tags?.filter(({ tag }) => tag === 'see') ?? []
   if (see.length)
     descr += `\n\n<sub>see ${new Intl.ListFormat('en').format(
-      see.map(({ text }) => `${text.replace(/\n*$/, '')}`)
+      see.map(({ text }) => text.replace(/\n*$/, ''))
     )}</sub>`
 
   if (descr)
     descr = descr
       .replace(/(?<=^|\n)(.?)/g, '> $1')
-      .replace(/\{@link\s(\w+)\}/g, '[$1](#$1)')
+      .replace(/\{@link\s(\w+)\}/g, (_, $1) => `[${$1}](#${$1.toLowerCase()})`)
 
   const parenthHeur = expr =>
     expr.includes('=>') && !/^[{(\[]/.test(expr) ? `(${expr})` : expr

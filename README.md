@@ -17,28 +17,28 @@ Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.la
     - [noop](#noop)
     - [partial](#partial)
     - [forward](#forward)
-    - [callAll](#callAll)
+    - [callAll](#callall)
     - [bundle](#bundle)
-    - [bundleSync](#bundleSync)
-    - [nullishChain](#nullishChain)
-    - [asyncNullishChain](#asyncNullishChain)
+    - [bundleSync](#bundlesync)
+    - [nullishChain](#nullishchain)
+    - [asyncNullishChain](#asyncnullishchain)
     - [throttle](#throttle)
     - [debounce](#debounce)
     - [memoize](#memoize)
-    - [limitInvocations](#limitInvocations)
+    - [limitInvocations](#limitinvocations)
     - [once](#once)
 - __`list`__
-    - [atWrap](#atWrap)
+    - [atWrap](#atwrap)
     - [zip](#zip)
-    - [zipWith](#zipWith)
+    - [zipWith](#zipwith)
     - [unzip](#unzip)
-    - [unzipWith](#unzipWith)
+    - [unzipWith](#unzipwith)
     - [batch](#batch)
     - [partition](#partition)
     - [take](#take)
     - [range](#range)
-    - [numberRange](#numberRange)
-    - [alphaRange](#alphaRange)
+    - [numberRange](#numberrange)
+    - [alphaRange](#alpharange)
 - __`iterable`__
     - [repeat](#repeat)
     - [take](#take)
@@ -46,20 +46,20 @@ Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.la
     - [pick](#pick)
     - [omit](#omit)
 - __`equality`__
-    - [oneOf](#oneOf)
+    - [oneOf](#oneof)
     - [equal](#equal)
     - [clone](#clone)
 - __`promise`__
-    - [isPromise](#isPromise)
-    - [isNotPromise](#isNotPromise)
-    - [createQueue](#createQueue)
+    - [isPromise](#ispromise)
+    - [isNotPromise](#isnotpromise)
+    - [createQueue](#createqueue)
 - __`predicate`__
     - [truthy](#truthy)
     - [falsy](#falsy)
     - [nullish](#nullish)
-    - [notNullish](#notNullish)
-    - [isFulfilled](#isFulfilled)
-    - [isRejected](#isRejected)
+    - [notNullish](#notnullish)
+    - [isFulfilled](#isfulfilled)
+    - [isRejected](#isrejected)
 - __`string`__
     - [prefix](#prefix)
     - [suffix](#suffix)
@@ -69,13 +69,13 @@ Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.la
     - [lower](#lower)
     - [snake](#snake)
     - [camel](#camel)
-    - [transformCase](#transformCase)
+    - [transformCase](#transformcase)
 - __`math`__
     - [clamp](#clamp)
 - __`data structures`__
-    - [BiMap](#BiMap)
-    - [SortedArray](#SortedArray)
-    - [SortedMap](#SortedMap)
+    - [BiMap](#bimap)
+    - [SortedArray](#sortedarray)
+    - [SortedMap](#sortedmap)
 - __`path`__
     - [select](#select)
 
@@ -348,7 +348,7 @@ ageGroup(50) // prints: 'adult'
 
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/nullishChain.ts#L45)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/nullishChain.test.ts)_</sup></sup>
 
-> Same as [nullishChain](#nullishChain) but accept asynchronous functions too.
+> Same as [nullishChain](#nullishchain) but accept asynchronous functions too.
 
 
 #### Import
@@ -558,9 +558,9 @@ logIfDifferent('a')
 
 <sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/invoke.ts#L40)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/invoke.test.ts)_</sup></sup>
 
-> Special case of [limitInvocations](#limitInvocations). `fun` can only be invoked once.
+> Special case of [limitInvocations](#limitinvocations). `fun` can only be invoked once.
 > 
-> <sub>see [limitInvocations](#limitInvocations)</sub>
+> <sub>see [limitInvocations](#limitinvocations)</sub>
 
 
 #### Import
@@ -842,7 +842,7 @@ take(3, [1, 2])        // -> [1, 2]
 
 > Creates a range between two values.
 > 
-> <sub>see [numberRange](#numberRange) and [alphaRange](#alphaRange)</sub>
+> <sub>see [numberRange](#numberrange) and [alphaRange](#alpharange)</sub>
 
 
 #### Import
