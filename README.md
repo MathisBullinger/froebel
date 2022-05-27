@@ -1735,7 +1735,7 @@ class SortedMap<K, V>(compare: Cmp<K, V>, entries?: null | [K, V][])
 #### Example
 ```ts
 // -> 'something'
-pick(
+select(
   { a: { deeply: [{ nested: { object: 'something' } }] } },
   'a', 'deeply', 0, 'nested', 'object'
 )

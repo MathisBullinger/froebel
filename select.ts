@@ -7,13 +7,13 @@ export const none = Symbol("value.none");
  * @example
  * ```
  * // -> 'something'
- * pick(
+ * select(
  *   { a: { deeply: [{ nested: { object: 'something' } }] } },
  *   'a', 'deeply', 0, 'nested', 'object'
  * )
  * ```
  */
-const pick = <
+const select = <
   T,
   P extends (
     AnyNarrow
@@ -25,15 +25,15 @@ const pick = <
   path.length === 0
     ? obj
     : obj instanceof Map
-    ? (obj.has(path[0]) ? pick(obj.get(path[0]), ...path.slice(1)) : none)
+    ? (obj.has(path[0]) ? select(obj.get(path[0]), ...path.slice(1)) : none)
     : typeof obj !== "object" || obj === null ||
         typeof path[0] !== "string" && typeof path[0] !== "number" &&
           typeof path[0] !== "symbol" ||
         !(path[0] in obj)
     ? none
-    : (pick(obj[path[0] as keyof T], ...path.slice(1)) as any);
+    : (select(obj[path[0] as keyof T], ...path.slice(1)) as any);
 
-export default pick;
+export default select;
 
 type AnyNarrow =
   | string
