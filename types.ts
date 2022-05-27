@@ -55,6 +55,12 @@ type Widen<T> = T extends string ? string : T extends number ? number : T;
 /** If `T` is promise then the type it resolves to, otherwise `T`. */
 export type PromType<T> = T extends PromiseLike<infer I> ? I : T;
 
+export type MakeProm<T> = Promise<T extends PromiseLike<infer I> ? I : T>;
+
+export type Async<T extends λ> = (
+  ...args: Parameters<T>
+) => MakeProm<ReturnType<T>>;
+
 export type StringCase = "camel" | "snake";
 
 export type Prefix<

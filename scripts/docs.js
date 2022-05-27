@@ -6,9 +6,11 @@ const repo = 'https://github.com/MathisBullinger/froebel'
 let readme = `# Froebel - a strictly typed TypeScript utility library.
 
 This is my (WIP) personal collection of TypeScript helper functions and utilities that
-I use across different projects.
-
+I use across different projects. 
 Think an opionated version of lodash, but with first-class types.
+
+If you have an idea for a utility that might make a good addition to this collection,
+please open an issue and suggest its inclusion.
 
 Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.land/x/froebel@${version}) or [npm](https://www.npmjs.com/package/froebel).
 

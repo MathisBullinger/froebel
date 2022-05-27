@@ -1,5 +1,6 @@
 // deno-fmt-ignore-file
 export { default as ident } from "./ident.ts";
+export { default as noop } from "./noop.ts";
 export { default as partial } from "./partial.ts";
 export { default as forward } from "./forward.ts";
 export { default as callAll } from "./callAll.ts";
