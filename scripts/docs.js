@@ -270,7 +270,7 @@ function docItem(id) {
   const srcs = findSources(info)
   const fileName = srcs[0].fileName.replace('tmp/', '')
   const src = srcs
-    ? `<sup><sup>_[source](${repo}/blob/main/${fileName}#L${srcs[0].line})_</sup></sup>`
+    ? `<sup><sup>_[source](${repo}/blob/main/${fileName}#L${srcs[0].line})_ | _[tests](${repo}/blob/main/${fileName.replace(/\.ts$/, '.test.ts')})_</sup></sup>`
     : (console.warn(`couldn't find source for ${name} ${id}`), '')
 
   const importPart = `import ${info.name === 'default' ? name : `{ ${name} }`} from`

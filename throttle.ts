@@ -4,7 +4,7 @@ const { performance } = globalThis;
 export const cancel = Symbol("throttle.cancel");
 
 /**
- * Created a throttled function that invokes `fun` at most every `ms` milliseconds.
+ * Create a throttled function that invokes `fun` at most every `ms` milliseconds.
  *
  * `fun` is invoked with the last arguments passed to the throttled function.
  *
