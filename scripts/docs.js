@@ -12,8 +12,49 @@ Think an opionated version of lodash, but with first-class types.
 If you have an idea for a utility that might make a good addition to this collection,
 please open an issue and suggest its inclusion.
 
-Runs in Deno, Node.js, and the Browser. Install from [deno.land](https://deno.land/x/froebel@${version}) or [npm](https://www.npmjs.com/package/froebel).
+Runs in Deno, Node.js, and the Browser. Get it from [deno.land](https://deno.land/x/froebel@${version}) 
+or [npm](https://www.npmjs.com/package/froebel).
 
+## Installation
+
+### Using npm
+
+\`\`\`shell
+npm install froebel
+\`\`\`
+
+and — assuming a module-compatible system like webpack — import as:
+
+\`\`\`ts
+import { someUtility } from 'froebel';
+// you can also import the utility you need directly:
+import memoize from 'froebel/memoize';
+\`\`\`
+
+### Using Deno
+
+\`\`\`ts
+import { someUtility } from "https://deno.land/x/froebel@${version}/mod.ts";
+// or import just the utility you need:
+import memoize from "https://deno.land/x/froebel@${version}/memoize.ts"
+\`\`\`
+
+---
+
+## Available Utilities
+
+Each category also has a file exporting only the utilities in that category, so
+if you want to only import utilities from one category, you could import them as
+
+\`\`\`ts
+import { throttle, debounce } from "froebel/function";
+\`\`\`
+
+A few utils are exported from multiple categories but will only be listed here
+once. E.g. \`isPromise\` is exported from both the \`promise\` and the 
+\`predicate\` category.
+
+### Table of Contents
 
 `
 const paramReplace = { __namedParameters: 'funs' }
