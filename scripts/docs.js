@@ -51,7 +51,7 @@ import { throttle, debounce } from "froebel/function";
 \`\`\`
 
 A few utils are exported from multiple categories but will only be listed here
-once. E.g. \`isPromise\` is exported from both the \`promise\` and the 
+once. For example \`isPromise\` is exported from both the \`promise\` and the 
 \`predicate\` category.
 
 ### Table of Contents

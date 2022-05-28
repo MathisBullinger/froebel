@@ -1,5 +1,5 @@
 import noop from "./noop.ts";
-import { assertEquals, assertRejects } from "testing/asserts.ts";
+import { assertEquals } from "testing/asserts.ts";
 
 Deno.test("noop", () => {
   assertEquals(noop(), undefined);
