@@ -116,6 +116,8 @@ once. For example `isPromise` is exported from both the `promise` and the
     - [transformCase](#transformcase)
 - __`math`__
     - [clamp](#clamp)
+    - [degrees](#degrees)
+    - [radians](#radians)
 - __`data structures`__
     - [BiMap](#bimap)
     - [SortedArray](#sortedarray)
@@ -1760,6 +1762,46 @@ camel('foo_bar') // 'fooBar'
 ```ts
 /* Node: */  import clamp from "froebel/clamp";
 /* Deno: */  import clamp from "https://deno.land/x/froebel@v0.16.1/clamp.ts";
+```
+
+
+
+#### `degrees`
+
+```hs
+(radians: number) => number
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/degrees.ts#L2)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/degrees.test.ts)_</sup></sup>
+
+> Converts `radians` in its degree equivalent.
+
+
+#### Import
+
+```ts
+/* Node: */  import degrees from "froebel/degrees";
+/* Deno: */  import degrees from "https://deno.land/x/froebel@v0.16.1/degrees.ts";
+```
+
+
+
+#### `radians`
+
+```hs
+(radians: number) => number
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/radians.ts#L2)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/radians.test.ts)_</sup></sup>
+
+> Converts `degrees` in its radians equivalent.
+
+
+#### Import
+
+```ts
+/* Node: */  import radians from "froebel/radians";
+/* Deno: */  import radians from "https://deno.land/x/froebel@v0.16.1/radians.ts";
 ```
 
 
