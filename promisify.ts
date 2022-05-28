@@ -29,7 +29,7 @@ import type { λ } from "./types.ts";
  * const waitForMessage = promisify(notify)
  * await waitForMessage()  // -> 'something'
  *
- * // here result is passed at index `1` and errors at index `0`.
+ * // here result is passed at index 1 and errors at index 0.
  * const callbackAPI = (cb: (error?: Error, data?: unknown) => void) => {}
  * const asyncAPI = promisify(callbackAPI, 1, 0)
  * ```
@@ -37,7 +37,6 @@ import type { λ } from "./types.ts";
  * @example
  * ```
  * const sleep = promisify(setTimeout).callbackFirst
- *
  * await sleep(200)
  * ```
  *
