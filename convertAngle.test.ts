@@ -1,5 +1,5 @@
 import convertAngle from "./convertAngle.ts";
-import { AssertionError, assertEquals, assertThrows } from "testing/asserts.ts";
+import { assertEquals, assertThrows } from "testing/asserts.ts";
 
 Deno.test("convertAngle", () => {
   assertEquals(convertAngle(123, "degree", "degree"), 123);
@@ -14,7 +14,7 @@ Deno.test("convertAngle", () => {
   assertEquals(convertAngle(Math.PI * 2, "radian", "degree"), 360);
 
   // @ts-ignore
-  assertThrows(() => convertAngle(0, "invalidUnit", "radian"), AssertionError);
+  assertThrows(() => convertAngle(0, "invalidUnit", "radian"), TypeError);
   // @ts-ignore
-  assertThrows(() => convertAngle(0, "degree", "invalidUnit"), AssertionError);
+  assertThrows(() => convertAngle(0, "degree", "invalidUnit"), TypeError);
 });

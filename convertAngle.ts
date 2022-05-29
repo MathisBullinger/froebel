@@ -1,4 +1,4 @@
-import { assert } from "testing/asserts.ts";
+import { assert } from "./except.ts";
 import oneOf from "./oneOf.ts";
 
 
@@ -18,10 +18,12 @@ const convertAngle = (value: number, from: Angle, to: Angle): number => {
   assert(
     oneOf(from, "degree", "radian"),
     `convertAngle: unknown unit ${from}`,
+    TypeError,
   );
   assert(
     oneOf(to, "degree", "radian"),
     `convertAngle: unknown unit ${to}`,
+    TypeError,
   );
 
   if (from === to) {
