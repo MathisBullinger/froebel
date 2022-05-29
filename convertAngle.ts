@@ -1,3 +1,7 @@
+import { assert } from "testing/asserts.ts";
+import oneOf from "./oneOf.ts";
+
+
 type Angle = "degree" | "radian";
 
 /**
@@ -11,6 +15,15 @@ type Angle = "degree" | "radian";
  * ```
  */
 const convertAngle = (value: number, from: Angle, to: Angle): number => {
+  assert(
+    oneOf(from, "degree", "radian"),
+    `convertAngle: unknown unit ${from}`,
+  );
+  assert(
+    oneOf(to, "degree", "radian"),
+    `convertAngle: unknown unit ${to}`,
+  );
+
   if (from === to) {
     return value;
   }
@@ -23,9 +36,6 @@ const convertAngle = (value: number, from: Angle, to: Angle): number => {
 
     case "radian":
       return degree * Math.PI / 180;
-
-    default:
-      throw TypeError(`convertAngle: unknown unit ${to}`);
   }
 };
 
@@ -36,9 +46,6 @@ const toDegree = (value: number, unit: Angle): number => {
 
     case "radian":
       return value * 180 / Math.PI;
-
-    default:
-      throw TypeError(`convertAngle: unknown unit ${unit}`);
   }
 };
 
