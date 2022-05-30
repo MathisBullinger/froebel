@@ -1,7 +1,6 @@
 import { assert } from "./except.ts";
 import oneOf from "./oneOf.ts";
 
-
 type Angle = "degree" | "radian";
 
 /**
