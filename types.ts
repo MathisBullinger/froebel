@@ -101,3 +101,89 @@ type InvertedSnake<T extends string> = T extends `${infer A}${infer B}`
   ? Uppercase<A> extends A ? `${A}${InvertedSnake<B>}`
   : `_${SnakeCase<`${A}${B}`>}`
   : T;
+
+export type IsEvenLength<T extends string> = T extends
+  `${string}${string}${infer S}` ? (S extends "" ? true : IsEvenLength<S>)
+  : false;
+
+export type Surround<T extends string, S extends string> = SplitEven<S> extends
+  [infer A, infer B]
+  ? `${A extends string ? A : never}${T}${B extends string ? B : never}`
+  : never;
+
+export type SplitString<T extends string, A extends string[] = []> = T extends
+  `${infer H}${infer T}` ? SplitString<T, [...A, H]> : A;
+
+export type SplitEven<T extends string> = EvenLength<SplitString<T>> extends
+  [infer A, infer B] ? [
+  Join<A extends unknown[] ? A : never, "">,
+  Join<B extends unknown[] ? B : never, "">,
+]
+  : never;
+
+type EvenLength<A extends unknown[], B extends unknown[] = []> = A extends []
+  ? (B extends [] ? [B, A] : never)
+  : (A extends { length: infer LA }
+    ? (B extends { length: infer LB } ? (LA extends LB ? [B, A] : (
+      A extends [infer H, ...infer T] ? EvenLength<T, [...B, H]> : never
+    ))
+      : never)
+    : never);
+
+export type Join<Array extends unknown[], Separator extends string> =
+  Array extends [infer A, ...infer B] ? (B extends [] ? ToString<A>
+    : `${ToString<A>}${Separator}${Join<B, Separator>}`)
+    : "";
+
+type JoinInnerArray<T extends unknown[]> = Join<T, ",">;
+
+export type ToString<T> = T extends undefined | null | [] ? ""
+  : T extends PositiveInfinity ? "Infinity"
+  : T extends NegativeInfinity ? "-Infinity"
+  : T extends string | number | boolean ? `${T}`
+  : T extends Map<unknown, unknown> ? "[object Map]"
+  : T extends Set<unknown> ? "[object Set]"
+  : T extends Set<unknown> ? "[object Set]"
+  : T extends unknown[] ? JoinInnerArray<T>
+  : T extends WeakMap<any, unknown> ? "[object WeakMap]"
+  : T extends WeakSet<any> ? "[object WeakSet]"
+  : T extends
+    | TypedArray
+    | bigint
+    | symbol
+    | ((...args: unknown[]) => unknown)
+    | RegExp
+    | Error
+    | Intl.NumberFormat
+    | typeof globalThis ? string
+  : T extends Promise<unknown> ? "[object Promise]"
+  : T extends DataView ? "[object DataView]"
+  : T extends SharedArrayBuffer ? "[object SharedArrayBuffer]"
+  : T extends ArrayBuffer ? "[object ArrayBuffer]"
+  : T extends Atomics ? "[object Atomics]"
+  : T extends Intl.Collator ? "[object Intl.Collator]"
+  : T extends Intl.DateTimeFormat ? "[object Intl.DateTimeFormat]"
+  : T extends Intl.ListFormat ? "[object Intl.ListFormat]"
+  : T extends Intl.NumberFormat ? "[object Intl.NumberFormat]"
+  : T extends Intl.PluralRules ? "[object Intl.PluralRules]"
+  : T extends Intl.RelativeTimeFormat ? "[object Intl.RelativeTimeFormat]"
+  : T extends { toString(): string } ? ReturnType<T["toString"]>
+  : // deno-lint-ignore ban-types
+  T extends object ? "[object Object]"
+  : never;
+
+export type TypedArray =
+  | Int8Array
+  | Uint8Array
+  | Uint8ClampedArray
+  | Int16Array
+  | Uint16Array
+  | Int32Array
+  | Uint32Array
+  | Float32Array
+  | Float64Array
+  | BigInt64Array
+  | BigUint64Array;
+
+export type PositiveInfinity = 1e999;
+export type NegativeInfinity = -1e999;
