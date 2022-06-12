@@ -13,5 +13,8 @@ jobs:
         with:
           deno-version: vx.x.x
 
+      - name: Check formatting
+        run: deno fmt --check *.ts
+
       - name: Test
         run: scripts/test
