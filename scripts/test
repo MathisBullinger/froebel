@@ -1,4 +1,5 @@
 #!/bin/bash
 
+scripts/setupGitHooks
 deno lint ./*.ts
 deno test --importmap=import_map.json ./*.test.ts

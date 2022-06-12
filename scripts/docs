@@ -1,5 +1,6 @@
 #!/bin/bash
 
+scripts/setupGitHooks
 rm -rf tmp
 mkdir tmp
 cp -r ./*.ts tmp
