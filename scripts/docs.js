@@ -7,7 +7,7 @@ let readme = `# Froebel - a strictly typed TypeScript utility library.
 
 This is my (WIP) personal collection of TypeScript helper functions and utilities that
 I use across different projects. 
-Think an opionated version of lodash, but with first-class types.
+Think an opinionated version of lodash, but with first-class types.
 
 If you have an idea for a utility that might make a good addition to this collection,
 please open an issue and suggest its inclusion.
