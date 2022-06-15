@@ -12,7 +12,11 @@ import type { λ } from "./types.ts";
  * resulting object that path will also reference the path it referenced in the
  * original object (but now in the resuling object instead of the original).
  */
-export default function clone<T>(value: T): T {
+const clone: <T>(value: T) => T = globalThis.structuredClone ?? cloneFallback;
+
+export default clone;
+
+function cloneFallback<T>(value: T): T {
   const map = new Map();
   const replacers: λ[] = [];
   const cloned = _clone(value, map, replacers, undefined as any);
