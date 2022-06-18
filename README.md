@@ -76,6 +76,8 @@ once. For example `isPromise` is exported from both the `promise` and the
     - [unzipWith](#unzipwith)
     - [batch](#batch)
     - [partition](#partition)
+    - [shuffle](#shuffle)
+    - [shuffleInPlace](#shuffleinplace)
     - [take](#take)
     - [range](#range)
     - [numberRange](#numberrange)
@@ -844,6 +846,53 @@ const [strings, numbers] = partition(
 // strings: ["a", "b", "c"]
 // numbers: [1, 2, 3]
 ```
+
+---
+
+#### `shuffle` 
+  
+```hs
+(list: T[]) => T[]
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/shuffle.ts#L5)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/shuffle.test.ts)_</sup></sup>
+
+> Shuffles `list` using the Fisher-Yates shuffle algorithm.
+> The original `list` is not modified and the shuffled list is returned.
+
+
+#### Import
+
+```ts
+/* Node: */  import shuffle from "froebel/shuffle";
+/* Deno: */  import shuffle from "https://deno.land/x/froebel@v0.17.0/shuffle.ts";
+```
+
+
+
+
+---
+
+#### `shuffleInPlace` 
+  
+```hs
+(list: unknown[]) => void
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/shuffle.ts#L16)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/shuffle.test.ts)_</sup></sup>
+
+> Same as [shuffle](#shuffle) but shuffles `list` in place.
+
+
+#### Import
+
+```ts
+/* Node: */  import { shuffleInPlace } from "froebel/shuffle";
+/* Deno: */  import { shuffleInPlace } from "https://deno.land/x/froebel@v0.17.0/shuffle.ts";
+```
+
+
+
 
 ---
 
