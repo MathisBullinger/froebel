@@ -83,7 +83,7 @@ export type CamelCase<T extends string> = T extends `_${infer R}`
 
 type _Camel<T extends string> = T extends `${infer A}${infer B}${infer C}`
   ? A extends "_" ? B extends "_" ? `${A}${_Camel<`${B}${C}`>}`
-  : `${Uppercase<B>}${_Camel<C>}`
+    : `${Uppercase<B>}${_Camel<C>}`
   : `${A}${_Camel<`${B}${C}`>}`
   : T;
 
@@ -116,23 +116,23 @@ export type SplitString<T extends string, A extends string[] = []> = T extends
 
 export type SplitEven<T extends string> = EvenLength<SplitString<T>> extends
   [infer A, infer B] ? [
-  Join<A extends unknown[] ? A : never, "">,
-  Join<B extends unknown[] ? B : never, "">,
-]
+    Join<A extends unknown[] ? A : never, "">,
+    Join<B extends unknown[] ? B : never, "">,
+  ]
   : never;
 
 type EvenLength<A extends unknown[], B extends unknown[] = []> = A extends []
   ? (B extends [] ? [B, A] : never)
   : (A extends { length: infer LA }
     ? (B extends { length: infer LB } ? (LA extends LB ? [B, A] : (
-      A extends [infer H, ...infer T] ? EvenLength<T, [...B, H]> : never
-    ))
+        A extends [infer H, ...infer T] ? EvenLength<T, [...B, H]> : never
+      ))
       : never)
     : never);
 
 export type Join<Array extends unknown[], Separator extends string> =
   Array extends [infer A, ...infer B] ? (B extends [] ? ToString<A>
-    : `${ToString<A>}${Separator}${Join<B, Separator>}`)
+      : `${ToString<A>}${Separator}${Join<B, Separator>}`)
     : "";
 
 type JoinInnerArray<T extends unknown[]> = Join<T, ",">;

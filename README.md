@@ -88,6 +88,7 @@ once. For example `isPromise` is exported from both the `promise` and the
 - __`object`__
     - [pick](#pick)
     - [omit](#omit)
+    - [map](#map)
 - __`path`__
     - [select](#select)
 - __`equality`__
@@ -1118,6 +1119,41 @@ pick({ a: 1, b: 2, c: 3 }, 'a', 'c') // { a: 1, c: 3 }
 #### Example
 ```ts
 omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
+```
+
+---
+
+#### `map` 
+  
+```hs
+(data: Map<IK, IV>, callback: (key: IK, value: IV) => [OK, OV]) => Map<OK, OV>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/map.ts#L34)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/map.test.ts)_</sup></sup>
+
+> Map over `data`. `data` can be a regular object, a `Map`, a `Set`, or an
+> array.
+
+
+#### Import
+
+```ts
+/* Node: */  import map from "froebel/map";
+/* Deno: */  import map from "https://deno.land/x/froebel@v0.17.0/map.ts";
+```
+
+
+
+
+#### Examples
+```ts
+// -> { a: 1, b: 2 }
+map({ a: '1', b: '2' }, (key, value) => [key, parseInt(value)])
+```
+
+```ts
+// -> Map([ [2, 1], [4, 3] ])
+map(new Map([ [1, 2], [3, 4] ]), (key, value) => [key + 1, value - 1])
 ```
 ## Path
 

@@ -39,7 +39,7 @@ type Part<T extends readonly unknown[], S> = T extends readonly [
   infer F,
   ...infer R,
 ] ? [
-  F extends S ? [F, ...Part<R, S>[0]] : Part<R, S>[0],
-  F extends S ? Part<R, S>[1] : [F, ...Part<R, S>[1]],
-]
+    F extends S ? [F, ...Part<R, S>[0]] : Part<R, S>[0],
+    F extends S ? Part<R, S>[1] : [F, ...Part<R, S>[1]],
+  ]
   : [[], []];
