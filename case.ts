@@ -2,6 +2,7 @@ import type {
   CamelCase,
   KebabCase,
   PascalCase,
+  ScreamingSnakeCase,
   SnakeCase,
   StringCase,
   λ,
@@ -109,11 +110,27 @@ export const pascal = <T extends string>(str: T): PascalCase<T> =>
   capitalize(camel(str));
 
 /**
+ * Transforms a variable name to screaming snake case.
+ *
+ * @see {@link snake}
+ *
+ * @example
+ * ```
+ * snake('fooBar') // 'FOO_BAR'
+ * ```
+ */
+export const screamingSnake = <T extends string>(
+  str: T,
+): ScreamingSnakeCase<T> => upper(snake(str));
+
+/**
  * Transform a variable name to `targetCase`
  *
  * @see {@link snake}
  * @see {@link kebab}
  * @see {@link camel}
+ * @see {@link pascal}
+ * @see {@link screamingSnake}
  */
 export const transformCase = <T extends string, C extends StringCase>(
   str: T,
@@ -130,4 +147,5 @@ const converters: Record<StringCase, λ<[string], string>> = {
   kebab,
   pascal,
   snake,
+  "screaming-snake": screamingSnake,
 };

@@ -41,6 +41,10 @@ Deno.test("snake case", () => {
   assertEquals(c.snake("foo-Bar"), "foo_bar");
 });
 
+Deno.test("screaming snake case", () => {
+  assertEquals(c.screamingSnake("fooBar"), "FOO_BAR");
+});
+
 Deno.test("kebab case", () => {
   assertEquals(c.kebab("fooBar"), "foo-bar");
   assertEquals(c.kebab("FooBar"), "foo-bar");
@@ -70,5 +74,6 @@ Deno.test("transform case", () => {
   assertEquals(c.transformCase("foo_bar", "camel"), "fooBar");
   assertEquals(c.transformCase("foo_bar", "pascal"), "FooBar");
   assertEquals(c.transformCase("fooBar", "snake"), "foo_bar");
+  assertEquals(c.transformCase("fooBar", "screaming-snake"), "FOO_BAR");
   assertEquals(c.transformCase("fooBar", "kebab"), "foo-bar");
 });

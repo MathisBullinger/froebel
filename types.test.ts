@@ -5,6 +5,7 @@ import type {
   KebabCase,
   NarrowList,
   PascalCase,
+  ScreamingSnakeCase,
   SnakeCase,
   SplitAt,
   SplitEven,
@@ -81,6 +82,10 @@ Deno.test("static type tests", () => {
     const _str7: SnakeCase<"fooBar"> = "";
     const _str8: SnakeCase<"foo-bar"> = "foo_bar";
     const _str9: SnakeCase<"foo-Bar"> = "foo_bar";
+  }
+
+  {
+    const _str1: ScreamingSnakeCase<"fooBar"> = "FOO_BAR";
   }
 
   {
