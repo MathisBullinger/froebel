@@ -6,12 +6,15 @@ cp -r ./*.ts tmp
 cd tmp
 find . -name '*.test.ts' | xargs rm -r
 mv mod.ts index.ts
-find . -name '*.ts' | xargs sed -i '' 's/.ts";/";/g'
-find . -name '*.ts' | xargs sed -i '' 's/{ performance } = globalThis/{ performance } = "performance" in globalThis ? globalThis : require("perf_hooks")/g'
+find . -name '*.ts' | xargs sed -i.bak 's/.ts";/";/g'
+find . -name '*.ts' | xargs sed -i.bak 's/{ performance } = globalThis/{ performance } = "performance" in globalThis ? globalThis : require("perf_hooks")/g'
 cp ../npm/tsconfig.json .
+cp ../npm/.babelrc .
 ln -s ../npm/node_modules node_modules
 npx tsc -p tsconfig.json
+npx babel . --extensions .ts -d ../build --ignore node_modules
 cd ../build
+echo -e "\nmodule.exports = Object.assign(exports.default || {}, exports);" | tee -a ./*.js
 rm -r ../tmp
 jq 'del(.scripts,.private)' ../npm/package.json > package.json
 cp ../README.md .

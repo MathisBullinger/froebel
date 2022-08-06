@@ -13,8 +13,20 @@ jobs:
         with:
           deno-version: "1.23.2"
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
       - name: Check formatting
         run: deno fmt --check *.ts
 
-      - name: Test
+      - name: Unit tests
         run: scripts/test
+
+      - name: Test node imports
+        run: |
+          cd npm &&\
+          npm install &&\
+          cd .. &&\
+          scripts/buildNode &&\
+          scripts/testCjs

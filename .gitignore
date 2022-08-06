@@ -3,3 +3,4 @@ build
 tmp
 docs.json
 !.git/hooks
+/test*
