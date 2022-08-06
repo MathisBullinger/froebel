@@ -1,4 +1,4 @@
-import type { CamelCase, SnakeCase, StringCase } from "./types.ts";
+import type { CamelCase, KebabCase, SnakeCase, StringCase } from "./types.ts";
 
 /** Upper-case first letter of string. */
 export const capitalize = <T extends string>(str: T) =>
@@ -41,6 +41,30 @@ export const snake = <T extends string>(str: T): SnakeCase<T> =>
     .replace(/(\p{Lu}[^\p{L}_]*)(\p{Ll})/gu, (_, a, b) => `${a}_${b}`) as any;
 
 /**
+ * Transforms a variable name to kebab case.
+ *
+ * Note: The rules for transforming anything to kebab case are somewhat vague.
+ * So use this only for very simple names where the resulting value is
+ * absolutely unambiguous. For more examples of how names are transformed, have
+ * a look at the test cases.
+ *
+ * @example
+ * ```
+ * snake('fooBar') // 'foo-bar'
+ * ```
+ */
+export const kebab = <T extends string>(str: T): KebabCase<T> =>
+  str
+    .replace(/(\p{L})_(?=\p{L})/gu, "$1-")
+    .replace(/(^|-)(\p{Lu})(?!\p{Lu})/gu, (_, a, b) => `${a}${b.toLowerCase()}`)
+    .replace(/([^\p{Lu}])(\p{Lu})(?=\p{Lu})/gu, (_, a, b) => `${a}-${b}`)
+    .replace(
+      /([^\p{Lu}\-0-9])(\p{Lu})/gu,
+      (_, a, b) => `${a}-${b.toLowerCase()}`,
+    )
+    .replace(/(\p{Lu}[^\p{L}\-]*)(\p{Ll})/gu, (_, a, b) => `${a}-${b}`) as any;
+
+/**
  * Transforms a variable name to camel case.
  *
  * Note: The rules for transforming anything to camel case are somewhat vague.
@@ -65,6 +89,7 @@ export const camel = <T extends string>(str: T): CamelCase<T> =>
  * Transform a variable name to `targetCase`
  *
  * @see {@link snake}
+ * @see {@link kebab}
  * @see {@link camel}
  */
 export const transformCase = <T extends string, C extends StringCase>(
@@ -73,5 +98,6 @@ export const transformCase = <T extends string, C extends StringCase>(
 ): C extends "snake" ? SnakeCase<T> : never => {
   if (targetCase === "snake") return snake(str) as any;
   if (targetCase === "camel") return camel(str) as any;
+  if (targetCase === "kebab") return kebab(str) as any;
   throw Error(`can't convert to ${targetCase} case`);
 };

@@ -2,6 +2,7 @@ import type {
   CamelCase,
   IsEvenLength,
   Join,
+  KebabCase,
   NarrowList,
   SnakeCase,
   SplitAt,
@@ -75,6 +76,19 @@ Deno.test("static type tests", () => {
     const _str7: SnakeCase<"fooBar"> = "";
     const _str8: SnakeCase<"foo-bar"> = "foo_bar";
     const _str9: SnakeCase<"foo-Bar"> = "foo_bar";
+  }
+
+  {
+    const _str1: KebabCase<"fooBar"> = "foo-bar";
+    const _str2: KebabCase<"FooBar"> = "foo-bar";
+    const _str3: KebabCase<"fooBarABC0D"> = "foo-bar-ABC0D";
+    const _str4: KebabCase<"fooBarABC0DfooBar"> = "foo-bar-ABC0D-foo-bar";
+    const _str5: KebabCase<"foo_bar"> = "foo-bar";
+    const _str6: KebabCase<"foo_Bar"> = "foo-bar";
+    // @ts-expect-error
+    const _str7: KebabCase<"fooBar"> = "";
+    const _str8: KebabCase<"foo-bar"> = "foo-bar";
+    const _str9: KebabCase<"foo-Bar"> = "foo-bar";
   }
 
   {

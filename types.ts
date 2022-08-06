@@ -61,7 +61,7 @@ export type Async<T extends λ> = (
   ...args: Parameters<T>
 ) => MakeProm<ReturnType<T>>;
 
-export type StringCase = "camel" | "snake";
+export type StringCase = "camel" | "kebab" | "snake";
 
 export type Prefix<
   STR extends string,
@@ -88,19 +88,26 @@ type _Camel<T extends string> = T extends `${infer A}${infer B}${infer C}`
   : `${A}${_Camel<`${B}${C}`>}`
   : T;
 
-export type SnakeCase<T extends string> = T extends
+export type SnakeCase<T extends string> = DelimitedCase<T, "_">;
+
+export type KebabCase<T extends string> = DelimitedCase<T, "-">;
+
+type DelimitedCase<T extends string, D extends string> = T extends
   `${infer A}${infer B}${infer C}${infer R}`
   ? Lowercase<A> extends A
-    ? A extends ("_" | "-") ? `_${Lowercase<B>}${SnakeCase<`${C}${R}`>}`
-    : Lowercase<B> extends B ? `${A}${SnakeCase<`${B}${C}${R}`>}`
-    : Lowercase<C> extends C ? `${A}_${Lowercase<B>}${C}${SnakeCase<R>}`
-    : `${A}_${InvertedSnake<`${B}${C}${R}`>}`
-  : `${Lowercase<A>}${SnakeCase<`${B}${C}${R}`>}`
+    ? A extends ("_" | "-")
+      ? `${D}${Lowercase<B>}${DelimitedCase<`${C}${R}`, D>}`
+    : Lowercase<B> extends B ? `${A}${DelimitedCase<`${B}${C}${R}`, D>}`
+    : Lowercase<C> extends C
+      ? `${A}${D}${Lowercase<B>}${C}${DelimitedCase<R, D>}`
+    : `${A}${D}${InvertDelimited<`${B}${C}${R}`, D>}`
+  : `${Lowercase<A>}${DelimitedCase<`${B}${C}${R}`, D>}`
   : T;
 
-type InvertedSnake<T extends string> = T extends `${infer A}${infer B}`
-  ? Uppercase<A> extends A ? `${A}${InvertedSnake<B>}`
-  : `_${SnakeCase<`${A}${B}`>}`
+type InvertDelimited<T extends string, D extends string> = T extends
+  `${infer A}${infer B}`
+  ? Uppercase<A> extends A ? `${A}${InvertDelimited<B, D>}`
+  : `${D}${DelimitedCase<`${A}${B}`, D>}`
   : T;
 
 export type IsEvenLength<T extends string> = T extends
