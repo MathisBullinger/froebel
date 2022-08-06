@@ -31,6 +31,7 @@ export const lower = <T extends string>(str: T) =>
  */
 export const snake = <T extends string>(str: T): SnakeCase<T> =>
   str
+    .replace(/(\p{L})-(?=\p{L})/gu, "$1_")
     .replace(/(^|_)(\p{Lu})(?!\p{Lu})/gu, (_, a, b) => `${a}${b.toLowerCase()}`)
     .replace(/([^\p{Lu}])(\p{Lu})(?=\p{Lu})/gu, (_, a, b) => `${a}_${b}`)
     .replace(
@@ -55,7 +56,10 @@ export const snake = <T extends string>(str: T): SnakeCase<T> =>
 export const camel = <T extends string>(str: T): CamelCase<T> =>
   str
     .replace(/^\p{Lu}/u, (v) => v.toLowerCase())
-    .replace(/([^_]_*)_(\p{L})/gu, (_, a, b) => a + b.toUpperCase()) as any;
+    .replace(
+      /([^_-][_-]*)[_-](\p{L})/gu,
+      (_, a, b) => a + b.toUpperCase(),
+    ) as any;
 
 /**
  * Transform a variable name to `targetCase`

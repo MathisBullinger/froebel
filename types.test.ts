@@ -58,8 +58,10 @@ Deno.test("static type tests", () => {
 
   {
     const _str1: CamelCase<"foo_bar"> = "fooBar";
-    const _str2: CamelCase<"__foo_bar__baz__"> = "__fooBar_Baz__";
-    const _str3: CamelCase<"FooBar"> = "fooBar";
+    const _str2: CamelCase<"foo-bar"> = "fooBar";
+    const _str3: CamelCase<"__foo_bar__baz__"> = "__fooBar_Baz__";
+    const _str4: CamelCase<"-_foo_bar-_baz_-"> = "-_fooBar-Baz_-";
+    const _str5: CamelCase<"FooBar"> = "fooBar";
   }
 
   {
@@ -71,6 +73,8 @@ Deno.test("static type tests", () => {
     const _str6: SnakeCase<"foo_Bar"> = "foo_bar";
     // @ts-expect-error
     const _str7: SnakeCase<"fooBar"> = "";
+    const _str8: SnakeCase<"foo-bar"> = "foo_bar";
+    const _str9: SnakeCase<"foo-Bar"> = "foo_bar";
   }
 
   {

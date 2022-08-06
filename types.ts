@@ -79,10 +79,11 @@ export type Suffix<
 
 export type CamelCase<T extends string> = T extends `_${infer R}`
   ? `_${CamelCase<R>}`
+  : T extends `-${infer R}` ? `-${CamelCase<R>}`
   : _Camel<Uncapitalize<T>>;
 
 type _Camel<T extends string> = T extends `${infer A}${infer B}${infer C}`
-  ? A extends "_" ? B extends "_" ? `${A}${_Camel<`${B}${C}`>}`
+  ? A extends "_" | "-" ? B extends "_" | "-" ? `${A}${_Camel<`${B}${C}`>}`
     : `${Uppercase<B>}${_Camel<C>}`
   : `${A}${_Camel<`${B}${C}`>}`
   : T;
@@ -90,7 +91,7 @@ type _Camel<T extends string> = T extends `${infer A}${infer B}${infer C}`
 export type SnakeCase<T extends string> = T extends
   `${infer A}${infer B}${infer C}${infer R}`
   ? Lowercase<A> extends A
-    ? A extends "_" ? `_${Lowercase<B>}${SnakeCase<`${C}${R}`>}`
+    ? A extends ("_" | "-") ? `_${Lowercase<B>}${SnakeCase<`${C}${R}`>}`
     : Lowercase<B> extends B ? `${A}${SnakeCase<`${B}${C}${R}`>}`
     : Lowercase<C> extends C ? `${A}_${Lowercase<B>}${C}${SnakeCase<R>}`
     : `${A}_${InvertedSnake<`${B}${C}${R}`>}`

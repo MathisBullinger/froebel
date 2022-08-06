@@ -37,10 +37,15 @@ Deno.test("snake case", () => {
   assertEquals(c.snake("fooBarABC0fooBar"), "foo_bar_ABC0_foo_bar");
   assertEquals(c.snake("foo_Bar"), "foo_bar");
   assertEquals(c.snake("foo_Bar"), "foo_bar");
+  assertEquals(c.snake("foo-bar"), "foo_bar");
+  assertEquals(c.snake("foo-Bar"), "foo_bar");
 });
 
 Deno.test("camel case", () => {
   assertEquals(c.camel("foo_bar"), "fooBar");
+  assertEquals(c.camel("foo-bar"), "fooBar");
+  assertEquals(c.camel("foo-Bar"), "fooBar");
   assertEquals(c.camel("FooBar"), "fooBar");
   assertEquals(c.camel("__foo_bar__baz__"), "__fooBar_Baz__");
+  assertEquals(c.camel("-_foo_bar-_baz_-"), "-_fooBar-Baz_-");
 });
