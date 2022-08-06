@@ -11,7 +11,7 @@ jobs:
 
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: vx.x.x
+          deno-version: "1.23.2"
 
       - name: Check formatting
         run: deno fmt --check *.ts
