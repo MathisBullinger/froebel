@@ -4,6 +4,7 @@ import type {
   Join,
   KebabCase,
   NarrowList,
+  PascalCase,
   SnakeCase,
   SplitAt,
   SplitEven,
@@ -63,6 +64,10 @@ Deno.test("static type tests", () => {
     const _str3: CamelCase<"__foo_bar__baz__"> = "__fooBar_Baz__";
     const _str4: CamelCase<"-_foo_bar-_baz_-"> = "-_fooBar-Baz_-";
     const _str5: CamelCase<"FooBar"> = "fooBar";
+  }
+
+  {
+    const _str1: PascalCase<"foo_bar"> = "FooBar";
   }
 
   {

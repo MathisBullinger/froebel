@@ -1,4 +1,11 @@
-import type { CamelCase, KebabCase, SnakeCase, StringCase } from "./types.ts";
+import type {
+  CamelCase,
+  KebabCase,
+  PascalCase,
+  SnakeCase,
+  StringCase,
+  λ,
+} from "./types.ts";
 
 /** Upper-case first letter of string. */
 export const capitalize = <T extends string>(str: T) =>
@@ -86,6 +93,22 @@ export const camel = <T extends string>(str: T): CamelCase<T> =>
     ) as any;
 
 /**
+ * Transforms a variable name to pascal case.
+ *
+ * Note: The rules for transforming anything to pascal case are somewhat vague.
+ * So use this only for very simple names where the resulting value is
+ * absolutely unambiguous. For more examples of how names are transformed, have
+ * a look at the test cases.
+ *
+ * @example
+ * ```
+ * camel('foo_bar') // 'FooBar'
+ * ```
+ */
+export const pascal = <T extends string>(str: T): PascalCase<T> =>
+  capitalize(camel(str));
+
+/**
  * Transform a variable name to `targetCase`
  *
  * @see {@link snake}
@@ -96,8 +119,15 @@ export const transformCase = <T extends string, C extends StringCase>(
   str: T,
   targetCase: C,
 ): C extends "snake" ? SnakeCase<T> : never => {
-  if (targetCase === "snake") return snake(str) as any;
-  if (targetCase === "camel") return camel(str) as any;
-  if (targetCase === "kebab") return kebab(str) as any;
-  throw Error(`can't convert to ${targetCase} case`);
+  if (!(targetCase in converters)) {
+    throw Error(`can't convert to ${targetCase} case`);
+  }
+  return converters[targetCase](str) as any;
+};
+
+const converters: Record<StringCase, λ<[string], string>> = {
+  camel,
+  kebab,
+  pascal,
+  snake,
 };

@@ -61,3 +61,14 @@ Deno.test("camel case", () => {
   assertEquals(c.camel("__foo_bar__baz__"), "__fooBar_Baz__");
   assertEquals(c.camel("-_foo_bar-_baz_-"), "-_fooBar-Baz_-");
 });
+
+Deno.test("pascal case", () => {
+  assertEquals(c.pascal("foo_bar"), "FooBar");
+});
+
+Deno.test("transform case", () => {
+  assertEquals(c.transformCase("foo_bar", "camel"), "fooBar");
+  assertEquals(c.transformCase("foo_bar", "pascal"), "FooBar");
+  assertEquals(c.transformCase("fooBar", "snake"), "foo_bar");
+  assertEquals(c.transformCase("fooBar", "kebab"), "foo-bar");
+});

@@ -61,7 +61,7 @@ export type Async<T extends λ> = (
   ...args: Parameters<T>
 ) => MakeProm<ReturnType<T>>;
 
-export type StringCase = "camel" | "kebab" | "snake";
+export type StringCase = "camel" | "kebab" | "pascal" | "snake";
 
 export type Prefix<
   STR extends string,
@@ -87,6 +87,8 @@ type _Camel<T extends string> = T extends `${infer A}${infer B}${infer C}`
     : `${Uppercase<B>}${_Camel<C>}`
   : `${A}${_Camel<`${B}${C}`>}`
   : T;
+
+export type PascalCase<T extends string> = Capitalize<CamelCase<T>>;
 
 export type SnakeCase<T extends string> = DelimitedCase<T, "_">;
 
