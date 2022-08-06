@@ -1,0 +1,41 @@
+#!/bin/bash
+
+rm -rf testImport
+mkdir testImport
+echo 'const { arg } = require("../scripts/testArg");' > testImport/commonjs.js
+echo 'import { arg } from "../scripts/testArg.js";' > testImport/esmodule.mjs
+
+testJS='try { \
+  console.log(\2.name || \2); \
+  \2(arg(), arg()); \
+} catch(e) { \
+  try { \
+    \2(arg(() => {}), arg(() => {})); \
+  } catch { \
+    if (e instanceof TypeError) throw e; \
+  } \
+}'
+
+grep -E '\/\* Node:' build/README.md\
+  | sed -E "s/.*import (\{ )?([a-zA-Z]+)( })? from[^\"]*([^;]+);/var \1\2\3 = require(\4);\n${testJS}/"\
+  >> testImport/commonjs.js
+
+grep -E '\/\* Node:' build/README.md\
+  | sed -E "s/.*import (\{ )?([a-zA-Z]+)( })? from[^\"]*([^;]+);/import \1\2\3 from \4;\n${testJS}/"\
+  >> testImport/esmodule.mjs
+
+sed -E -i -e 's/import \{ ([a-zA-Z]+) \} from "froebel\/([a-z]+)";/import { \1 as \1_\2 } from "froebel\/\2";\nvar \1 = \1_\2;/g' testImport/esmodule.mjs
+
+sed -E -i -e 's/ ([A-Z][a-zA-Z]+\()[^;]+/ new \1)/g' testImport/commonjs.js
+sed -E -i -e 's/ ([A-Z][a-zA-Z]+\()[^;]+/ new \1)/g' testImport/esmodule.mjs
+
+cd build
+npm link
+
+cd ../testImport
+npm link froebel
+
+node commonjs.js
+node esmodule.mjs
+
+cd .. && rm -r testImport

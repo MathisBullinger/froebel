@@ -4,6 +4,12 @@
   "description": "TypeScript utility library",
   "main": "index.js",
   "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.mjs"
+    }
+  },
   "private": "true",
   "repository": {
     "type": "git",
