@@ -1878,7 +1878,7 @@ snake('fooBar') // 'foo_bar'
 
 #### Example
 ```ts
-snake('fooBar') // 'foo-bar'
+kebab('fooBar') // 'foo-bar'
 ```
 
 ---
