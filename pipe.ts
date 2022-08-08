@@ -40,6 +40,25 @@ const pipe = <T extends [λ, ...λ[]]>(
 
 export default pipe;
 
+/**
+ * Like `pipe` but takes an argument as its first parameter and invokes the pipe
+ * with it.
+ *
+ * Note: unlike in `pipe`, the first function of the pipe must take exactly one
+ * argument.
+ *
+ * @see {@link pipe}
+ *
+ * @example
+ * ```
+ * applyPipe(2, double, square, half)  // -> 8
+ * ```
+ */
+export const applyPipe = <T extends [λ<[any], any>, ...λ[]]>(
+  arg: Parameters<T[0]>[0],
+  ...funs: PipeReturn<T> extends never ? never : T
+): PipeReturn<T> => (pipe(...funs) as any)(arg);
+
 const resolveAsync = async (result: unknown, funs: λ[]) => {
   for (const fun of funs) result = fun(await result);
   return await result;
