@@ -5,10 +5,9 @@ rm -rf tmp
 mkdir tmp
 cp -r ./*.ts tmp
 cd tmp
-find . -name './*.test.ts' | xargs rm -r
+find . -name '*.test.ts' | xargs rm -r
 mv mod.ts index.ts
-rm -r ./*.test.ts
-find . -name '*.ts' | xargs sed -i '' 's/.ts";/";/g'
+find . -name '*.ts' | xargs sed -i.bak 's/.ts";/";/g'
 cp ../npm/tsconfig.json .
 ln -s ../npm/node_modules node_modules
 npx typedoc ./* --json docs.json
