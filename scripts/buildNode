@@ -29,6 +29,8 @@ cat .babelrc
 npx babel . --extensions .ts -d ../build --ignore node_modules
 cd ../build
 echo -e "\nmodule.exports = Object.assign(exports.default || {}, exports);" | tee -a ./*.js
+# patch for babel redefining exports
+sed -E -i -e 's/if \(key in exports && .+/if \(key in exports\) return;/g' index.js
 rm -r ../tmp
 cp ../README.md .
 cp ../LICENSE .
