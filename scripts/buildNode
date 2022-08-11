@@ -21,6 +21,7 @@ for file in *.js; do
   cat <<< $(jq ".exports[\"./${BASE_NAME}\"] = { \"require\": \"./${BASE_NAME}.js\", \"import\": \"./${BASE_NAME}.mjs\" }" package.json) > package.json
 done
 sed -E -i -e 's/from "([a-zA-Z\/\.]+)/from "\1\.mjs/g' *.mjs
+sed -E -i -e 's/require\("perf_hooks"\)/{performance:{now:\(\)=>Date.now\(\)}}/g' *.mjs
 sed -E -i -e 's/require\(([^)]+)\)/await import(\1)/g' *.mjs
 cd ../tmp
 cat <<< $(jq '.presets[0][1].modules = "cjs"' .babelrc) > .babelrc
