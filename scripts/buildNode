@@ -22,7 +22,6 @@ for file in *.js; do
 done
 sed -E -i -e 's/from "([a-zA-Z\/\.]+)/from "\1\.mjs/g' *.mjs
 sed -E -i -e 's/require\(([^)]+)\)/await import(\1)/g' *.mjs
-rm ./*-e
 cd ../tmp
 cat <<< $(jq '.presets[0][1].modules = "cjs"' .babelrc) > .babelrc
 cat .babelrc
@@ -31,6 +30,8 @@ cd ../build
 echo -e "\nmodule.exports = Object.assign(exports.default || {}, exports);" | tee -a ./*.js
 # patch for babel redefining exports
 sed -E -i -e 's/if \(key in exports && .+/if \(key in exports\) return;/g' index.js
+node ../scripts/rewriteStarExports.mjs
+rm ./*-e
 rm -r ../tmp
 cp ../README.md .
 cp ../LICENSE .
