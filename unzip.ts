@@ -27,7 +27,7 @@ export default unzip;
  * is the accumulator passed into the next invocation.
  *
  * @example
- * const [nums, str] = unzip(
+ * const [nums, str] = unzipWith(
  *   [ [1,'a'], [2,'b'], [3,'c'] ],
  *   (n, acc: number[] = []) => [...acc, n],
  *   (c, str = '') => str + c
