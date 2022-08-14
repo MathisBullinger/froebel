@@ -853,7 +853,7 @@ console.log(chars) // prints: ['a','b','c']
 
 #### Example
 ```ts
-const [nums, str] = unzip(
+const [nums, str] = unzipWith(
   [ [1,'a'], [2,'b'], [3,'c'] ],
   (n, acc: number[] = []) => [...acc, n],
   (c, str = '') => str + c
