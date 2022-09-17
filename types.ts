@@ -43,6 +43,13 @@ export type TakeLast<T extends any[], I extends number> = Length<T> extends I
   : T extends [any, ...infer S] ? TakeLast<S, I>
   : never;
 
+export type IsTuple<T extends unknown[]> = (T[number])[] extends T ? false
+  : true;
+
+export type IsUnion<T, U extends T = T> = T extends unknown
+  ? [U] extends [T] ? false : true
+  : false;
+
 export type SplitAt<
   Front extends any[],
   I extends number,
@@ -159,9 +166,65 @@ type EvenLength<A extends unknown[], B extends unknown[] = []> = A extends []
       : never)
     : never);
 
-export type IsUnion<T, U extends T = T> = T extends unknown
-  ? [U] extends [T] ? false : true
+// string types
+
+type Contains<T extends string, C extends string> = T extends `${any}${C}${any}`
+  ? true
   : false;
+
+type TrimFront<T extends string, C extends string | number> = T extends
+  `${C}${infer R}` ? TrimFront<R, C>
+  : T;
+
+type Chars<T extends string, C extends string = never> = T extends
+  `${infer A}${infer B}` ? Chars<B, C | A> : C;
+
+type OnlyContains<T extends string, C extends string | number> = OnlyContains_<
+  T,
+  Chars<`${C}`>
+>;
+
+type OnlyContains_<T extends string, C extends string | number> = T extends
+  `${C}${infer R}` ? OnlyContains_<R, C> : T extends "" ? true : false;
+
+export type IsNumberString<T extends string> = IsNumberString_<
+  T extends `-${infer R}` ? R : T
+>;
+
+type IsNumberString_<T extends string> = T extends `-${any}` ? false
+  : T extends `${number}` ? true
+  : false;
+
+export type IsIntegerString<T extends string> = IsNumberString<T> extends false
+  ? false
+  : BitNot<Contains<T, ".">>;
+
+// math types
+
+export type IsNegative<T extends number> = number extends T ? never
+  : IfElse<IsUnion<T>, never, Extends<`${T}`, `-${string}`>>;
+
+/** Create a union containing the integers 0..`T` */
+export type IntRange<T extends number> = IsNegative<T> extends true ? never
+  : ConstructIntRange<T extends `${"0"}${infer R}` ? R : T>;
+
+type ConstructIntRange<
+  L extends number,
+  U extends number = 0,
+  T extends any[] = [any],
+> = L extends U ? U : ConstructIntRange<L, U | T["length"], [...T, any]>;
+
+/** Parse `T` into number if `T` is a positive base 10 integer. */
+export type ParseInt<T extends string, MAX extends number = never> = T extends
+  "" ? never
+  : OnlyContains<T, "0123456789"> extends true
+    ? ParseInt_<TrimFront<T, 0>, MAX, []>
+  : never;
+
+type ParseInt_<T extends string, M extends number, L extends any[] = []> =
+  `${L["length"]}` extends T ? L["length"]
+    : L["length"] extends M ? never
+    : ParseInt_<T, M, [...L, any]>;
 
 // logic types
 

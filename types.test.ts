@@ -11,7 +11,12 @@ import type {
   CamelCase,
   Extends,
   IfElse,
+  IntRange,
   IsEvenLength,
+  IsIntegerString,
+  IsNegative,
+  IsNumberString,
+  IsTuple,
   IsUnion,
   Join,
   KebabCase,
@@ -24,6 +29,7 @@ import type {
   NOR,
   NOT,
   OR,
+  ParseInt,
   PascalCase,
   ScreamingSnakeCase,
   SnakeCase,
@@ -191,12 +197,92 @@ Deno.test("static type tests", () => {
   }
 
   {
+    assertType<IsTuple<[]>, true>();
+    assertType<IsTuple<any[]>, false>();
+    assertType<IsTuple<never[]>, false>();
+    assertType<IsTuple<[number]>, true>();
+    assertType<IsTuple<[number, string]>, true>();
+    assertType<IsTuple<[never]>, true>();
+    assertType<IsTuple<[number?]>, true>();
+    assertType<IsTuple<[number, string?]>, true>();
+    assertType<IsTuple<[number, ...string[]]>, true>();
+    assertType<IsTuple<[...number[]]>, false>();
+  }
+
+  {
     assertType<IsUnion<1>, false>();
     assertType<IsUnion<1 | 2>, true>();
     assertType<IsUnion<1 | "a">, true>();
     assertType<IsUnion<number>, false>();
     assertType<IsUnion<number | string>, true>();
     assertType<IsUnion<1 | 1>, false>();
+  }
+
+  {
+    assertType<IntRange<0>, 0>();
+    assertType<IntRange<4>, 0 | 1 | 2 | 3 | 4>();
+    assertType<IntRange<-1>, never>();
+  }
+
+  {
+    assertType<ParseInt<"">, never>();
+    assertType<ParseInt<"10">, 10>();
+    assertType<ParseInt<"010">, 10>();
+    assertType<ParseInt<"0010">, 10>();
+    assertType<ParseInt<"-10">, never>();
+    assertType<ParseInt<"12.34">, never>();
+    assertType<ParseInt<"5", 4>, never>();
+    assertType<ParseInt<"5", 5>, 5>();
+    assertType<ParseInt<"5", 6>, 5>();
+  }
+
+  {
+    assertType<IsNegative<number>, never>();
+    assertType<IsNegative<1>, false>();
+    assertType<IsNegative<-1>, true>();
+    assertType<IsNegative<123.456>, false>();
+    assertType<IsNegative<-123.456>, true>();
+  }
+
+  {
+    assertType<IsNumberString<"12">, true>();
+    assertType<IsIntegerString<"12">, true>();
+    assertType<IsNumberString<"-12">, true>();
+    assertType<IsIntegerString<"-12">, true>();
+    assertType<IsNumberString<"--12">, false>();
+    assertType<IsIntegerString<"--12">, false>();
+    assertType<IsNumberString<"12.34">, true>();
+    assertType<IsIntegerString<"12.34">, false>();
+    assertType<IsNumberString<"-12.34">, true>();
+    assertType<IsIntegerString<"-12.34">, false>();
+    assertType<IsNumberString<"--12.34">, false>();
+    assertType<IsIntegerString<"--12.34">, false>();
+    assertType<IsNumberString<".12">, true>();
+    assertType<IsIntegerString<".12">, false>();
+    assertType<IsNumberString<"-.12">, true>();
+    assertType<IsIntegerString<"-.12">, false>();
+    assertType<IsNumberString<"--.12">, false>();
+    assertType<IsIntegerString<"--.12">, false>();
+    assertType<IsNumberString<"0b1101">, true>();
+    assertType<IsIntegerString<"0b1101">, true>();
+    assertType<IsNumberString<"-0b1101">, true>();
+    assertType<IsIntegerString<"-0b1101">, true>();
+    assertType<IsNumberString<"--0b1101">, false>();
+    assertType<IsIntegerString<"--0b1101">, false>();
+    assertType<IsNumberString<"0b12">, false>();
+    assertType<IsIntegerString<"0b12">, false>();
+    assertType<IsNumberString<"ab1">, false>();
+    assertType<IsIntegerString<"ab1">, false>();
+    assertType<IsNumberString<"0x0123456789abcdefABCDEF">, true>();
+    assertType<IsIntegerString<"0x0123456789abcdefABCDEF">, true>();
+    assertType<IsNumberString<"-0x0123456789abcdefABCDEF">, true>();
+    assertType<IsIntegerString<"-0x0123456789abcdefABCDEF">, true>();
+    assertType<IsNumberString<"-0xA">, true>();
+    assertType<IsIntegerString<"-0xA">, true>();
+    assertType<IsNumberString<"--0xA">, false>();
+    assertType<IsIntegerString<"--0xA">, false>();
+    assertType<IsNumberString<"0xdefg">, false>();
+    assertType<IsIntegerString<"0xdefg">, false>();
   }
 
   {
