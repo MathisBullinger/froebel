@@ -1,11 +1,14 @@
-export type AssertEqualType = {
-  <A, B>(
-    ...error: (<T>() => T extends A ? 1 : 2) extends
-      (<T>() => T extends B ? 1 : 2) ? [] : [unknown]
-  ): void;
-};
+export const assertType = <A, B>(
+  ..._TYPE: IsEqualType<A, B, [], [A, B]>
+) => {};
 
-export const assertType: AssertEqualType = () => () => {};
+export const assertNotType = <A, B>(
+  ..._TYPE: IsEqualType<A, B, [A], []>
+) => {};
+
+export type IsEqualType<A, B, True = true, False = false> =
+  (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? True
+    : False;
 
 export type λ<TA extends any[] = any[], TR = any> = (...args: TA) => TR;
 export type Fun = λ;
@@ -155,6 +158,82 @@ type EvenLength<A extends unknown[], B extends unknown[] = []> = A extends []
       ))
       : never)
     : never);
+
+export type IsUnion<T, U extends T = T> = T extends unknown
+  ? [U] extends [T] ? false : true
+  : false;
+
+// logic types
+
+export type NOT<T> = boolean extends T ? T : BitNot<T>;
+export type BitNot<T> = T extends true ? false : true;
+
+export type AND<A, B> = Switch<[
+  [BitOr<LogicFalse<A>, LogicFalse<B>>, false],
+  [BitOr<LogicNull<A>, LogicNull<B>>, boolean],
+  true,
+]>;
+export type BitAnd<A, B> = A extends false ? false : B;
+
+export type OR<A extends boolean, B extends boolean> = Switch<[
+  [BitOr<LogicTrue<A>, LogicTrue<B>>, true],
+  [BitOr<LogicNull<A>, LogicNull<B>>, boolean],
+  false,
+]>;
+export type BitOr<A, B> = A extends true ? true : B;
+
+export type XOR<A, B> = Switch<[
+  [BitOr<LogicNull<A>, LogicNull<B>>, boolean],
+  BitXor<A, B>,
+]>;
+export type BitXor<A, B> = A extends B ? false : true;
+
+export type XNOR<A, B> = Switch<[
+  [BitOr<LogicNull<A>, LogicNull<B>>, boolean],
+  BitXnor<A, B>,
+]>;
+export type BitXnor<A, B> = A extends B ? true : false;
+
+export type NOR<A, B> = Switch<[
+  [BitAnd<LogicFalse<A>, LogicFalse<B>>, true],
+  [BitOr<LogicTrue<A>, LogicTrue<B>>, false],
+  boolean,
+]>;
+export type BitNor<A, B> = A extends true ? false : BitNot<B>;
+
+export type NAND<A, B> = Switch<[
+  [BitOr<LogicFalse<A>, LogicFalse<B>>, true],
+  [BitOr<LogicNull<A>, LogicNull<B>>, boolean],
+  false,
+]>;
+export type BitNand<A, B> = A extends false ? true : BitNot<B>;
+
+export type LogicTrue<T> = boolean extends T ? false : T;
+
+export type LogicFalse<T> = boolean extends T ? false : BitNot<T>;
+
+export type LogicNull<T> = boolean extends T ? true
+  : T extends boolean ? false
+  : true;
+
+/** Equivalent to `A extends B ? true : false` */
+export type Extends<A, B> = IfElse<
+  IsUnion<A>,
+  [A] extends boolean ? true : false,
+  A extends B ? true : false
+>;
+
+/** Returns `A` if `T` is `true`, `B` if `false`, and `A` | `B` otherwise. */
+export type IfElse<T, A, B> = T extends true ? A : B;
+
+type Switch<T extends any[]> = T extends [infer A, ...infer B] ? (
+    A extends [boolean, any]
+      ? (A[0] extends true ? A[1] : Switch<B extends any[] ? B : never>)
+      : A
+  )
+  : never;
+
+// Array.join types
 
 export type Join<Array extends unknown[], Separator extends string> =
   Array extends [infer A, ...infer B] ? (B extends [] ? ToString<A>

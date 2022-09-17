@@ -1,10 +1,29 @@
-import { assertType } from "./types.ts";
+import { assertNotType, assertType } from "./types.ts";
 import type {
+  AND,
+  BitAnd,
+  BitNand,
+  BitNor,
+  BitNot,
+  BitOr,
+  BitXnor,
+  BitXor,
   CamelCase,
+  Extends,
+  IfElse,
   IsEvenLength,
+  IsUnion,
   Join,
   KebabCase,
+  Length,
+  LogicFalse,
+  LogicNull,
+  LogicTrue,
+  NAND,
   NarrowList,
+  NOR,
+  NOT,
+  OR,
   PascalCase,
   ScreamingSnakeCase,
   SnakeCase,
@@ -15,6 +34,8 @@ import type {
   TakeFirst,
   TakeLast,
   ToString,
+  XNOR,
+  XOR,
 } from "./types.ts";
 
 Deno.test("static type tests", () => {
@@ -31,6 +52,7 @@ Deno.test("static type tests", () => {
     assertType<never, never>();
     assertType<SymA, SymA>();
     assertType<1, 1>();
+    assertNotType<1, 2>();
 
     // @ts-expect-error
     assertType<number, any>();
@@ -60,6 +82,8 @@ Deno.test("static type tests", () => {
     assertType<number, 1>();
     // @ts-expect-error
     assertType<2, 3>();
+    // @ts-expect-error
+    assertNotType<1, 1>();
   }
 
   {
@@ -156,6 +180,159 @@ Deno.test("static type tests", () => {
 
   {
     assertType<SplitString<"foobar">, ["f", "o", "o", "b", "a", "r"]>();
+  }
+
+  {
+    assertType<Length<[]>, 0>();
+    assertType<Length<[number]>, 1>();
+    assertType<Length<[number?]>, 0 | 1>();
+    assertType<Length<[number, ...string[]]>, number>();
+    assertType<Length<unknown[]>, number>();
+  }
+
+  {
+    assertType<IsUnion<1>, false>();
+    assertType<IsUnion<1 | 2>, true>();
+    assertType<IsUnion<1 | "a">, true>();
+    assertType<IsUnion<number>, false>();
+    assertType<IsUnion<number | string>, true>();
+    assertType<IsUnion<1 | 1>, false>();
+  }
+
+  {
+    type A = [string, number];
+    type B = [string, string | number];
+    type C = [null, any];
+
+    assertType<Extends<A[0], A[1]>, A[0] extends A[1] ? true : false>();
+    assertType<Extends<B[0], B[1]>, B[0] extends B[1] ? true : false>();
+    assertType<Extends<B[1], B[0]>, B[1] extends B[0] ? true : false>();
+    assertType<Extends<C[0], C[1]>, C[0] extends C[1] ? true : false>();
+    assertType<Extends<C[1], C[0]>, C[1] extends C[0] ? true : false>();
+  }
+
+  {
+    assertType<IfElse<true, "a", "b">, "a">();
+    assertType<IfElse<false, "a", "b">, "b">();
+    assertType<IfElse<boolean, "a", "b">, "a" | "b">();
+    assertType<IfElse<any, "a", "b">, "a" | "b">();
+  }
+
+  {
+    type _0 = false;
+    type _1 = true;
+    type _n = boolean;
+
+    assertType<BitNot<_0>, _1>();
+    assertType<BitNot<_1>, _0>();
+
+    assertType<NOT<_0>, _1>();
+    assertType<NOT<_1>, _0>();
+    assertType<NOT<_n>, _n>();
+
+    assertType<BitAnd<_0, _0>, _0>();
+    assertType<BitAnd<_0, _1>, _0>();
+    assertType<BitAnd<_1, _0>, _0>();
+    assertType<BitAnd<_1, _1>, _1>();
+
+    assertType<AND<_0, _0>, _0>();
+    assertType<AND<_0, _1>, _0>();
+    assertType<AND<_0, _n>, _0>();
+    assertType<AND<_1, _0>, _0>();
+    assertType<AND<_1, _1>, _1>();
+    assertType<AND<_1, _n>, _n>();
+    assertType<AND<_n, _0>, _0>();
+    assertType<AND<_n, _1>, _n>();
+    assertType<AND<_n, _n>, _n>();
+
+    assertType<BitOr<_0, _0>, _0>();
+    assertType<BitOr<_0, _1>, _1>();
+    assertType<BitOr<_1, _0>, _1>();
+    assertType<BitOr<_1, _1>, _1>();
+
+    assertType<OR<_0, _0>, _0>();
+    assertType<OR<_0, _1>, _1>();
+    assertType<OR<_0, _n>, _n>();
+    assertType<OR<_1, _0>, _1>();
+    assertType<OR<_1, _1>, _1>();
+    assertType<OR<_1, _n>, _1>();
+    assertType<OR<_n, _0>, _n>();
+    assertType<OR<_n, _1>, _1>();
+    assertType<OR<_n, _n>, _n>();
+
+    assertType<BitXor<_0, _0>, _0>();
+    assertType<BitXor<_0, _1>, _1>();
+    assertType<BitXor<_1, _0>, _1>();
+    assertType<BitXor<_1, _1>, _0>();
+
+    assertType<XOR<_0, _0>, _0>();
+    assertType<XOR<_0, _1>, _1>();
+    assertType<XOR<_0, _n>, _n>();
+    assertType<XOR<_1, _0>, _1>();
+    assertType<XOR<_1, _1>, _0>();
+    assertType<XOR<_1, _n>, _n>();
+    assertType<XOR<_n, _0>, _n>();
+    assertType<XOR<_n, _1>, _n>();
+    assertType<XOR<_n, _n>, _n>();
+
+    assertType<BitXnor<_0, _0>, _1>();
+    assertType<BitXnor<_0, _1>, _0>();
+    assertType<BitXnor<_1, _0>, _0>();
+    assertType<BitXnor<_1, _1>, _1>();
+
+    assertType<XNOR<_0, _0>, _1>();
+    assertType<XNOR<_0, _1>, _0>();
+    assertType<XNOR<_0, _n>, _n>();
+    assertType<XNOR<_1, _0>, _0>();
+    assertType<XNOR<_1, _1>, _1>();
+    assertType<XNOR<_1, _n>, _n>();
+    assertType<XNOR<_n, _0>, _n>();
+    assertType<XNOR<_n, _1>, _n>();
+    assertType<XNOR<_n, _n>, _n>();
+
+    assertType<BitNor<_0, _0>, _1>();
+    assertType<BitNor<_0, _1>, _0>();
+    assertType<BitNor<_1, _0>, _0>();
+    assertType<BitNor<_1, _1>, _0>();
+
+    assertType<NOR<_0, _0>, _1>();
+    assertType<NOR<_0, _1>, _0>();
+    assertType<NOR<_0, _n>, _n>();
+    assertType<NOR<_1, _0>, _0>();
+    assertType<NOR<_1, _1>, _0>();
+    assertType<NOR<_1, _n>, _0>();
+    assertType<NOR<_n, _0>, _n>();
+    assertType<NOR<_n, _1>, _0>();
+    assertType<NOR<_n, _n>, _n>();
+
+    assertType<BitNand<_0, _0>, _1>();
+    assertType<BitNand<_0, _1>, _1>();
+    assertType<BitNand<_1, _0>, _1>();
+    assertType<BitNand<_1, _1>, _0>();
+
+    assertType<NAND<_0, _0>, _1>();
+    assertType<NAND<_0, _1>, _1>();
+    assertType<NAND<_0, _n>, _1>();
+    assertType<NAND<_1, _0>, _1>();
+    assertType<NAND<_1, _1>, _0>();
+    assertType<NAND<_1, _n>, _n>();
+    assertType<NAND<_n, _0>, _1>();
+    assertType<NAND<_n, _1>, _n>();
+    assertType<NAND<_n, _n>, _n>();
+  }
+
+  {
+    assertType<LogicTrue<true>, true>();
+    assertType<LogicTrue<false>, false>();
+    assertType<LogicTrue<boolean>, false>();
+
+    assertType<LogicFalse<true>, false>();
+    assertType<LogicFalse<false>, true>();
+    assertType<LogicFalse<boolean>, false>();
+
+    assertType<LogicNull<true>, false>();
+    assertType<LogicNull<false>, false>();
+    assertType<LogicNull<boolean>, true>();
   }
 
   {
