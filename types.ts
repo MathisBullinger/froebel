@@ -1,3 +1,12 @@
+export type AssertEqualType = {
+  <A, B>(
+    ...error: (<T>() => T extends A ? 1 : 2) extends
+      (<T>() => T extends B ? 1 : 2) ? [] : [unknown]
+  ): void;
+};
+
+export const assertType: AssertEqualType = () => () => {};
+
 export type λ<TA extends any[] = any[], TR = any> = (...args: TA) => TR;
 export type Fun = λ;
 
@@ -184,9 +193,10 @@ export type ToString<T> = T extends undefined | null | [] ? ""
   : T extends Intl.NumberFormat ? "[object Intl.NumberFormat]"
   : T extends Intl.PluralRules ? "[object Intl.PluralRules]"
   : T extends Intl.RelativeTimeFormat ? "[object Intl.RelativeTimeFormat]"
-  : T extends { toString(): string } ? ReturnType<T["toString"]>
-  : // deno-lint-ignore ban-types
-  T extends object ? "[object Object]"
+  : T extends { toString(): infer R }
+    ? (string extends R ? "[object Object]" : ReturnType<T["toString"]>)
+  // deno-lint-ignore ban-types
+  : T extends object ? "[object Object]"
   : never;
 
 export type TypedArray =

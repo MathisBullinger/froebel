@@ -1,3 +1,4 @@
+import { assertType } from "./types.ts";
 import type {
   CamelCase,
   IsEvenLength,
@@ -17,101 +18,144 @@ import type {
 } from "./types.ts";
 
 Deno.test("static type tests", () => {
-  type Expected<T, U extends T> = 0;
-
   {
-    type Full = [string, number, boolean, null];
+    const symA = Symbol("a");
+    const symB = Symbol("b");
+    type SymA = typeof symA;
+    type SymB = typeof symB;
 
-    type _0 = Expected<[], TakeFirst<Full, 0>>;
-    type _1 = Expected<[string], TakeFirst<Full, 1>>;
-    type _2 = Expected<[string, number], TakeFirst<Full, 2>>;
-    type _3 = Expected<[string, number, boolean], TakeFirst<Full, 3>>;
-    type _4 = Expected<[string, number, boolean, null], TakeFirst<Full, 4>>;
-    type _5 = Expected<never, TakeFirst<Full, 5>>;
+    assertType<number, number>();
+    assertType<any, any>();
+    assertType<unknown, unknown>();
+    assertType<[string], [string]>();
+    assertType<never, never>();
+    assertType<SymA, SymA>();
+    assertType<1, 1>();
+
+    // @ts-expect-error
+    assertType<number, any>();
+    // @ts-expect-error
+    assertType<any, number>();
+    // @ts-expect-error
+    assertType<unknown, any>();
+    // @ts-expect-error
+    assertType<unknown, string>();
+    // @ts-expect-error
+    assertType<string, unknown>();
+    // @ts-expect-error
+    assertType<string[], [string]>();
+    // @ts-expect-error
+    assertType<[string, number], [string, number?]>();
+    // @ts-expect-error
+    assertType<number, never>();
+    // @ts-expect-error
+    assertType<never, number>();
+    // @ts-expect-error
+    assertType<any, never>();
+    // @ts-expect-error
+    assertType<SymA, SymB>();
+    // @ts-expect-error
+    assertType<"foo", string>();
+    // @ts-expect-error
+    assertType<number, 1>();
+    // @ts-expect-error
+    assertType<2, 3>();
   }
 
   {
     type Full = [string, number, boolean, null];
 
-    type _0 = Expected<[], TakeLast<Full, 0>>;
-    type _1 = Expected<[null], TakeLast<Full, 1>>;
-    type _2 = Expected<[boolean, null], TakeLast<Full, 2>>;
-    type _3 = Expected<[number, boolean, null], TakeLast<Full, 3>>;
-    type _4 = Expected<[string, number, boolean, null], TakeLast<Full, 4>>;
-    type _5 = Expected<never, TakeLast<Full, 5>>;
+    assertType<[], TakeFirst<Full, 0>>();
+    assertType<[string], TakeFirst<Full, 1>>();
+    assertType<[string, number], TakeFirst<Full, 2>>();
+    assertType<[string, number, boolean], TakeFirst<Full, 3>>();
+    assertType<[string, number, boolean, null], TakeFirst<Full, 4>>();
+    assertType<never, TakeFirst<Full, 5>>();
   }
 
   {
     type Full = [string, number, boolean, null];
 
-    type _4 = Expected<[[string, number, boolean, null], []], SplitAt<Full, 4>>;
-    type _3 = Expected<[[string, number, boolean], [null]], SplitAt<Full, 3>>;
-    type _2 = Expected<[[string, number], [boolean, null]], SplitAt<Full, 2>>;
-    type _1 = Expected<[[string], [number, boolean, null]], SplitAt<Full, 1>>;
-    type _0 = Expected<[[], [string, number, boolean, null]], SplitAt<Full, 0>>;
+    assertType<TakeLast<Full, 0>, []>();
+    assertType<TakeLast<Full, 1>, [null]>();
+    assertType<TakeLast<Full, 2>, [boolean, null]>();
+    assertType<TakeLast<Full, 3>, [number, boolean, null]>();
+    assertType<TakeLast<Full, 4>, [string, number, boolean, null]>();
+    assertType<TakeLast<Full, 5>, never>();
+  }
+
+  {
+    type Full = [string, number, boolean, null];
+
+    assertType<SplitAt<Full, 4>, [[string, number, boolean, null], []]>();
+    assertType<SplitAt<Full, 3>, [[string, number, boolean], [null]]>();
+    assertType<SplitAt<Full, 2>, [[string, number], [boolean, null]]>();
+    assertType<SplitAt<Full, 1>, [[string], [number, boolean, null]]>();
+    assertType<SplitAt<Full, 0>, [[], [string, number, boolean, null]]>();
   }
 
   {
     type Strict = ["A" | "B", 1 | 2 | 3, number];
-    type _ = Expected<
-      ["A" | "B", 1 | 2 | 3, 5],
-      NarrowList<Strict, [string, number, 5]>
-    >;
+
+    assertType<
+      NarrowList<Strict, [string, number, 5]>,
+      ["A" | "B", 1 | 2 | 3, 5]
+    >();
   }
 
   {
-    const _str1: CamelCase<"foo_bar"> = "fooBar";
-    const _str2: CamelCase<"foo-bar"> = "fooBar";
-    const _str3: CamelCase<"__foo_bar__baz__"> = "__fooBar_Baz__";
-    const _str4: CamelCase<"-_foo_bar-_baz_-"> = "-_fooBar-Baz_-";
-    const _str5: CamelCase<"FooBar"> = "fooBar";
+    assertType<CamelCase<"foo_bar">, "fooBar">();
+    assertType<CamelCase<"foo-bar">, "fooBar">();
+    assertType<CamelCase<"__foo_bar__baz__">, "__fooBar_Baz__">();
+    assertType<CamelCase<"-_foo_bar-_baz_-">, "-_fooBar-Baz_-">();
+    assertType<CamelCase<"FooBar">, "fooBar">();
   }
 
   {
-    const _str1: PascalCase<"foo_bar"> = "FooBar";
+    assertType<PascalCase<"foo_bar">, "FooBar">();
   }
 
   {
-    const _str1: SnakeCase<"fooBar"> = "foo_bar";
-    const _str2: SnakeCase<"FooBar"> = "foo_bar";
-    const _str3: SnakeCase<"fooBarABC0D"> = "foo_bar_ABC0D";
-    const _str4: SnakeCase<"fooBarABC0DfooBar"> = "foo_bar_ABC0D_foo_bar";
-    const _str5: SnakeCase<"foo_bar"> = "foo_bar";
-    const _str6: SnakeCase<"foo_Bar"> = "foo_bar";
+    assertType<SnakeCase<"fooBar">, "foo_bar">();
+    assertType<SnakeCase<"FooBar">, "foo_bar">();
+    assertType<SnakeCase<"fooBarABC0D">, "foo_bar_ABC0D">();
+    assertType<SnakeCase<"fooBarABC0DfooBar">, "foo_bar_ABC0D_foo_bar">();
+    assertType<SnakeCase<"foo_bar">, "foo_bar">();
+    assertType<SnakeCase<"foo_Bar">, "foo_bar">();
     // @ts-expect-error
-    const _str7: SnakeCase<"fooBar"> = "";
-    const _str8: SnakeCase<"foo-bar"> = "foo_bar";
-    const _str9: SnakeCase<"foo-Bar"> = "foo_bar";
+    assertType<SnakeCase<"fooBar">, "">();
+    assertType<SnakeCase<"foo-bar">, "foo_bar">();
+    assertType<SnakeCase<"foo-Bar">, "foo_bar">();
   }
 
   {
-    const _str1: ScreamingSnakeCase<"fooBar"> = "FOO_BAR";
+    assertType<ScreamingSnakeCase<"fooBar">, "FOO_BAR">();
   }
 
   {
-    const _str1: KebabCase<"fooBar"> = "foo-bar";
-    const _str2: KebabCase<"FooBar"> = "foo-bar";
-    const _str3: KebabCase<"fooBarABC0D"> = "foo-bar-ABC0D";
-    const _str4: KebabCase<"fooBarABC0DfooBar"> = "foo-bar-ABC0D-foo-bar";
-    const _str5: KebabCase<"foo_bar"> = "foo-bar";
-    const _str6: KebabCase<"foo_Bar"> = "foo-bar";
+    assertType<KebabCase<"fooBar">, "foo-bar">();
+    assertType<KebabCase<"FooBar">, "foo-bar">();
+    assertType<KebabCase<"fooBarABC0D">, "foo-bar-ABC0D">();
+    assertType<KebabCase<"fooBarABC0DfooBar">, "foo-bar-ABC0D-foo-bar">();
+    assertType<KebabCase<"foo_bar">, "foo-bar">();
+    assertType<KebabCase<"foo_Bar">, "foo-bar">();
     // @ts-expect-error
-    const _str7: KebabCase<"fooBar"> = "";
-    const _str8: KebabCase<"foo-bar"> = "foo-bar";
-    const _str9: KebabCase<"foo-Bar"> = "foo-bar";
+    assertType<KebabCase<"fooBar">, "">();
+    assertType<KebabCase<"foo-bar">, "foo-bar">();
+    assertType<KebabCase<"foo-Bar">, "foo-bar">();
   }
 
   {
-    type _0 = Expected<false, IsEvenLength<"">>;
-    type _1 = Expected<false, IsEvenLength<"a">>;
-    type _2 = Expected<true, IsEvenLength<"ab">>;
-    type _3 = Expected<false, IsEvenLength<"abc">>;
-    type _4 = Expected<true, IsEvenLength<"abcd">>;
-    type _5 = Expected<false, IsEvenLength<"abcde">>;
+    assertType<IsEvenLength<"">, false>();
+    assertType<IsEvenLength<"a">, false>();
+    assertType<IsEvenLength<"ab">, true>();
+    assertType<IsEvenLength<"abc">, false>();
+    assertType<IsEvenLength<"abcd">, true>();
+    assertType<IsEvenLength<"abcde">, false>();
   }
 
   {
-    type _0 = Expected<SplitString<"foobar">, ["f", "o", "o", "b", "a", "r"]>;
+    assertType<SplitString<"foobar">, ["f", "o", "o", "b", "a", "r"]>();
   }
 
   {
@@ -127,74 +171,64 @@ Deno.test("static type tests", () => {
       8,
     ];
 
-    type _0 = Expected<
+    assertType<
       Join<List1, "">,
       "a12,4,,[object Object],5,6,7b[object Object]8"
-    >;
+    >();
 
-    type _1 = Expected<
+    assertType<
       Join<List1, " | ">,
       " | a | 1 | 2,4,,[object Object],5,6,7 | b |  | [object Object] |  | 8"
-    >;
+    >();
 
-    type _2 = Expected<Join<[123], "">, "123">;
-    type _3 = Expected<Join<[], ", ">, "">;
+    assertType<Join<[123], "">, "123">();
+    assertType<Join<[], ", ">, "">();
 
     type List2 = [Map<any, any>, Set<any>, Uint16Array, DataView];
-    type _4 = Expected<
+
+    assertType<
       Join<List2, " ">,
-      "[object Map] [object Set] ${string} [object DataView]"
-    >;
+      `[object Map] [object Set] ${string} [object DataView]`
+    >();
   }
 
   {
-    type _0 = Expected<ToString<"foo">, "foo">;
-    type _1 = Expected<ToString<123>, "123">;
-    type _2 = Expected<ToString<true>, "true">;
-    type _3 = Expected<ToString<false>, "false">;
-    type _4 = Expected<ToString<Record<never, never>>, "[object Object]">;
-    type _5 = Expected<ToString<{ foo: 123 }>, "[object Object]">;
-    type _6 = Expected<ToString<[]>, "">;
-    type _7 = Expected<ToString<[1, 2, 3]>, "1,2,3">;
-    type _8 = Expected<ToString<[1, [2, [3, 4], 5]]>, "1,2,3,4,5">;
-    type _9 = Expected<ToString<WeakMap<any, any>>, "[object WeakMap]">;
-    type _10 = Expected<string, ToString<Int8Array>>;
-    type _11 = Expected<ToString<Int8Array>, "">;
-    type _12 = Expected<string, ToString<Float64Array>>;
-    type _13 = Expected<ToString<Float64Array>, "">;
-    type _14 = Expected<string, ToString<bigint>>;
-    type _15 = Expected<ToString<bigint>, "">;
-    type _16 = Expected<string, ToString<symbol>>;
-    type _17 = Expected<ToString<symbol>, "">;
-    type _18 = Expected<string, ToString<typeof globalThis>>;
-    type _19 = Expected<ToString<typeof globalThis>, "">;
-    type _20 = Expected<ToString<ArrayBuffer>, "[object ArrayBuffer]">;
-    type _21 = Expected<
-      ToString<SharedArrayBuffer>,
-      "[object SharedArrayBuffer]"
-    >;
-    type _22 = Expected<ToString<DataView>, "[object DataView]">;
-    type _23 = Expected<ToString<Promise<any>>, "[object Promise]">;
-    type _24 = Expected<string, ToString<() => 2>>;
-    type _25 = Expected<ToString<() => 2>, "">;
-    type _26 = Expected<string, ToString<GeneratorFunction>>;
-    type _27 = Expected<ToString<GeneratorFunction>, "">;
-    type _28 = Expected<ToString<Atomics>, "[object Atomics]">;
-    type _29 = Expected<ToString<Intl.Collator>, "[object Intl.Collator]">;
-    type _30 = Expected<string, ToString<Intl.NumberFormat>>;
-    type _31 = Expected<ToString<Intl.NumberFormat>, "">;
-    type _32 = Expected<ToString<{ toString(): "foo" }>, "foo">;
+    assertType<ToString<"foo">, "foo">();
+    assertType<ToString<123>, "123">();
+    assertType<ToString<true>, "true">();
+    assertType<ToString<false>, "false">();
+    assertType<ToString<Record<never, never>>, "[object Object]">();
+    assertType<ToString<{ foo: 123 }>, "[object Object]">();
+    assertType<ToString<[]>, "">();
+    assertType<ToString<[1, 2, 3]>, "1,2,3">();
+    assertType<ToString<[1, [2, [3, 4], 5]]>, "1,2,3,4,5">();
+    assertType<ToString<WeakMap<any, any>>, "[object WeakMap]">();
+    assertType<ToString<Int8Array>, string>();
+    assertType<ToString<Float64Array>, string>();
+    assertType<ToString<bigint>, string>();
+    assertType<ToString<symbol>, string>();
+    assertType<ToString<typeof globalThis>, string>();
+    assertType<ToString<ArrayBuffer>, "[object ArrayBuffer]">();
+    assertType<ToString<SharedArrayBuffer>, "[object SharedArrayBuffer]">();
+    assertType<ToString<DataView>, "[object DataView]">();
+    assertType<ToString<Promise<any>>, "[object Promise]">();
+    assertType<ToString<() => 2>, string>();
+    assertType<ToString<GeneratorFunction>, string>();
+    assertType<ToString<Atomics>, "[object Atomics]">();
+    assertType<ToString<Intl.Collator>, "[object Intl.Collator]">();
+    assertType<ToString<Intl.NumberFormat>, string>();
+    assertType<ToString<{ toString(): "foo" }>, "foo">();
   }
 
   {
-    type _0 = Expected<SplitEven<"ab">, ["a", "b"]>;
-    type _1 = Expected<SplitEven<"abcd">, ["ab", "cd"]>;
-    type _2 = Expected<SplitEven<"abcdef">, ["abc", "def"]>;
+    assertType<SplitEven<"ab">, ["a", "b"]>();
+    assertType<SplitEven<"abcd">, ["ab", "cd"]>();
+    assertType<SplitEven<"abcdef">, ["abc", "def"]>();
   }
 
   {
-    type _0 = Expected<Surround<"foo", "()">, "(foo)">;
-    type _1 = Expected<Surround<"foo", "([])">, "([foo])">;
-    type _2 = Expected<Surround<"foo", "([{}])">, "([{foo}])">;
+    assertType<Surround<"foo", "()">, "(foo)">();
+    assertType<Surround<"foo", "([])">, "([foo])">();
+    assertType<Surround<"foo", "([{}])">, "([{foo}])">();
   }
 });
