@@ -58,17 +58,14 @@ const promisify = <T extends λ, N extends number | null = 0>(
   resultIndex?: N,
   errorIndex: number | null = null,
 ): Promisified<T, N> => {
-  const promisified = (append?: boolean) =>
-    (...additional: unknown[]) =>
-      new Promise<any>((res, rej) =>
-        withCallback(...append ? additional : [], (...args: unknown[]) => {
-          const error = typeof errorIndex === "number"
-            ? args[errorIndex]
-            : null;
-          if (error !== undefined && error !== null) return rej(error);
-          res(resultIndex === null ? undefined : args[resultIndex ?? 0]);
-        }, ...!append ? additional : [])?.catch?.(rej)
-      );
+  const promisified = (append?: boolean) => (...additional: unknown[]) =>
+    new Promise<any>((res, rej) =>
+      withCallback(...append ? additional : [], (...args: unknown[]) => {
+        const error = typeof errorIndex === "number" ? args[errorIndex] : null;
+        if (error !== undefined && error !== null) return rej(error);
+        res(resultIndex === null ? undefined : args[resultIndex ?? 0]);
+      }, ...!append ? additional : [])?.catch?.(rej)
+    );
 
   return Object.assign(promisified(), {
     callbackFirst: promisified(false),

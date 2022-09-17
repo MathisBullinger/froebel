@@ -26,8 +26,8 @@ import type { λ } from "./types.ts";
  * ```
  */
 const forward = <T extends λ, PR extends any[]>(fun: T, ...argsRight: PR) =>
-  (
-    ...argsLeft: Parameters<T> extends [...infer PL, ...PR] ? PL : never
-  ): ReturnType<T> => fun(...argsLeft, ...argsRight);
+(
+  ...argsLeft: Parameters<T> extends [...infer PL, ...PR] ? PL : never
+): ReturnType<T> => fun(...argsLeft, ...argsRight);
 
 export default forward;

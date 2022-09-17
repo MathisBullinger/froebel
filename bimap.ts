@@ -66,11 +66,11 @@ class BiMapImpl<L, R, AL extends string = never, AR extends string = never> {
     left: LA,
     right: RA,
   ): AliasConstr<LA, RA> =>
-    (...args: any[]) => {
-      const map: any = BiMapImpl.from(...args);
-      map.defineAlias(left, right);
-      return map;
-    };
+  (...args: any[]) => {
+    const map: any = BiMapImpl.from(...args);
+    map.defineAlias(left, right);
+    return map;
+  };
 
   private defineAlias(left?: string, right?: string) {
     if (left !== undefined) {

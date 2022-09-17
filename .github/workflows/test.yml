@@ -11,7 +11,7 @@ jobs:
 
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: "1.23.2"
+          deno-version: "1.25.3"
 
       - uses: actions/setup-node@v3
         with:

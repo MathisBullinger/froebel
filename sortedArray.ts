@@ -53,8 +53,8 @@ class SortedArrayImpl<T> {
   #bind = <K extends FilterKeys<T[], λ>>(method: K) =>
     ((...args: any[]) => (this.#data as any)[method](...args)) as T[][K];
 
-  #wrap = <F extends λ<any, T[]>>(f: F) =>
-    (...args: Parameters<F>): SortedArray<T> =>
+  #wrap =
+    <F extends λ<any, T[]>>(f: F) => (...args: Parameters<F>): SortedArray<T> =>
       new SortedArrayImpl(this.#cmp, ...f(...(args as any))) as any;
 
   every = this.#ref("every", 2);

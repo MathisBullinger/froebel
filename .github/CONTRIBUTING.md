@@ -30,6 +30,10 @@ Always regenerate the readme after making changes to the code by running
 `scripts/docs`. Before running that scripts, you will need to run `npm install`
 inside the `npm` directory.
 
-The code is formatted using the built-in Deno formatter (`deno fmt *.ts`).
+The code is formatted using the built-in formatter (`deno fmt *.ts`) using Deno
+v1.25.3. 
+Other Deno versions may format the code slightly different so be sure to check
+formatting with the correct Deno version (it should match the version listed in
+`.github/workflows/test.yml`) to make sure the automated tests pass.
 
 Every utility must work in Deno, Node, and (modern) Browsers.

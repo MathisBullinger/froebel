@@ -18,8 +18,8 @@ const partial = <T extends λ, PL extends PartialList<Parameters<T>>>(
   fun: T,
   ...argsLeft: PL
 ) =>
-  (
-    ...argsRight: Parameters<T> extends [...PL, ...infer PR] ? PR : never
-  ): ReturnType<T> => fun(...argsLeft, ...argsRight);
+(
+  ...argsRight: Parameters<T> extends [...PL, ...infer PR] ? PR : never
+): ReturnType<T> => fun(...argsLeft, ...argsRight);
 
 export default partial;
