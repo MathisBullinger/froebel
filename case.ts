@@ -58,7 +58,7 @@ export const snake = <T extends string>(str: T): SnakeCase<T> =>
  *
  * @example
  * ```
- * snake('fooBar') // 'foo-bar'
+ * kebab('fooBar') // 'foo-bar'
  * ```
  */
 export const kebab = <T extends string>(str: T): KebabCase<T> =>
