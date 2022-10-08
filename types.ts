@@ -1,5 +1,10 @@
 export const assertType = <A, B>(
-  ..._TYPE: IsEqualType<A, B, [], [A, B]>
+  ..._TYPE: IsEqualType<
+    A,
+    B,
+    [],
+    [TYPE_ERROR: [first: Print<A>, second: Print<B>]]
+  >
 ) => {};
 
 export const assertNotType = <A, B>(
@@ -9,6 +14,10 @@ export const assertNotType = <A, B>(
 export type IsEqualType<A, B, True = true, False = false> =
   (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? True
     : False;
+
+export type Print<T> = T extends λ<infer A, infer R> ? λ<A, R>
+  : T extends infer I ? { [K in keyof I]: I[K] }
+  : T;
 
 export type λ<TA extends any[] = any[], TR = any> = (...args: TA) => TR;
 export type Fun = λ;
@@ -33,17 +42,54 @@ export type NarrowList<TStrict extends any[], TLoose extends any[]> = {
 
 export type Length<T extends any[]> = T extends { length: infer I } ? I : never;
 
-export type TakeFirst<T extends any[], I extends number> = Length<T> extends I
-  ? T
-  : T extends [...infer S, any] ? TakeFirst<S, I>
+export type IsLength<T extends any[], N extends number> = T extends
+  { length: infer I } ? I extends N ? true : false : false;
+
+//
+
+/**
+ * Return a tuple containing the `N` first elements from `T`. If `T` is a tuple
+ * its labels will be preserved unless it contains variadic elements.
+ */
+export type Take<T extends any[], N extends number> = Countable<N> extends never
+  ? never
+  : Take_<T, N>;
+
+/** Same as `Take` but doesn't validate that `N` is a valid length. */
+export type Take_<T extends any[], N extends number> =
+  // generic array type
+  IsTuple<T> extends false ? TupleOfSize<N, T[number]>
+    // N >= length of T
+    : TupleOfSize<N, any> extends Required<[...T, ...any[]]> ? T
+    // contains variadic items
+    : number extends T["length"] ? TakeFromVariadic<T, N>
+    // regular tuple
+    : TakeFromTuple<T, N>;
+
+type TakeFromTuple<T extends any[], N extends number> = T extends [] ? T
+  : Length<Required<T>> extends N ? T
+  : T extends [...infer H, any?] ? TakeFromTuple<H, N>
   : never;
+
+type TakeFromVariadic<T extends any[], N extends number, F extends any[] = []> =
+  T extends [] ? F
+    : Length<F> extends N ? F
+    : T extends [infer A, ...infer B] ? TakeFromVariadic<B, N, [...F, A]>
+    : never;
+
+type Countable<T extends number> = IfElse<
+  OnlyContains<`${T}`, "0123456789">,
+  TrimFront<`${T}`, 0>,
+  never
+>;
 
 export type TakeLast<T extends any[], I extends number> = Length<T> extends I
   ? T
   : T extends [any, ...infer S] ? TakeLast<S, I>
   : never;
 
-export type IsTuple<T extends unknown[]> = (T[number])[] extends T ? false
+export type IsTuple<T extends unknown[]> = T[number][] extends Required<T>
+  ? false
   : true;
 
 export type IsUnion<T, U extends T = T> = T extends unknown
@@ -166,6 +212,17 @@ type EvenLength<A extends unknown[], B extends unknown[] = []> = A extends []
       : never)
     : never);
 
+export type TupleOfSize<
+  Length extends number,
+  Type = any,
+> = TupleOfSize_<Length, Type>;
+
+type TupleOfSize_<
+  L extends number,
+  T,
+  R extends unknown[] = [],
+> = Length<R> extends L ? R : TupleOfSize_<L, T, [...R, T]>;
+
 // string types
 
 type Contains<T extends string, C extends string> = T extends `${any}${C}${any}`
@@ -282,7 +339,7 @@ export type LogicNull<T> = boolean extends T ? true
 /** Equivalent to `A extends B ? true : false` */
 export type Extends<A, B> = IfElse<
   IsUnion<A>,
-  [A] extends boolean ? true : false,
+  [A] extends [B] ? true : false,
   A extends B ? true : false
 >;
 

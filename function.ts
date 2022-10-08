@@ -3,6 +3,7 @@ export { default as ident } from "./ident.ts";
 export { default as noop } from "./noop.ts";
 export { default as partial } from "./partial.ts";
 export { default as forward } from "./forward.ts";
+export { default as unary } from "./unary.ts";
 export { default as callAll } from "./callAll.ts";
 export { default as pipe, applyPipe } from "./pipe.ts";
 export { default as bundle, bundleSync } from "./bundle.ts";

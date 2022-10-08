@@ -58,6 +58,7 @@ once. For example `isPromise` is exported from both the `promise` and the
     - [noop](#noop)
     - [partial](#partial)
     - [forward](#forward)
+    - [unary](#unary)
     - [callAll](#callall)
     - [pipe](#pipe)
     - [applyPipe](#applypipe)
@@ -103,12 +104,12 @@ once. For example `isPromise` is exported from both the `promise` and the
     - [isPromise](#ispromise)
     - [isNotPromise](#isnotpromise)
 - __`predicate`__
+    - [isFulfilled](#isfulfilled)
+    - [isRejected](#isrejected)
     - [truthy](#truthy)
     - [falsy](#falsy)
     - [nullish](#nullish)
     - [notNullish](#notnullish)
-    - [isFulfilled](#isfulfilled)
-    - [isRejected](#isrejected)
 - __`string`__
     - [prefix](#prefix)
     - [suffix](#suffix)
@@ -254,6 +255,39 @@ const fetchUrl = async (protocol: string, domain: string, path: string) =>
 const fetchRepo = forward(fetchUrl, 'github.com', 'MathisBullinger/froebel')
 
 const viaHTTPS = await fetchRepo('https')
+```
+
+---
+
+#### `unary` 
+  
+```hs
+(fun: T) => Unary<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/unary.ts#L15)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/unary.test.ts)_</sup></sup>
+
+> Turns `fun` into a unary function (a function that only accepts one
+> argument).
+> 
+> Note: `fun` must accept at least one argument and must not require more than
+> one argument.
+> 
+
+
+#### Import
+
+```ts
+/* Node: */  import unary from "froebel/unary";
+/* Deno: */  import unary from "https://deno.land/x/froebel@v0.21.3/unary.ts";
+```
+
+
+
+
+#### Example
+```ts
+['1', '2', '3'].map(unary(parseInt))  // -> [1, 2, 3]
 ```
 
 ---
@@ -405,7 +439,7 @@ applyPipe(2, double, square, half)  // -> 8
 (...funs: λ<T>[]) => (...args: T) => void
 ```
 
-<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/bundle.ts#L28)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/bundle.test.ts)_</sup></sup>
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/bundle.ts#L29)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/bundle.test.ts)_</sup></sup>
 
 > Same as [bundle](#bundle), but return synchronously.
 > 
@@ -1535,6 +1569,52 @@ await queue.done
 ```
 ## Predicate
 
+#### `isFulfilled` 
+  
+```hs
+(result: PromiseSettledResult<T>) => result is PromiseFulfilledResult<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L2)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
+
+> Checks if `result` (returned from `Promise.allSettled`) is fulfilled.
+
+
+#### Import
+
+```ts
+/* Node: */  import { isFulfilled } from "froebel/settled";
+/* Deno: */  import { isFulfilled } from "https://deno.land/x/froebel@v0.21.3/settled.ts";
+```
+
+
+
+
+---
+
+#### `isRejected` 
+  
+```hs
+(result: PromiseSettledResult<unknown>) => result is PromiseRejectedResult
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L7)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
+
+> Checks if `result` (returned from `Promise.allSettled`) is rejected.
+
+
+#### Import
+
+```ts
+/* Node: */  import { isRejected } from "froebel/settled";
+/* Deno: */  import { isRejected } from "https://deno.land/x/froebel@v0.21.3/settled.ts";
+```
+
+
+
+
+---
+
 #### `truthy` 
   
 ```hs
@@ -1629,52 +1709,6 @@ await queue.done
 ```ts
 const nums = (...values: (number | undefined)[]): number[] => values.filter(notNullish)
 ```
-
----
-
-#### `isFulfilled` 
-  
-```hs
-(result: PromiseSettledResult<T>) => result is PromiseFulfilledResult<T>
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L2)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
-
-> Checks if `result` (returned from `Promise.allSettled`) is fulfilled.
-
-
-#### Import
-
-```ts
-/* Node: */  import { isFulfilled } from "froebel/settled";
-/* Deno: */  import { isFulfilled } from "https://deno.land/x/froebel@v0.21.3/settled.ts";
-```
-
-
-
-
----
-
-#### `isRejected` 
-  
-```hs
-(result: PromiseSettledResult<unknown>) => result is PromiseRejectedResult
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L7)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
-
-> Checks if `result` (returned from `Promise.allSettled`) is rejected.
-
-
-#### Import
-
-```ts
-/* Node: */  import { isRejected } from "froebel/settled";
-/* Deno: */  import { isRejected } from "https://deno.land/x/froebel@v0.21.3/settled.ts";
-```
-
-
-
 ## String
 
 #### `prefix` 

@@ -37,9 +37,10 @@ import type {
   SplitEven,
   SplitString,
   Surround,
-  TakeFirst,
+  Take,
   TakeLast,
   ToString,
+  TupleOfSize,
   XNOR,
   XOR,
 } from "./types.ts";
@@ -93,14 +94,42 @@ Deno.test("static type tests", () => {
   }
 
   {
-    type Full = [string, number, boolean, null];
+    assertType<Take<[], -1>, never>();
+    assertType<Take<[], 1.5>, never>();
 
-    assertType<[], TakeFirst<Full, 0>>();
-    assertType<[string], TakeFirst<Full, 1>>();
-    assertType<[string, number], TakeFirst<Full, 2>>();
-    assertType<[string, number, boolean], TakeFirst<Full, 3>>();
-    assertType<[string, number, boolean, null], TakeFirst<Full, 4>>();
-    assertType<never, TakeFirst<Full, 5>>();
+    assertType<Take<[], 0>, []>();
+    assertType<Take<[], 1>, []>();
+    assertType<Take<[], 2>, []>();
+
+    assertType<Take<[number, string], 0>, []>();
+    assertType<Take<[number, string], 1>, [number]>();
+    assertType<Take<[number, string], 2>, [number, string]>();
+    assertType<Take<[number, string], 3>, [number, string]>();
+
+    assertType<Take<[number?], 0>, []>();
+    assertType<Take<[number?], 1>, [number?]>();
+    assertType<Take<[number?], 2>, [number?]>();
+
+    assertType<Take<[string, number?], 0>, []>();
+    assertType<Take<[string, number?], 1>, [string]>();
+    assertType<Take<[string, number?], 2>, [string, number?]>();
+
+    assertType<Take<[string?, number?], 0>, []>();
+    assertType<Take<[string?, number?], 1>, [string?]>();
+    assertType<Take<[string?, number?], 2>, [string?, number?]>();
+    assertType<Take<[string?, number?], 4>, [string?, number?]>();
+
+    assertType<Take<[string, ...number[]], 0>, []>();
+    assertType<Take<[string?, ...number[]], 0>, []>();
+    assertType<Take<[any, string, ...number[]], 0>, []>();
+    assertType<Take<[any, string?, ...number[]], 0>, []>();
+    assertType<Take<[any?, string?, ...number[]], 0>, []>();
+
+    type Tup15 = TupleOfSize<15, null>;
+    assertType<Take<Tup15, 4>, [null, null, null, null]>();
+    assertType<Take<null[], 15>, Tup15>();
+    assertType<Take<null[], 0xf>, Tup15>();
+    assertType<Take<[...any[]], 2>, [any, any]>();
   }
 
   {
@@ -197,6 +226,13 @@ Deno.test("static type tests", () => {
   }
 
   {
+    assertType<TupleOfSize<0>, []>();
+    assertType<TupleOfSize<1>, [any]>();
+    assertType<TupleOfSize<2, number>, [number, number]>();
+    assertType<TupleOfSize<1, string | number>, [string | number]>();
+  }
+
+  {
     assertType<IsTuple<[]>, true>();
     assertType<IsTuple<any[]>, false>();
     assertType<IsTuple<never[]>, false>();
@@ -207,6 +243,12 @@ Deno.test("static type tests", () => {
     assertType<IsTuple<[number, string?]>, true>();
     assertType<IsTuple<[number, ...string[]]>, true>();
     assertType<IsTuple<[...number[]]>, false>();
+    assertType<IsTuple<[any?]>, true>();
+    assertType<IsTuple<[any?, ...number[]]>, true>();
+    assertType<IsTuple<[any?, string?, ...number[]]>, true>();
+    assertType<IsTuple<[any, ...any[]]>, true>();
+    assertType<IsTuple<[number?, ...any[]]>, true>();
+    assertType<IsTuple<[number, ...any[]]>, true>();
   }
 
   {
@@ -295,6 +337,15 @@ Deno.test("static type tests", () => {
     assertType<Extends<B[1], B[0]>, B[1] extends B[0] ? true : false>();
     assertType<Extends<C[0], C[1]>, C[0] extends C[1] ? true : false>();
     assertType<Extends<C[1], C[0]>, C[1] extends C[0] ? true : false>();
+
+    assertType<Extends<A, A>, A extends A ? true : false>();
+    assertType<Extends<A, B>, A extends B ? true : false>();
+    assertType<Extends<B, A>, B extends A ? true : false>();
+
+    assertType<Extends<string | number, string | number>, true>();
+    assertType<Extends<string | number, string>, false>();
+    assertType<Extends<string, string | number>, true>();
+    assertType<Extends<string | number, string | null>, false>();
   }
 
   {
