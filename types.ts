@@ -12,7 +12,10 @@ export const assertNotType = <A, B>(
 ) => {};
 
 export type IsEqualType<A, B, True = true, False = false> =
-  (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? True
+  (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2)
+    ? ((<T>() => T extends B ? 1 : 2) extends (<T>() => T extends A ? 1 : 2)
+      ? True
+      : False)
     : False;
 
 export type Print<T> = T extends λ<infer A, infer R> ? λ<A, R>
@@ -27,6 +30,13 @@ export type Primitive = string | number | boolean | symbol | null | undefined;
 export type FilterKeys<T, F> = keyof {
   [K in keyof T as T[K] extends F ? K : never]: 0;
 };
+
+export type RequiredKeys<T> = Exclude<
+  { [K in keyof T]: T[K] extends Required<T>[K] ? K : never }[keyof T],
+  undefined
+>;
+
+export type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>;
 
 /** Any list of the `n`-first elements of `T`. */
 export type PartialList<T extends any[]> = T extends [infer L, ...infer R]
@@ -116,6 +126,9 @@ export type Slice<
   : T;
 
 type Widen<T> = T extends string ? string : T extends number ? number : T;
+
+/** Inverse of `Readonly` */
+export type Mutable<T> = { -readonly [K in keyof T]: T[K] };
 
 /** If `T` is promise then the type it resolves to, otherwise `T`. */
 export type PromType<T> = T extends PromiseLike<infer I> ? I : T;
@@ -346,7 +359,7 @@ export type Extends<A, B> = IfElse<
 /** Returns `A` if `T` is `true`, `B` if `false`, and `A` | `B` otherwise. */
 export type IfElse<T, A, B> = T extends true ? A : B;
 
-type Switch<T extends any[]> = T extends [infer A, ...infer B] ? (
+export type Switch<T extends any[]> = T extends [infer A, ...infer B] ? (
     A extends [boolean, any]
       ? (A[0] extends true ? A[1] : Switch<B extends any[] ? B : never>)
       : A

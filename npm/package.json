@@ -1,6 +1,6 @@
 {
   "name": "froebel",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "TypeScript utility library",
   "main": "index.js",
   "types": "index.d.ts",

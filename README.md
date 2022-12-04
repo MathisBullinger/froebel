@@ -7,7 +7,7 @@ Think an opinionated version of lodash, but with first-class types.
 If you have an idea for a utility that might make a good addition to this collection,
 please open an issue and suggest its inclusion.
 
-Runs in Deno, Node.js, and the Browser. Get it from [deno.land](https://deno.land/x/froebel@v0.22.0) 
+Runs in Deno, Node.js, and the Browser. Get it from [deno.land](https://deno.land/x/froebel@v0.23.0) 
 or [npm](https://www.npmjs.com/package/froebel).
 
 ## Installation
@@ -29,9 +29,9 @@ import memoize from 'froebel/memoize';
 ### Using Deno
 
 ```ts
-import { someUtility } from "https://deno.land/x/froebel@v0.22.0/mod.ts";
+import { someUtility } from "https://deno.land/x/froebel@v0.23.0/mod.ts";
 // or import just the utility you need:
-import memoize from "https://deno.land/x/froebel@v0.22.0/memoize.ts"
+import memoize from "https://deno.land/x/froebel@v0.23.0/memoize.ts"
 ```
 
 ---
@@ -86,8 +86,8 @@ once. For example `isPromise` is exported from both the `promise` and the
     - [numberRange](#numberrange)
     - [alphaRange](#alpharange)
 - __`iterable`__
-    - [repeat](#repeat)
     - [take](#take)
+    - [repeat](#repeat)
 - __`object`__
     - [pick](#pick)
     - [omit](#omit)
@@ -98,18 +98,19 @@ once. For example `isPromise` is exported from both the `promise` and the
     - [oneOf](#oneof)
     - [equal](#equal)
     - [clone](#clone)
+    - [merge](#merge)
 - __`promise`__
     - [promisify](#promisify)
     - [createQueue](#createqueue)
     - [isPromise](#ispromise)
     - [isNotPromise](#isnotpromise)
 - __`predicate`__
-    - [isFulfilled](#isfulfilled)
-    - [isRejected](#isrejected)
     - [truthy](#truthy)
     - [falsy](#falsy)
     - [nullish](#nullish)
     - [notNullish](#notnullish)
+    - [isFulfilled](#isfulfilled)
+    - [isRejected](#isrejected)
 - __`string`__
     - [prefix](#prefix)
     - [suffix](#suffix)
@@ -150,7 +151,7 @@ once. For example `isPromise` is exported from both the `promise` and the
 
 ```ts
 /* Node: */  import ident from "froebel/ident";
-/* Deno: */  import ident from "https://deno.land/x/froebel@v0.22.0/ident.ts";
+/* Deno: */  import ident from "https://deno.land/x/froebel@v0.23.0/ident.ts";
 ```
 
 
@@ -173,7 +174,7 @@ once. For example `isPromise` is exported from both the `promise` and the
 
 ```ts
 /* Node: */  import noop from "froebel/noop";
-/* Deno: */  import noop from "https://deno.land/x/froebel@v0.22.0/noop.ts";
+/* Deno: */  import noop from "https://deno.land/x/froebel@v0.23.0/noop.ts";
 ```
 
 
@@ -196,7 +197,7 @@ once. For example `isPromise` is exported from both the `promise` and the
 
 ```ts
 /* Node: */  import partial from "froebel/partial";
-/* Deno: */  import partial from "https://deno.land/x/froebel@v0.22.0/partial.ts";
+/* Deno: */  import partial from "https://deno.land/x/froebel@v0.23.0/partial.ts";
 ```
 
 
@@ -231,7 +232,7 @@ console.log(oneOver(4))
 
 ```ts
 /* Node: */  import forward from "froebel/forward";
-/* Deno: */  import forward from "https://deno.land/x/froebel@v0.22.0/forward.ts";
+/* Deno: */  import forward from "https://deno.land/x/froebel@v0.23.0/forward.ts";
 ```
 
 
@@ -279,7 +280,7 @@ const viaHTTPS = await fetchRepo('https')
 
 ```ts
 /* Node: */  import unary from "froebel/unary";
-/* Deno: */  import unary from "https://deno.land/x/froebel@v0.22.0/unary.ts";
+/* Deno: */  import unary from "https://deno.land/x/froebel@v0.23.0/unary.ts";
 ```
 
 
@@ -308,7 +309,7 @@ const viaHTTPS = await fetchRepo('https')
 
 ```ts
 /* Node: */  import callAll from "froebel/callAll";
-/* Deno: */  import callAll from "https://deno.land/x/froebel@v0.22.0/callAll.ts";
+/* Deno: */  import callAll from "https://deno.land/x/froebel@v0.23.0/callAll.ts";
 ```
 
 
@@ -346,7 +347,7 @@ console.log( callAll([mult, div], 4, 2) )
 
 ```ts
 /* Node: */  import pipe from "froebel/pipe";
-/* Deno: */  import pipe from "https://deno.land/x/froebel@v0.22.0/pipe.ts";
+/* Deno: */  import pipe from "https://deno.land/x/froebel@v0.23.0/pipe.ts";
 ```
 
 
@@ -391,7 +392,7 @@ pipe(fetchNumber, n => n.toString())  // async () => Promise<string>
 
 ```ts
 /* Node: */  import { applyPipe } from "froebel/pipe";
-/* Deno: */  import { applyPipe } from "https://deno.land/x/froebel@v0.22.0/pipe.ts";
+/* Deno: */  import { applyPipe } from "https://deno.land/x/froebel@v0.23.0/pipe.ts";
 ```
 
 
@@ -425,7 +426,7 @@ applyPipe(2, double, square, half)  // -> 8
 
 ```ts
 /* Node: */  import bundle from "froebel/bundle";
-/* Deno: */  import bundle from "https://deno.land/x/froebel@v0.22.0/bundle.ts";
+/* Deno: */  import bundle from "https://deno.land/x/froebel@v0.23.0/bundle.ts";
 ```
 
 
@@ -452,7 +453,7 @@ applyPipe(2, double, square, half)  // -> 8
 
 ```ts
 /* Node: */  import { bundleSync } from "froebel/bundle";
-/* Deno: */  import { bundleSync } from "https://deno.land/x/froebel@v0.22.0/bundle.ts";
+/* Deno: */  import { bundleSync } from "https://deno.land/x/froebel@v0.23.0/bundle.ts";
 ```
 
 
@@ -481,7 +482,7 @@ applyPipe(2, double, square, half)  // -> 8
 
 ```ts
 /* Node: */  import { nullishChain } from "froebel/nullishChain";
-/* Deno: */  import { nullishChain } from "https://deno.land/x/froebel@v0.22.0/nullishChain.ts";
+/* Deno: */  import { nullishChain } from "https://deno.land/x/froebel@v0.23.0/nullishChain.ts";
 ```
 
 
@@ -519,7 +520,7 @@ ageGroup(50) // prints: 'adult'
 
 ```ts
 /* Node: */  import { asyncNullishChain } from "froebel/nullishChain";
-/* Deno: */  import { asyncNullishChain } from "https://deno.land/x/froebel@v0.22.0/nullishChain.ts";
+/* Deno: */  import { asyncNullishChain } from "https://deno.land/x/froebel@v0.23.0/nullishChain.ts";
 ```
 
 
@@ -558,7 +559,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 
 ```ts
 /* Node: */  import throttle from "froebel/throttle";
-/* Deno: */  import throttle from "https://deno.land/x/froebel@v0.22.0/throttle.ts";
+/* Deno: */  import throttle from "https://deno.land/x/froebel@v0.23.0/throttle.ts";
 ```
 
 
@@ -588,7 +589,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 
 ```ts
 /* Node: */  import debounce from "froebel/debounce";
-/* Deno: */  import debounce from "https://deno.land/x/froebel@v0.22.0/debounce.ts";
+/* Deno: */  import debounce from "https://deno.land/x/froebel@v0.23.0/debounce.ts";
 ```
 
 
@@ -626,7 +627,7 @@ const getResource = asyncNullishChain(readFromCache, readFromFile, fetchFromNet)
 
 ```ts
 /* Node: */  import memoize from "froebel/memoize";
-/* Deno: */  import memoize from "https://deno.land/x/froebel@v0.22.0/memoize.ts";
+/* Deno: */  import memoize from "https://deno.land/x/froebel@v0.23.0/memoize.ts";
 ```
 
 
@@ -706,7 +707,7 @@ logIfDifferent('a')
 
 ```ts
 /* Node: */  import { limitInvocations } from "froebel/invoke";
-/* Deno: */  import { limitInvocations } from "https://deno.land/x/froebel@v0.22.0/invoke.ts";
+/* Deno: */  import { limitInvocations } from "https://deno.land/x/froebel@v0.23.0/invoke.ts";
 ```
 
 
@@ -731,7 +732,7 @@ logIfDifferent('a')
 
 ```ts
 /* Node: */  import { once } from "froebel/invoke";
-/* Deno: */  import { once } from "https://deno.land/x/froebel@v0.22.0/invoke.ts";
+/* Deno: */  import { once } from "https://deno.land/x/froebel@v0.23.0/invoke.ts";
 ```
 
 
@@ -754,7 +755,7 @@ logIfDifferent('a')
 
 ```ts
 /* Node: */  import atWrap from "froebel/atWrap";
-/* Deno: */  import atWrap from "https://deno.land/x/froebel@v0.22.0/atWrap.ts";
+/* Deno: */  import atWrap from "https://deno.land/x/froebel@v0.23.0/atWrap.ts";
 ```
 
 
@@ -779,7 +780,7 @@ logIfDifferent('a')
 
 ```ts
 /* Node: */  import zip from "froebel/zip";
-/* Deno: */  import zip from "https://deno.land/x/froebel@v0.22.0/zip.ts";
+/* Deno: */  import zip from "https://deno.land/x/froebel@v0.23.0/zip.ts";
 ```
 
 
@@ -811,7 +812,7 @@ console.log(pairs) // prints: [[1,'a'], [2,'b'], [3,'c']]
 
 ```ts
 /* Node: */  import { zipWith } from "froebel/zip";
-/* Deno: */  import { zipWith } from "https://deno.land/x/froebel@v0.22.0/zip.ts";
+/* Deno: */  import { zipWith } from "https://deno.land/x/froebel@v0.23.0/zip.ts";
 ```
 
 
@@ -842,7 +843,7 @@ console.log(sums) // prints: [5,7,9]
 
 ```ts
 /* Node: */  import unzip from "froebel/unzip";
-/* Deno: */  import unzip from "https://deno.land/x/froebel@v0.22.0/unzip.ts";
+/* Deno: */  import unzip from "https://deno.land/x/froebel@v0.23.0/unzip.ts";
 ```
 
 
@@ -879,7 +880,7 @@ console.log(chars) // prints: ['a','b','c']
 
 ```ts
 /* Node: */  import { unzipWith } from "froebel/unzip";
-/* Deno: */  import { unzipWith } from "https://deno.land/x/froebel@v0.22.0/unzip.ts";
+/* Deno: */  import { unzipWith } from "https://deno.land/x/froebel@v0.23.0/unzip.ts";
 ```
 
 
@@ -917,7 +918,7 @@ console.log(str)  // prints: 'abc'
 
 ```ts
 /* Node: */  import batch from "froebel/batch";
-/* Deno: */  import batch from "https://deno.land/x/froebel@v0.22.0/batch.ts";
+/* Deno: */  import batch from "https://deno.land/x/froebel@v0.23.0/batch.ts";
 ```
 
 
@@ -950,7 +951,7 @@ batch([1,2,3,4,5], 2)  // -> [ [1,2], [3,4], [5] ]
 
 ```ts
 /* Node: */  import partition from "froebel/partition";
-/* Deno: */  import partition from "https://deno.land/x/froebel@v0.22.0/partition.ts";
+/* Deno: */  import partition from "https://deno.land/x/froebel@v0.23.0/partition.ts";
 ```
 
 
@@ -984,7 +985,7 @@ const [strings, numbers] = partition(
 
 ```ts
 /* Node: */  import shuffle from "froebel/shuffle";
-/* Deno: */  import shuffle from "https://deno.land/x/froebel@v0.22.0/shuffle.ts";
+/* Deno: */  import shuffle from "https://deno.land/x/froebel@v0.23.0/shuffle.ts";
 ```
 
 
@@ -1007,7 +1008,7 @@ const [strings, numbers] = partition(
 
 ```ts
 /* Node: */  import { shuffleInPlace } from "froebel/shuffle";
-/* Deno: */  import { shuffleInPlace } from "https://deno.land/x/froebel@v0.22.0/shuffle.ts";
+/* Deno: */  import { shuffleInPlace } from "https://deno.land/x/froebel@v0.23.0/shuffle.ts";
 ```
 
 
@@ -1030,7 +1031,7 @@ const [strings, numbers] = partition(
 
 ```ts
 /* Node: */  import { take } from "froebel/list";
-/* Deno: */  import { take } from "https://deno.land/x/froebel@v0.22.0/list.ts";
+/* Deno: */  import { take } from "https://deno.land/x/froebel@v0.23.0/list.ts";
 ```
 
 
@@ -1060,7 +1061,7 @@ take(3, [1, 2])        // -> [1, 2]
 
 ```ts
 /* Node: */  import range from "froebel/range";
-/* Deno: */  import range from "https://deno.land/x/froebel@v0.22.0/range.ts";
+/* Deno: */  import range from "https://deno.land/x/froebel@v0.23.0/range.ts";
 ```
 
 
@@ -1083,7 +1084,7 @@ take(3, [1, 2])        // -> [1, 2]
 
 ```ts
 /* Node: */  import { numberRange } from "froebel/range";
-/* Deno: */  import { numberRange } from "https://deno.land/x/froebel@v0.22.0/range.ts";
+/* Deno: */  import { numberRange } from "https://deno.land/x/froebel@v0.23.0/range.ts";
 ```
 
 
@@ -1113,7 +1114,7 @@ range(3, -2)     // -> [3, 2, 1, 0, -1, -2]
 
 ```ts
 /* Node: */  import { alphaRange } from "froebel/range";
-/* Deno: */  import { alphaRange } from "https://deno.land/x/froebel@v0.22.0/range.ts";
+/* Deno: */  import { alphaRange } from "https://deno.land/x/froebel@v0.23.0/range.ts";
 ```
 
 
@@ -1125,36 +1126,6 @@ range('a', 'd')  // -> ['a', 'b', 'c', 'd']
 range('Z', 'W')  // -> ['Z', 'Y', 'X', 'W']
 ```
 ## Iterable
-
-#### `repeat` 
-  
-```hs
-(...sequence: [T, ...T[]]) => Generator<T>
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/repeat.ts#L11)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/repeat.test.ts)_</sup></sup>
-
-> Returns a generator that repeats `sequence`.
-
-
-#### Import
-
-```ts
-/* Node: */  import repeat from "froebel/repeat";
-/* Deno: */  import repeat from "https://deno.land/x/froebel@v0.22.0/repeat.ts";
-```
-
-
-
-
-#### Example
-```ts
-// prints: 1, 2, 3, 1, 2, 3, ...
-for (const n of repeat(1, 2, 3))
-  console.log(n)
-```
-
----
 
 #### `take` 
   
@@ -1171,7 +1142,7 @@ for (const n of repeat(1, 2, 3))
 
 ```ts
 /* Node: */  import { take } from "froebel/iterable";
-/* Deno: */  import { take } from "https://deno.land/x/froebel@v0.22.0/iterable.ts";
+/* Deno: */  import { take } from "https://deno.land/x/froebel@v0.23.0/iterable.ts";
 ```
 
 
@@ -1182,6 +1153,36 @@ for (const n of repeat(1, 2, 3))
 [...take(5, repeat(1, 2))]  // -> [1, 2, 1, 2, 1]
 [...take(3, [1, 2, 3, 4])]  // -> [1, 2, 3]
 [...take(3, [1, 2])]        // -> [1, 2]
+```
+
+---
+
+#### `repeat` 
+  
+```hs
+(...sequence: [T, ...T[]]) => Generator<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/repeat.ts#L11)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/repeat.test.ts)_</sup></sup>
+
+> Returns a generator that repeats `sequence`.
+
+
+#### Import
+
+```ts
+/* Node: */  import repeat from "froebel/repeat";
+/* Deno: */  import repeat from "https://deno.land/x/froebel@v0.23.0/repeat.ts";
+```
+
+
+
+
+#### Example
+```ts
+// prints: 1, 2, 3, 1, 2, 3, ...
+for (const n of repeat(1, 2, 3))
+  console.log(n)
 ```
 ## Object
 
@@ -1200,7 +1201,7 @@ for (const n of repeat(1, 2, 3))
 
 ```ts
 /* Node: */  import pick from "froebel/pick";
-/* Deno: */  import pick from "https://deno.land/x/froebel@v0.22.0/pick.ts";
+/* Deno: */  import pick from "https://deno.land/x/froebel@v0.23.0/pick.ts";
 ```
 
 
@@ -1228,7 +1229,7 @@ pick({ a: 1, b: 2, c: 3 }, 'a', 'c') // { a: 1, c: 3 }
 
 ```ts
 /* Node: */  import omit from "froebel/omit";
-/* Deno: */  import omit from "https://deno.land/x/froebel@v0.22.0/omit.ts";
+/* Deno: */  import omit from "https://deno.land/x/froebel@v0.23.0/omit.ts";
 ```
 
 
@@ -1257,7 +1258,7 @@ omit({ a: 1, b: 2, c: 3 }, 'a', 'c') // { b: 2 }
 
 ```ts
 /* Node: */  import map from "froebel/map";
-/* Deno: */  import map from "https://deno.land/x/froebel@v0.22.0/map.ts";
+/* Deno: */  import map from "https://deno.land/x/froebel@v0.23.0/map.ts";
 ```
 
 
@@ -1291,7 +1292,7 @@ map(new Map([ [1, 2], [3, 4] ]), (key, value) => [key + 1, value - 1])
 
 ```ts
 /* Node: */  import select from "froebel/select";
-/* Deno: */  import select from "https://deno.land/x/froebel@v0.22.0/select.ts";
+/* Deno: */  import select from "https://deno.land/x/froebel@v0.23.0/select.ts";
 ```
 
 
@@ -1322,7 +1323,7 @@ select(
 
 ```ts
 /* Node: */  import oneOf from "froebel/oneOf";
-/* Deno: */  import oneOf from "https://deno.land/x/froebel@v0.22.0/oneOf.ts";
+/* Deno: */  import oneOf from "https://deno.land/x/froebel@v0.23.0/oneOf.ts";
 ```
 
 
@@ -1351,7 +1352,7 @@ select(
 
 ```ts
 /* Node: */  import equal from "froebel/equal";
-/* Deno: */  import equal from "https://deno.land/x/froebel@v0.22.0/equal.ts";
+/* Deno: */  import equal from "https://deno.land/x/froebel@v0.23.0/equal.ts";
 ```
 
 
@@ -1384,7 +1385,36 @@ select(
 
 ```ts
 /* Node: */  import clone from "froebel/clone";
-/* Deno: */  import clone from "https://deno.land/x/froebel@v0.22.0/clone.ts";
+/* Deno: */  import clone from "https://deno.land/x/froebel@v0.23.0/clone.ts";
+```
+
+
+
+
+---
+
+#### `merge` 
+  
+```hs
+(a: A, b: B) => Merge<A, B>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/merge.ts#L76)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/merge.test.ts)_</sup></sup>
+
+> Recursively merges `A` and `B`. If a property in `A` and `B` is of a
+> different type (i.e. it's not an array, Set, Map, or plain object in both,
+> the value from `B` will be used in the result).
+> 
+> If there are self-references in the cloned values, array / Set items, or Map
+> keys or values, they will also be self-referencing in the result.
+> 
+
+
+#### Import
+
+```ts
+/* Node: */  import merge from "froebel/merge";
+/* Deno: */  import merge from "https://deno.land/x/froebel@v0.23.0/merge.ts";
 ```
 
 
@@ -1418,7 +1448,7 @@ select(
 
 ```ts
 /* Node: */  import promisify from "froebel/promisify";
-/* Deno: */  import promisify from "https://deno.land/x/froebel@v0.22.0/promisify.ts";
+/* Deno: */  import promisify from "https://deno.land/x/froebel@v0.23.0/promisify.ts";
 ```
 
 
@@ -1477,7 +1507,7 @@ try {
 
 ```ts
 /* Node: */  import createQueue from "froebel/queue";
-/* Deno: */  import createQueue from "https://deno.land/x/froebel@v0.22.0/queue.ts";
+/* Deno: */  import createQueue from "https://deno.land/x/froebel@v0.23.0/queue.ts";
 ```
 
 
@@ -1532,7 +1562,7 @@ await queue.done
 
 ```ts
 /* Node: */  import isPromise from "froebel/isPromise";
-/* Deno: */  import isPromise from "https://deno.land/x/froebel@v0.22.0/isPromise.ts";
+/* Deno: */  import isPromise from "https://deno.land/x/froebel@v0.23.0/isPromise.ts";
 ```
 
 
@@ -1555,7 +1585,7 @@ await queue.done
 
 ```ts
 /* Node: */  import { isNotPromise } from "froebel/isPromise";
-/* Deno: */  import { isNotPromise } from "https://deno.land/x/froebel@v0.22.0/isPromise.ts";
+/* Deno: */  import { isNotPromise } from "https://deno.land/x/froebel@v0.23.0/isPromise.ts";
 ```
 
 
@@ -1568,52 +1598,6 @@ await queue.done
 }
 ```
 ## Predicate
-
-#### `isFulfilled` 
-  
-```hs
-(result: PromiseSettledResult<T>) => result is PromiseFulfilledResult<T>
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L2)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
-
-> Checks if `result` (returned from `Promise.allSettled`) is fulfilled.
-
-
-#### Import
-
-```ts
-/* Node: */  import { isFulfilled } from "froebel/settled";
-/* Deno: */  import { isFulfilled } from "https://deno.land/x/froebel@v0.22.0/settled.ts";
-```
-
-
-
-
----
-
-#### `isRejected` 
-  
-```hs
-(result: PromiseSettledResult<unknown>) => result is PromiseRejectedResult
-```
-
-<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L7)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
-
-> Checks if `result` (returned from `Promise.allSettled`) is rejected.
-
-
-#### Import
-
-```ts
-/* Node: */  import { isRejected } from "froebel/settled";
-/* Deno: */  import { isRejected } from "https://deno.land/x/froebel@v0.22.0/settled.ts";
-```
-
-
-
-
----
 
 #### `truthy` 
   
@@ -1630,7 +1614,7 @@ await queue.done
 
 ```ts
 /* Node: */  import { truthy } from "froebel/truthy";
-/* Deno: */  import { truthy } from "https://deno.land/x/froebel@v0.22.0/truthy.ts";
+/* Deno: */  import { truthy } from "https://deno.land/x/froebel@v0.23.0/truthy.ts";
 ```
 
 
@@ -1653,7 +1637,7 @@ await queue.done
 
 ```ts
 /* Node: */  import { falsy } from "froebel/truthy";
-/* Deno: */  import { falsy } from "https://deno.land/x/froebel@v0.22.0/truthy.ts";
+/* Deno: */  import { falsy } from "https://deno.land/x/froebel@v0.23.0/truthy.ts";
 ```
 
 
@@ -1676,7 +1660,7 @@ await queue.done
 
 ```ts
 /* Node: */  import { nullish } from "froebel/nullish";
-/* Deno: */  import { nullish } from "https://deno.land/x/froebel@v0.22.0/nullish.ts";
+/* Deno: */  import { nullish } from "https://deno.land/x/froebel@v0.23.0/nullish.ts";
 ```
 
 
@@ -1699,7 +1683,7 @@ await queue.done
 
 ```ts
 /* Node: */  import { notNullish } from "froebel/nullish";
-/* Deno: */  import { notNullish } from "https://deno.land/x/froebel@v0.22.0/nullish.ts";
+/* Deno: */  import { notNullish } from "https://deno.land/x/froebel@v0.23.0/nullish.ts";
 ```
 
 
@@ -1709,6 +1693,52 @@ await queue.done
 ```ts
 const nums = (...values: (number | undefined)[]): number[] => values.filter(notNullish)
 ```
+
+---
+
+#### `isFulfilled` 
+  
+```hs
+(result: PromiseSettledResult<T>) => result is PromiseFulfilledResult<T>
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L2)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
+
+> Checks if `result` (returned from `Promise.allSettled`) is fulfilled.
+
+
+#### Import
+
+```ts
+/* Node: */  import { isFulfilled } from "froebel/settled";
+/* Deno: */  import { isFulfilled } from "https://deno.land/x/froebel@v0.23.0/settled.ts";
+```
+
+
+
+
+---
+
+#### `isRejected` 
+  
+```hs
+(result: PromiseSettledResult<unknown>) => result is PromiseRejectedResult
+```
+
+<sup><sup>_[source](https://github.com/MathisBullinger/froebel/blob/main/settled.ts#L7)_ | _[tests](https://github.com/MathisBullinger/froebel/blob/main/settled.test.ts)_</sup></sup>
+
+> Checks if `result` (returned from `Promise.allSettled`) is rejected.
+
+
+#### Import
+
+```ts
+/* Node: */  import { isRejected } from "froebel/settled";
+/* Deno: */  import { isRejected } from "https://deno.land/x/froebel@v0.23.0/settled.ts";
+```
+
+
+
 ## String
 
 #### `prefix` 
@@ -1732,7 +1762,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 
 ```ts
 /* Node: */  import prefix from "froebel/prefix";
-/* Deno: */  import prefix from "https://deno.land/x/froebel@v0.22.0/prefix.ts";
+/* Deno: */  import prefix from "https://deno.land/x/froebel@v0.23.0/prefix.ts";
 ```
 
 
@@ -1756,7 +1786,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 
 ```ts
 /* Node: */  import suffix from "froebel/suffix";
-/* Deno: */  import suffix from "https://deno.land/x/froebel@v0.22.0/suffix.ts";
+/* Deno: */  import suffix from "https://deno.land/x/froebel@v0.23.0/suffix.ts";
 ```
 
 
@@ -1779,7 +1809,7 @@ const nums = (...values: (number | undefined)[]): number[] => values.filter(notN
 
 ```ts
 /* Node: */  import { surround } from "froebel/surround";
-/* Deno: */  import { surround } from "https://deno.land/x/froebel@v0.22.0/surround.ts";
+/* Deno: */  import { surround } from "https://deno.land/x/froebel@v0.23.0/surround.ts";
 ```
 
 
@@ -1808,7 +1838,7 @@ surround("foo", "({[]})")  // "({[foo]})"
 
 ```ts
 /* Node: */  import { capitalize } from "froebel/case";
-/* Deno: */  import { capitalize } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { capitalize } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -1831,7 +1861,7 @@ surround("foo", "({[]})")  // "({[foo]})"
 
 ```ts
 /* Node: */  import { uncapitalize } from "froebel/case";
-/* Deno: */  import { uncapitalize } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { uncapitalize } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -1854,7 +1884,7 @@ surround("foo", "({[]})")  // "({[foo]})"
 
 ```ts
 /* Node: */  import { upper } from "froebel/case";
-/* Deno: */  import { upper } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { upper } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -1877,7 +1907,7 @@ surround("foo", "({[]})")  // "({[foo]})"
 
 ```ts
 /* Node: */  import { lower } from "froebel/case";
-/* Deno: */  import { lower } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { lower } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -1906,7 +1936,7 @@ surround("foo", "({[]})")  // "({[foo]})"
 
 ```ts
 /* Node: */  import { snake } from "froebel/case";
-/* Deno: */  import { snake } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { snake } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -1940,7 +1970,7 @@ snake('fooBar') // 'foo_bar'
 
 ```ts
 /* Node: */  import { kebab } from "froebel/case";
-/* Deno: */  import { kebab } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { kebab } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -1974,7 +2004,7 @@ kebab('fooBar') // 'foo-bar'
 
 ```ts
 /* Node: */  import { camel } from "froebel/case";
-/* Deno: */  import { camel } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { camel } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -2008,7 +2038,7 @@ camel('foo_bar') // 'fooBar'
 
 ```ts
 /* Node: */  import { pascal } from "froebel/case";
-/* Deno: */  import { pascal } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { pascal } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -2038,7 +2068,7 @@ camel('foo_bar') // 'FooBar'
 
 ```ts
 /* Node: */  import { screamingSnake } from "froebel/case";
-/* Deno: */  import { screamingSnake } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { screamingSnake } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -2068,7 +2098,7 @@ snake('fooBar') // 'FOO_BAR'
 
 ```ts
 /* Node: */  import { transformCase } from "froebel/case";
-/* Deno: */  import { transformCase } from "https://deno.land/x/froebel@v0.22.0/case.ts";
+/* Deno: */  import { transformCase } from "https://deno.land/x/froebel@v0.23.0/case.ts";
 ```
 
 
@@ -2090,7 +2120,7 @@ snake('fooBar') // 'FOO_BAR'
 
 ```ts
 /* Node: */  import clamp from "froebel/clamp";
-/* Deno: */  import clamp from "https://deno.land/x/froebel@v0.22.0/clamp.ts";
+/* Deno: */  import clamp from "https://deno.land/x/froebel@v0.23.0/clamp.ts";
 ```
 
 
@@ -2117,7 +2147,7 @@ class BiMap<L, R>(data?: Map<L, R> | [L, R][], aliasLeft?: AL, aliasRight?: AR)
 
 ```ts
 /* Node: */  import BiMap from "froebel/bimap";
-/* Deno: */  import BiMap from "https://deno.land/x/froebel@v0.22.0/bimap.ts";
+/* Deno: */  import BiMap from "https://deno.land/x/froebel@v0.23.0/bimap.ts";
 ```
 
 
@@ -2232,7 +2262,7 @@ class SortedArray<T>(compare: Cmp<T>, ...value: T[])
 
 ```ts
 /* Node: */  import SortedArray from "froebel/sortedArray";
-/* Deno: */  import SortedArray from "https://deno.land/x/froebel@v0.22.0/sortedArray.ts";
+/* Deno: */  import SortedArray from "https://deno.land/x/froebel@v0.23.0/sortedArray.ts";
 ```
 
 
@@ -2261,7 +2291,7 @@ class SortedMap<K, V>(compare: Cmp<K, V>, entries?: null | [K, V][])
 
 ```ts
 /* Node: */  import SortedMap from "froebel/sortedMap";
-/* Deno: */  import SortedMap from "https://deno.land/x/froebel@v0.22.0/sortedMap.ts";
+/* Deno: */  import SortedMap from "https://deno.land/x/froebel@v0.23.0/sortedMap.ts";
 ```
 
 

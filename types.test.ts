@@ -28,9 +28,11 @@ import type {
   NarrowList,
   NOR,
   NOT,
+  OptionalKeys,
   OR,
   ParseInt,
   PascalCase,
+  RequiredKeys,
   ScreamingSnakeCase,
   SnakeCase,
   SplitAt,
@@ -60,6 +62,9 @@ Deno.test("static type tests", () => {
     assertType<SymA, SymA>();
     assertType<1, 1>();
     assertNotType<1, 2>();
+    assertType<string | number, string | number>();
+    assertType<{ a?: string }, { a?: string }>();
+    assertType<{ a?: string }, { a?: string | undefined }>();
 
     // @ts-expect-error
     assertType<number, any>();
@@ -88,9 +93,19 @@ Deno.test("static type tests", () => {
     // @ts-expect-error
     assertType<number, 1>();
     // @ts-expect-error
+    assertType<1, number>();
+    // @ts-expect-error
     assertType<2, 3>();
     // @ts-expect-error
     assertNotType<1, 1>();
+    // @ts-expect-error
+    assertType<string | number, string>();
+    // @ts-expect-error
+    assertType<string | number, number>();
+    // @ts-expect-error
+    assertType<{ a?: string }, { a: string }>();
+    // @ts-expect-error
+    assertType<{ a?: string }, { a: string | undefined }>();
   }
 
   {
@@ -544,5 +559,18 @@ Deno.test("static type tests", () => {
     assertType<Surround<"foo", "()">, "(foo)">();
     assertType<Surround<"foo", "([])">, "([foo])">();
     assertType<Surround<"foo", "([{}])">, "([{foo}])">();
+  }
+
+  {
+    type Foo = {
+      a?: string;
+      b?: number;
+      c: string;
+      d: number;
+      e: number | undefined;
+    };
+
+    assertType<RequiredKeys<Foo>, "c" | "d" | "e">();
+    assertType<OptionalKeys<Foo>, "a" | "b">();
   }
 });
