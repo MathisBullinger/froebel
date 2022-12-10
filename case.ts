@@ -103,7 +103,7 @@ export const camel = <T extends string>(str: T): CamelCase<T> =>
  *
  * @example
  * ```
- * camel('foo_bar') // 'FooBar'
+ * pascal('foo_bar') // 'FooBar'
  * ```
  */
 export const pascal = <T extends string>(str: T): PascalCase<T> =>
@@ -116,7 +116,7 @@ export const pascal = <T extends string>(str: T): PascalCase<T> =>
  *
  * @example
  * ```
- * snake('fooBar') // 'FOO_BAR'
+ * screamingSnake('fooBar') // 'FOO_BAR'
  * ```
  */
 export const screamingSnake = <T extends string>(

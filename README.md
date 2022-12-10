@@ -2046,7 +2046,7 @@ camel('foo_bar') // 'fooBar'
 
 #### Example
 ```ts
-camel('foo_bar') // 'FooBar'
+pascal('foo_bar') // 'FooBar'
 ```
 
 ---
@@ -2076,7 +2076,7 @@ camel('foo_bar') // 'FooBar'
 
 #### Example
 ```ts
-snake('fooBar') // 'FOO_BAR'
+screamingSnake('fooBar') // 'FOO_BAR'
 ```
 
 ---
