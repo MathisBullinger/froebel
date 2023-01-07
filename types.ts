@@ -23,6 +23,9 @@ export type Print<T> = T extends λ<infer A, infer R> ? λ<A, R>
   : T;
 
 export type λ<TA extends any[] = any[], TR = any> = (...args: TA) => TR;
+export type Fn<TA extends any[] = any[], TR = any> = (...args: TA) => TR;
+
+/** @deprecated use `Fn` or `λ` instead */
 export type Fun = λ;
 
 export type Primitive = string | number | boolean | symbol | null | undefined;
