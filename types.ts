@@ -30,9 +30,12 @@ export type Fun = λ;
 
 export type Primitive = string | number | boolean | symbol | null | undefined;
 
-export type FilterKeys<T, F> = keyof {
-  [K in keyof T as T[K] extends F ? K : never]: 0;
-};
+export type FilterKeys<T, F> = Extract<
+  keyof T,
+  keyof {
+    [K in keyof T as T[K] extends F ? K : never]: 0;
+  }
+>;
 
 export type RequiredKeys<T> = Exclude<
   { [K in keyof T]: T[K] extends Required<T>[K] ? K : never }[keyof T],
