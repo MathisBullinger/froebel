@@ -2,7 +2,12 @@
   "lint": {
     "files": { "include": ["src/"] },
     "rules": {
-      "exclude": ["ban-ts-comment", "no-explicit-any", "require-await"]
+      "exclude": [
+        "ban-ts-comment",
+        "no-explicit-any",
+        "require-await",
+        "ban-types"
+      ]
     }
   }
 }

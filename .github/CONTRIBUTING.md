@@ -31,7 +31,7 @@ Always regenerate the readme after making changes to the code by running
 inside the `npm` directory.
 
 The code is formatted using the built-in formatter (`deno fmt *.ts`) using Deno
-v1.25.3. 
+v1.29.2. 
 Other Deno versions may format the code slightly different so be sure to check
 formatting with the correct Deno version (it should match the version listed in
 `.github/workflows/test.yml`) to make sure the automated tests pass.

@@ -96,10 +96,10 @@ type Resolved<T extends unknown> = {
   [K in keyof T]: T[K] extends Promise<infer I> ? I : T[K];
 };
 
-type ReturnTypes<T extends (() => any)[]> = {
+type ReturnTypes<T extends λ[]> = {
   [K in keyof T]: ReturnType<T[K]>;
 };
 
 type CarryReturn<Returns extends any[], Args extends any[]> = Returns extends
   [infer A, ...infer B] ? [[A, Args], ...CarryReturn<B, [A]>]
-  : Returns;
+  : [];
