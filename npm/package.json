@@ -7,7 +7,303 @@
   "exports": {
     ".": {
       "require": "./index.js",
-      "import": "./index.mjs"
+      "import": "./index.mjs",
+      "types": "./index.d.ts"
+    },
+    "./atWrap": {
+      "require": "./atWrap.js",
+      "import": "./atWrap.mjs",
+      "types": "./atWrap.d.ts"
+    },
+    "./batch": {
+      "require": "./batch.js",
+      "import": "./batch.mjs",
+      "types": "./batch.d.ts"
+    },
+    "./bimap": {
+      "require": "./bimap.js",
+      "import": "./bimap.mjs",
+      "types": "./bimap.d.ts"
+    },
+    "./bundle": {
+      "require": "./bundle.js",
+      "import": "./bundle.mjs",
+      "types": "./bundle.d.ts"
+    },
+    "./callAll": {
+      "require": "./callAll.js",
+      "import": "./callAll.mjs",
+      "types": "./callAll.d.ts"
+    },
+    "./case": {
+      "require": "./case.js",
+      "import": "./case.mjs",
+      "types": "./case.d.ts"
+    },
+    "./clamp": {
+      "require": "./clamp.js",
+      "import": "./clamp.mjs",
+      "types": "./clamp.d.ts"
+    },
+    "./clone": {
+      "require": "./clone.js",
+      "import": "./clone.mjs",
+      "types": "./clone.d.ts"
+    },
+    "./debounce": {
+      "require": "./debounce.js",
+      "import": "./debounce.mjs",
+      "types": "./debounce.d.ts"
+    },
+    "./ds": {
+      "require": "./ds.js",
+      "import": "./ds.mjs",
+      "types": "./ds.d.ts"
+    },
+    "./equal": {
+      "require": "./equal.js",
+      "import": "./equal.mjs",
+      "types": "./equal.d.ts"
+    },
+    "./equality": {
+      "require": "./equality.js",
+      "import": "./equality.mjs",
+      "types": "./equality.d.ts"
+    },
+    "./error": {
+      "require": "./error.js",
+      "import": "./error.mjs",
+      "types": "./error.d.ts"
+    },
+    "./except": {
+      "require": "./except.js",
+      "import": "./except.mjs",
+      "types": "./except.d.ts"
+    },
+    "./forward": {
+      "require": "./forward.js",
+      "import": "./forward.mjs",
+      "types": "./forward.d.ts"
+    },
+    "./function": {
+      "require": "./function.js",
+      "import": "./function.mjs",
+      "types": "./function.d.ts"
+    },
+    "./ident": {
+      "require": "./ident.js",
+      "import": "./ident.mjs",
+      "types": "./ident.d.ts"
+    },
+    "./index": {
+      "require": "./index.js",
+      "import": "./index.mjs",
+      "types": "./index.d.ts"
+    },
+    "./invoke": {
+      "require": "./invoke.js",
+      "import": "./invoke.mjs",
+      "types": "./invoke.d.ts"
+    },
+    "./isPromise": {
+      "require": "./isPromise.js",
+      "import": "./isPromise.mjs",
+      "types": "./isPromise.d.ts"
+    },
+    "./iterable": {
+      "require": "./iterable.js",
+      "import": "./iterable.mjs",
+      "types": "./iterable.d.ts"
+    },
+    "./list": {
+      "require": "./list.js",
+      "import": "./list.mjs",
+      "types": "./list.d.ts"
+    },
+    "./map": {
+      "require": "./map.js",
+      "import": "./map.mjs",
+      "types": "./map.d.ts"
+    },
+    "./math": {
+      "require": "./math.js",
+      "import": "./math.mjs",
+      "types": "./math.d.ts"
+    },
+    "./memoize": {
+      "require": "./memoize.js",
+      "import": "./memoize.mjs",
+      "types": "./memoize.d.ts"
+    },
+    "./merge": {
+      "require": "./merge.js",
+      "import": "./merge.mjs",
+      "types": "./merge.d.ts"
+    },
+    "./noop": {
+      "require": "./noop.js",
+      "import": "./noop.mjs",
+      "types": "./noop.d.ts"
+    },
+    "./nullish": {
+      "require": "./nullish.js",
+      "import": "./nullish.mjs",
+      "types": "./nullish.d.ts"
+    },
+    "./nullishChain": {
+      "require": "./nullishChain.js",
+      "import": "./nullishChain.mjs",
+      "types": "./nullishChain.d.ts"
+    },
+    "./object": {
+      "require": "./object.js",
+      "import": "./object.mjs",
+      "types": "./object.d.ts"
+    },
+    "./omit": {
+      "require": "./omit.js",
+      "import": "./omit.mjs",
+      "types": "./omit.d.ts"
+    },
+    "./oneOf": {
+      "require": "./oneOf.js",
+      "import": "./oneOf.mjs",
+      "types": "./oneOf.d.ts"
+    },
+    "./partial": {
+      "require": "./partial.js",
+      "import": "./partial.mjs",
+      "types": "./partial.d.ts"
+    },
+    "./partition": {
+      "require": "./partition.js",
+      "import": "./partition.mjs",
+      "types": "./partition.d.ts"
+    },
+    "./path": {
+      "require": "./path.js",
+      "import": "./path.mjs",
+      "types": "./path.d.ts"
+    },
+    "./pick": {
+      "require": "./pick.js",
+      "import": "./pick.mjs",
+      "types": "./pick.d.ts"
+    },
+    "./pipe": {
+      "require": "./pipe.js",
+      "import": "./pipe.mjs",
+      "types": "./pipe.d.ts"
+    },
+    "./predicate": {
+      "require": "./predicate.js",
+      "import": "./predicate.mjs",
+      "types": "./predicate.d.ts"
+    },
+    "./prefix": {
+      "require": "./prefix.js",
+      "import": "./prefix.mjs",
+      "types": "./prefix.d.ts"
+    },
+    "./promise": {
+      "require": "./promise.js",
+      "import": "./promise.mjs",
+      "types": "./promise.d.ts"
+    },
+    "./promisify": {
+      "require": "./promisify.js",
+      "import": "./promisify.mjs",
+      "types": "./promisify.d.ts"
+    },
+    "./queue": {
+      "require": "./queue.js",
+      "import": "./queue.mjs",
+      "types": "./queue.d.ts"
+    },
+    "./range": {
+      "require": "./range.js",
+      "import": "./range.mjs",
+      "types": "./range.d.ts"
+    },
+    "./repeat": {
+      "require": "./repeat.js",
+      "import": "./repeat.mjs",
+      "types": "./repeat.d.ts"
+    },
+    "./select": {
+      "require": "./select.js",
+      "import": "./select.mjs",
+      "types": "./select.d.ts"
+    },
+    "./settled": {
+      "require": "./settled.js",
+      "import": "./settled.mjs",
+      "types": "./settled.d.ts"
+    },
+    "./shuffle": {
+      "require": "./shuffle.js",
+      "import": "./shuffle.mjs",
+      "types": "./shuffle.d.ts"
+    },
+    "./sortedArray": {
+      "require": "./sortedArray.js",
+      "import": "./sortedArray.mjs",
+      "types": "./sortedArray.d.ts"
+    },
+    "./sortedMap": {
+      "require": "./sortedMap.js",
+      "import": "./sortedMap.mjs",
+      "types": "./sortedMap.d.ts"
+    },
+    "./string": {
+      "require": "./string.js",
+      "import": "./string.mjs",
+      "types": "./string.d.ts"
+    },
+    "./suffix": {
+      "require": "./suffix.js",
+      "import": "./suffix.mjs",
+      "types": "./suffix.d.ts"
+    },
+    "./surround": {
+      "require": "./surround.js",
+      "import": "./surround.mjs",
+      "types": "./surround.d.ts"
+    },
+    "./take": {
+      "require": "./take.js",
+      "import": "./take.mjs",
+      "types": "./take.d.ts"
+    },
+    "./throttle": {
+      "require": "./throttle.js",
+      "import": "./throttle.mjs",
+      "types": "./throttle.d.ts"
+    },
+    "./truthy": {
+      "require": "./truthy.js",
+      "import": "./truthy.mjs",
+      "types": "./truthy.d.ts"
+    },
+    "./types": {
+      "require": "./types.js",
+      "import": "./types.mjs",
+      "types": "./types.d.ts"
+    },
+    "./unary": {
+      "require": "./unary.js",
+      "import": "./unary.mjs",
+      "types": "./unary.d.ts"
+    },
+    "./unzip": {
+      "require": "./unzip.js",
+      "import": "./unzip.mjs",
+      "types": "./unzip.d.ts"
+    },
+    "./zip": {
+      "require": "./zip.js",
+      "import": "./zip.mjs",
+      "types": "./zip.d.ts"
     }
   },
   "private": "true",
